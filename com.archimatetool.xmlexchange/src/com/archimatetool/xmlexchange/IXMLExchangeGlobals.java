@@ -28,6 +28,10 @@ public interface IXMLExchangeGlobals {
     
     Namespace XSI_NAMESPACE = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
     
+    Namespace DC_NAMESPACE = Namespace.getNamespace("dc", "http://purl.org/dc/elements/1.1/");
+    String DC_SCHEMA_LOCATION = "dc.xsd";
+    
+    
     String ELEMENT_MODEL = "model";
     String ELEMENT_LABEL = "label";
     String ELEMENT_NAME = "name";
@@ -41,6 +45,10 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_PROPERTIES = "properties";
     String ELEMENT_PROPERTY = "property";
     String ELEMENT_VALUE = "value";
+    
+    String ELEMENT_METADATA = "metadata";
+    String ELEMENT_SCHEMA = "schema";
+    String ELEMENT_SCHEMAVERSION = "schemaversion";
     
     String ATTRIBUTE_LABEL = "label";
     String ATTRIBUTE_NAME = "name";

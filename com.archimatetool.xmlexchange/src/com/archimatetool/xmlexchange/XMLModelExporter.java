@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
@@ -34,12 +35,18 @@ import com.archimatetool.model.IRelationship;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class XMLModelExporter implements IXMLExchangeGlobals {
     
     private IArchimateModel fModel;
     
     // Properties
     private Map<String, String> fPropertyDefsList;
+
+    /**
+     * A map of DC metadata element tags mapped to values
+     */
+    private Map<String, String> fMetadata;
     
     public void exportModel(IArchimateModel model, File outputFile) throws IOException {
         fModel = model;
@@ -55,6 +62,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // Save
         JDOMUtils.write2XMLFile(doc, outputFile);
+    }
+    
+    /**
+     * Set DC Metadata
+     * @param metadata A map of DC metadata element tags mapped to values
+     */
+    public void setMetadata(Map<String, String> metadata) {
+        fMetadata = metadata;
     }
     
     /**
@@ -74,6 +89,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
 
         rootElement.addNamespaceDeclaration(JDOMUtils.XSI_Namespace);
         // rootElement.addNamespaceDeclaration(OPEN_GROUP_NAMESPACE_EMBEDDED); // Don't include this
+        
+        // DC Namespace
+        if(fMetadata != null) {
+            rootElement.addNamespaceDeclaration(DC_NAMESPACE);
+        }
 
         /* 
          * Add Schema Location Attribute which is constructed from Target Namespaces and file names of Schemas
@@ -84,6 +104,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         schemaLocationURI.append(rootElement.getNamespace().getURI());
         schemaLocationURI.append(" ");  //$NON-NLS-1$
         schemaLocationURI.append(OPEN_GROUP_SCHEMA_LOCATION);
+        
+        // DC Schema Location
+        if(fMetadata != null) {
+            schemaLocationURI.append(" ");  //$NON-NLS-1$
+            schemaLocationURI.append(DC_NAMESPACE.getURI());
+            schemaLocationURI.append(" ");  //$NON-NLS-1$
+            schemaLocationURI.append(DC_SCHEMA_LOCATION);
+        }
         
         rootElement.setAttribute(JDOMUtils.XSI_SchemaLocation, schemaLocationURI.toString(), JDOMUtils.XSI_Namespace);
 
@@ -98,6 +126,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // Gather all properties now
         fPropertyDefsList = getAllUniquePropertyKeysForModel();
+        
+        // Metadata
+        if(fMetadata != null) {
+            writeMetadata(rootElement);
+        }
         
         // Name
         if(hasSomeText(fModel.getName())) {
@@ -121,6 +154,36 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // Properties Definitions
         writeModelPropertiesDefinitions(rootElement);
+    }
+    
+    /**
+     * Write any DC Metadata
+     */
+    Element writeMetadata(Element parentElement) {
+        if(fMetadata == null || fMetadata.isEmpty()) {
+            return null;
+        }
+        
+        Element mdElement = new Element(ELEMENT_METADATA, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(mdElement);
+        
+        Element schemaElement = new Element(ELEMENT_SCHEMA, OPEN_GROUP_NAMESPACE);
+        schemaElement.setText("Dublin Core");
+        mdElement.addContent(schemaElement);
+        
+        Element schemaVersionElement = new Element(ELEMENT_SCHEMAVERSION, OPEN_GROUP_NAMESPACE);
+        schemaVersionElement.setText("1.1");
+        mdElement.addContent(schemaVersionElement);
+        
+        for(Entry<String, String> entry : fMetadata.entrySet()) {
+            if(StringUtils.isSet(entry.getKey()) && StringUtils.isSet(entry.getValue())) {
+                Element element = new Element(entry.getKey(), DC_NAMESPACE);
+                element.setText(entry.getValue());
+                mdElement.addContent(element);
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -342,5 +405,5 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     private boolean hasSomeText(String string) {
         return string != null && !string.isEmpty();
     }
-    
+
 }
