@@ -4,7 +4,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     elementFormDefault="qualified"
-    version="ArchiMate 2.1"
+    version="2.1"
     attributeFormDefault="unqualified">
 
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
@@ -15,8 +15,8 @@
             -------------------------
             Author:         Phil Beauvoir
             Start date:     2 May 2013
-            Revision date:  09 October 2014
-            XSD Version:    0.51
+            Revision date:  11 October 2014
+            XSD Version:    0.52
             Status:         Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
