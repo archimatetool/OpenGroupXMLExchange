@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ArchiMate Open XML Exchange Plugin
+Bundle-SymbolicName: com.archimatetool.xmlexchange;singleton:=true
+Bundle-Localization: plugin
+Bundle-Version: 0.2.0.qualifier
+Bundle-Vendor: Phillip Beauvoir
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ com.archimatetool.editor,
+ com.archimatetool.jdom
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Activator: com.archimatetool.xmlexchange.XMLExchangePlugin

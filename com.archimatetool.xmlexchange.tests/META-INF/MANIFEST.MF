@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JUnit Tests for ArchiMate Open Exchange Plugin
+Bundle-SymbolicName: com.archimatetool.xmlexchange.tests
+Bundle-Version: 0.2.0.qualifier
+Fragment-Host: com.archimatetool.xmlexchange
+Bundle-Vendor: Phillip Beauvoir
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

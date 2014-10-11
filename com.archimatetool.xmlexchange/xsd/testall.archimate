@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="(new model)" id="70560968" version="3.0.0">
+  <folder name="Business" id="d7e9ee82" type="business">
+    <element xsi:type="archimate:BusinessActor" id="12eecd80" name="Business Actor"/>
+    <element xsi:type="archimate:BusinessRole" id="8670c08c" name="Business Role"/>
+    <element xsi:type="archimate:BusinessCollaboration" id="7dae5d1b" name="Business Collaboration"/>
+    <element xsi:type="archimate:BusinessInterface" id="cafb9bf8" name="Business Interface"/>
+    <element xsi:type="archimate:BusinessFunction" id="8c21ed82" name="Business Function"/>
+    <element xsi:type="archimate:BusinessProcess" id="5e0e8d97" name="Business Process"/>
+    <element xsi:type="archimate:BusinessEvent" id="8a319c56" name="Business Event"/>
+    <element xsi:type="archimate:BusinessInteraction" id="5fc168b1" name="Business Interaction"/>
+    <element xsi:type="archimate:Product" id="607920a2" name="Product"/>
+    <element xsi:type="archimate:Contract" id="99d8e80d" name="Contract"/>
+    <element xsi:type="archimate:BusinessService" id="c74c3c7b" name="Business Service"/>
+    <element xsi:type="archimate:Value" id="d4e2a474" name="Value"/>
+    <element xsi:type="archimate:Meaning" id="93f5f12a" name="Meaning"/>
+    <element xsi:type="archimate:Representation" id="035f1c7d" name="Representation"/>
+    <element xsi:type="archimate:BusinessObject" id="066817d0" name="Business Object"/>
+    <element xsi:type="archimate:Location" id="90b44027" name="Location"/>
+  </folder>
+  <folder name="Application" id="466c6022" type="application"/>
+  <folder name="Technology" id="02823061" type="technology"/>
+  <folder name="Motivation" id="6e5701bf" type="motivation"/>
+  <folder name="Implementation &amp; Migration" id="59284793" type="implementation_migration"/>
+  <folder name="Connectors" id="6ac9e83a" type="connectors">
+    <element xsi:type="archimate:Junction" id="45582523" name="Junction"/>
+  </folder>
+  <folder name="Relations" id="3f2cbb86" type="relations">
+    <element xsi:type="archimate:AssignmentRelationship" id="90fc495d" source="12eecd80" target="8670c08c"/>
+    <element xsi:type="archimate:UsedByRelationship" id="ccd17e4a" source="5e0e8d97" target="8c21ed82"/>
+    <element xsi:type="archimate:TriggeringRelationship" id="53e0f11b" source="8a319c56" target="45582523"/>
+    <element xsi:type="archimate:TriggeringRelationship" id="4a9af72b" source="45582523" target="5e0e8d97"/>
+  </folder>
+  <folder name="Views" id="be14dd36" type="diagrams">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="9ee5b143" name="New ArchiMate View">
+      <child xsi:type="archimate:DiagramObject" id="ff21cb5f" textAlignment="2" archimateElement="12eecd80">
+        <bounds x="62" y="61" width="120" height="55"/>
+        <sourceConnection xsi:type="archimate:Connection" id="303a0b91" source="ff21cb5f" target="a42c143a" relationship="90fc495d"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="a42c143a" textAlignment="2" targetConnections="303a0b91" archimateElement="8670c08c">
+        <bounds x="252" y="61" width="120" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="560b6a91" textAlignment="2" archimateElement="8a319c56">
+        <bounds x="24" y="168" width="120" height="55"/>
+        <sourceConnection xsi:type="archimate:Connection" id="bfb05636" source="560b6a91" target="4e065ef2" relationship="53e0f11b"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="22baf2a1" textAlignment="2" targetConnections="1186df89" archimateElement="8c21ed82">
+        <bounds x="456" y="324" width="120" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="82867f9f" textAlignment="2" targetConnections="6e7efe0e" archimateElement="5e0e8d97">
+        <bounds x="456" y="168" width="120" height="55"/>
+        <sourceConnection xsi:type="archimate:Connection" id="1186df89" source="82867f9f" target="22baf2a1" relationship="ccd17e4a"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="4e065ef2" targetConnections="bfb05636" archimateElement="45582523">
+        <bounds x="276" y="188" width="15" height="15"/>
+        <sourceConnection xsi:type="archimate:Connection" id="6e7efe0e" source="4e065ef2" target="82867f9f" relationship="4a9af72b"/>
+      </child>
+    </element>
+  </folder>
+</archimate:model>

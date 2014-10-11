@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate archimate_v2p1.xsd" identifier="id-11f5304f">
+  <name>Archisurance</name>
+  <documentation>An example of a fictional Insurance company.</documentation>
+  <elements>
+    <element identifier="id-1544" xsi:type="BusinessInterface">
+      <label>mail</label>
+    </element>
+    <element identifier="id-1540" xsi:type="BusinessInterface">
+      <label>phone</label>
+    </element>
+    <element identifier="id-1542" xsi:type="BusinessInterface">
+      <label>GIM</label>
+    </element>
+    <element identifier="id-1538" xsi:type="BusinessInterface">
+      <label>e-mail</label>
+    </element>
+    <element identifier="id-1536" xsi:type="BusinessInterface">
+      <label>phone</label>
+    </element>
+    <element identifier="id-528" xsi:type="BusinessRole">
+      <label>Customer's Bank</label>
+    </element>
+    <element identifier="id-521" xsi:type="BusinessRole">
+      <label>Customer</label>
+    </element>
+    <element identifier="id-507" xsi:type="BusinessRole">
+      <label>Intermediary</label>
+    </element>
+    <element identifier="id-514" xsi:type="BusinessRole">
+      <label>Insurer</label>
+    </element>
+    <element identifier="id-1368" xsi:type="BusinessRole">
+      <label>Insurant</label>
+    </element>
+    <element identifier="id-733" xsi:type="BusinessCollaboration">
+      <label>Negotiation</label>
+    </element>
+    <element identifier="id-740" xsi:type="BusinessCollaboration">
+      <label>Contracting</label>
+    </element>
+    <element identifier="id-1546" xsi:type="BusinessCollaboration">
+      <label>collaboration</label>
+    </element>
+    <element identifier="id-345" xsi:type="BusinessActor">
+      <label>HRM</label>
+    </element>
+    <element identifier="id-338" xsi:type="BusinessActor">
+      <label>Product Development</label>
+    </element>
+    <element identifier="id-296" xsi:type="BusinessActor">
+      <label>Front Office</label>
+    </element>
+    <element identifier="id-289" xsi:type="BusinessActor">
+      <label>Intermediary Relations</label>
+    </element>
+    <element identifier="id-282" xsi:type="BusinessActor">
+      <label>Customer Relations</label>
+    </element>
+    <element identifier="id-331" xsi:type="BusinessActor">
+      <label>Finance</label>
+    </element>
+    <element identifier="id-352" xsi:type="BusinessActor">
+      <label>Document Processing SSC</label>
+    </element>
+    <element identifier="id-324" xsi:type="BusinessActor">
+      <label>Back Office</label>
+    </element>
+    <element identifier="id-303" xsi:type="BusinessActor">
+      <label>Home  &amp;  Away</label>
+    </element>
+    <element identifier="id-310" xsi:type="BusinessActor">
+      <label>Car</label>
+    </element>
+    <element identifier="id-317" xsi:type="BusinessActor">
+      <label>Legal Aid</label>
+    </element>
+    <element identifier="id-275" xsi:type="BusinessActor">
+      <label>Archisurance</label>
+    </element>
+    <element identifier="id-1337" xsi:type="BusinessActor">
+      <label>Client</label>
+    </element>
+    <element identifier="id-402" xsi:type="BusinessActor">
+      <label>Board</label>
+    </element>
+    <element identifier="id-409" xsi:type="BusinessActor">
+      <label>Director of Sales</label>
+    </element>
+    <element identifier="id-423" xsi:type="BusinessActor">
+      <label>Director of Finance</label>
+    </element>
+    <element identifier="id-416" xsi:type="BusinessActor">
+      <label>Director of Operations</label>
+    </element>
+    <element identifier="id-495" xsi:type="BusinessFunction">
+      <label>Asset Management</label>
+    </element>
+    <element identifier="id-483" xsi:type="BusinessFunction">
+      <label>Contracting</label>
+    </element>
+    <element identifier="id-471" xsi:type="BusinessFunction">
+      <label>Maintaining Intermediary Relations</label>
+    </element>
+    <element identifier="id-477" xsi:type="BusinessFunction">
+      <label>Maintaining Customer Relations</label>
+    </element>
+    <element identifier="id-489" xsi:type="BusinessFunction">
+      <label>Claims Handling</label>
+    </element>
+    <element identifier="id-501" xsi:type="BusinessFunction">
+      <label>Financial Handling</label>
+    </element>
+    <element identifier="id-676" xsi:type="Representation">
+      <label>Claim Form</label>
+    </element>
+    <element identifier="id-796" xsi:type="BusinessObject">
+      <label>Legal aid  Insurance Policy</label>
+    </element>
+    <element identifier="id-792" xsi:type="BusinessObject">
+      <label>Insurance Request</label>
+    </element>
+    <element identifier="id-795" xsi:type="BusinessObject">
+      <label>Liability  Insurance Policy</label>
+    </element>
+    <element identifier="id-675" xsi:type="BusinessObject">
+      <label>Insurance Policy</label>
+    </element>
+    <element identifier="id-674" xsi:type="BusinessObject">
+      <label>Customer File</label>
+    </element>
+    <element identifier="id-673" xsi:type="BusinessObject">
+      <label>Damage Claim</label>
+    </element>
+    <element identifier="id-791" xsi:type="BusinessObject">
+      <label>Customer</label>
+    </element>
+    <element identifier="id-793" xsi:type="BusinessObject">
+      <label>Travel  Insurance Policy</label>
+    </element>
+    <element identifier="id-794" xsi:type="BusinessObject">
+      <label>Car Insurance Policy</label>
+    </element>
+    <element identifier="id-803" xsi:type="BusinessObject">
+      <label>Home Insurance Policy</label>
+    </element>
+    <element identifier="id-722" xsi:type="BusinessInteraction">
+      <label>Check and  Sign Contract</label>
+    </element>
+    <element identifier="id-721" xsi:type="BusinessInteraction">
+      <label>Formalise Request</label>
+    </element>
+    <element identifier="id-651" xsi:type="BusinessEvent">
+      <label>Damage Occured</label>
+    </element>
+    <element identifier="id-650" xsi:type="BusinessEvent">
+      <label>Request for Insurance</label>
+    </element>
+    <element identifier="id-1302" xsi:type="BusinessProcess">
+      <label>Inform Customer</label>
+    </element>
+    <element identifier="id-1311" xsi:type="BusinessProcess">
+      <label>Collect Premium</label>
+    </element>
+    <element identifier="id-612" xsi:type="BusinessProcess">
+      <label>Create Contract</label>
+    </element>
+    <element identifier="id-556" xsi:type="BusinessProcess">
+      <label>Handle Claim</label>
+    </element>
+    <element identifier="id-572" xsi:type="BusinessProcess">
+      <label>Accept</label>
+    </element>
+    <element identifier="id-580" xsi:type="BusinessProcess">
+      <label>Valuate</label>
+    </element>
+    <element identifier="id-588" xsi:type="BusinessProcess">
+      <label>Pay</label>
+    </element>
+    <element identifier="id-564" xsi:type="BusinessProcess">
+      <label>Register</label>
+    </element>
+    <element identifier="id-596" xsi:type="BusinessProcess">
+      <label>Close Contract</label>
+    </element>
+    <element identifier="id-1250" xsi:type="Value">
+      <label>Be Insured</label>
+    </element>
+    <element identifier="id-1239" xsi:type="Contract">
+      <label>Travel Insurance Policy</label>
+    </element>
+    <element identifier="id-1208" xsi:type="BusinessService">
+      <label>Premium Payment Service</label>
+    </element>
+    <element identifier="id-1202" xsi:type="BusinessService">
+      <label>Claim Registration Service</label>
+    </element>
+    <element identifier="id-1214" xsi:type="BusinessService">
+      <label>Customer Information Service</label>
+    </element>
+    <element identifier="id-1196" xsi:type="BusinessService">
+      <label>Insurance Application Service</label>
+    </element>
+    <element identifier="id-1226" xsi:type="BusinessService">
+      <label>Claims Payment Service</label>
+    </element>
+    <element identifier="id-1220" xsi:type="BusinessService">
+      <label>Customer data mutation Service</label>
+    </element>
+    <element identifier="id-885" xsi:type="ApplicationFunction">
+      <label>Policy Creation</label>
+    </element>
+    <element identifier="id-909" xsi:type="ApplicationFunction">
+      <label>Store Policy</label>
+    </element>
+    <element identifier="id-891" xsi:type="ApplicationFunction">
+      <label>Calculate Risk</label>
+    </element>
+    <element identifier="id-897" xsi:type="ApplicationFunction">
+      <label>Calculate Premium</label>
+    </element>
+    <element identifier="id-903" xsi:type="ApplicationFunction">
+      <label>Create Policy</label>
+    </element>
+    <element identifier="id-1399" xsi:type="ApplicationComponent">
+      <label>Financial Application</label>
+    </element>
+    <element identifier="id-1393" xsi:type="ApplicationComponent">
+      <label>CRM System</label>
+    </element>
+    <element identifier="id-861" xsi:type="ApplicationComponent">
+      <label>Policy Data Management</label>
+    </element>
+    <element identifier="id-843" xsi:type="ApplicationComponent">
+      <label>Home &amp; Away Policy Administration</label>
+    </element>
+    <element identifier="id-855" xsi:type="ApplicationComponent">
+      <label>Customer Data  Access</label>
+    </element>
+    <element identifier="id-849" xsi:type="ApplicationComponent">
+      <label>Risk Assessment</label>
+    </element>
+    <element identifier="id-867" xsi:type="ApplicationComponent">
+      <label>Claim Data Management</label>
+    </element>
+    <element identifier="id-1793" xsi:type="ApplicationComponent">
+      <label>Call center application</label>
+    </element>
+    <element identifier="id-1800" xsi:type="ApplicationComponent">
+      <label>Web portal</label>
+    </element>
+    <element identifier="id-1813" xsi:type="ApplicationComponent">
+      <label>Bank System</label>
+    </element>
+    <element identifier="id-1414" xsi:type="ApplicationService">
+      <label>Claim InfoServ</label>
+    </element>
+    <element identifier="id-1407" xsi:type="ApplicationService">
+      <label>CIS</label>
+      <documentation>Customer Information Service</documentation>
+    </element>
+    <element identifier="id-935" xsi:type="ApplicationService">
+      <label>Policy Creation Service</label>
+    </element>
+    <element identifier="id-946" xsi:type="DataObject">
+      <label>Insurance Request Data</label>
+    </element>
+    <element identifier="id-838" xsi:type="DataObject">
+      <label>Insurance Policy Data</label>
+    </element>
+    <element identifier="id-837" xsi:type="DataObject">
+      <label>Customer File Data</label>
+    </element>
+    <element identifier="id-839" xsi:type="DataObject">
+      <label>Damage Claim Data</label>
+    </element>
+    <element identifier="id-1089" xsi:type="Network">
+      <label>LAN</label>
+    </element>
+    <element identifier="id-1101" xsi:type="Network">
+      <label>LAN</label>
+    </element>
+    <element identifier="id-1095" xsi:type="Network">
+      <label>BIBIT</label>
+    </element>
+    <element identifier="id-1071" xsi:type="Device">
+      <label>Admin Server</label>
+    </element>
+    <element identifier="id-1065" xsi:type="Device">
+      <label>NAS File Server</label>
+    </element>
+    <element identifier="id-1053" xsi:type="Device">
+      <label>Unix Server</label>
+    </element>
+    <element identifier="id-1059" xsi:type="Device">
+      <label>Unix Server</label>
+    </element>
+    <element identifier="id-1882" xsi:type="Device">
+      <label>BIBIT Server</label>
+    </element>
+    <element identifier="id-1022" xsi:type="SystemSoftware">
+      <label>CICS</label>
+    </element>
+    <element identifier="id-1016" xsi:type="SystemSoftware">
+      <label>DBMS</label>
+    </element>
+    <element identifier="id-1010" xsi:type="SystemSoftware">
+      <label>Message Queing</label>
+    </element>
+    <element identifier="id-1870" xsi:type="SystemSoftware">
+      <label>Financial Software</label>
+    </element>
+    <element identifier="id-998" xsi:type="Node">
+      <label>Firewall</label>
+    </element>
+    <element identifier="id-1004" xsi:type="Node">
+      <label>Firewall</label>
+    </element>
+    <element identifier="id-986" xsi:type="Node">
+      <label>Mainframe</label>
+    </element>
+    <element identifier="id-992" xsi:type="Node">
+      <label>Unix Server Farm</label>
+    </element>
+    <element identifier="id-1110" xsi:type="InfrastructureService">
+      <label>File Service</label>
+    </element>
+    <element identifier="id-1116" xsi:type="InfrastructureService">
+      <label>Network Service</label>
+    </element>
+    <element identifier="id-1128" xsi:type="InfrastructureService">
+      <label>Database Service</label>
+    </element>
+    <element identifier="id-1455" xsi:type="InfrastructureService">
+      <label>Claim Files Service</label>
+    </element>
+    <element identifier="id-1462" xsi:type="InfrastructureService">
+      <label>Customer File Service</label>
+    </element>
+    <element identifier="id-f5674126" xsi:type="Principle">
+      <label>Client Satisfaction Goal</label>
+    </element>
+    <element identifier="id-3938617c" xsi:type="Principle">
+      <label>One Stop Principle</label>
+    </element>
+    <element identifier="id-67316f1f" xsi:type="Principle">
+      <label>Treatment Time Principle</label>
+    </element>
+    <element identifier="id-b56d54a6" xsi:type="Principle">
+      <label>Costs Goal</label>
+    </element>
+    <element identifier="id-3764dcef" xsi:type="Principle">
+      <label>Occupancy Principle</label>
+    </element>
+    <element identifier="id-712d4eec" xsi:type="Principle">
+      <label>Licence Principle</label>
+    </element>
+    <element identifier="id-66a2171b" xsi:type="Principle">
+      <label>TCO Goal</label>
+    </element>
+    <element identifier="id-af0e8c76" xsi:type="Principle">
+      <label>Component Principle</label>
+    </element>
+    <element identifier="id-3db08b5c" xsi:type="Principle">
+      <label>Infrastructure Principle</label>
+    </element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-693" source="id-564" target="id-674" xsi:type="AccessRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-697" source="id-564" target="id-673" xsi:type="AccessRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-708" source="id-580" target="id-673" xsi:type="AccessRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-706" source="id-572" target="id-675" xsi:type="AccessRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-704" source="id-572" target="id-673" xsi:type="AccessRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-695" source="id-572" target="id-674" xsi:type="AccessRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1329" source="id-1311" target="id-1208" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1323" source="id-556" target="id-1202" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1327" source="id-1302" target="id-1214" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1321" source="id-596" target="id-1196" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1325" source="id-556" target="id-1226" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1434" source="id-588" target="id-1226" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1430" source="id-564" target="id-1202" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1432" source="id-572" target="id-1214" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1436" source="id-580" target="id-1214" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-655" source="id-651" target="id-564" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-1335" source="id-1302" target="id-1311" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-657" source="id-564" target="id-572" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-1333" source="id-556" target="id-1302" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-728" source="id-721" target="id-612" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-659" source="id-572" target="id-580" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-661" source="id-580" target="id-588" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-732" source="id-650" target="id-721" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-712" source="id-588" target="id-674" xsi:type="AccessRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-2d89d4e7" source="id-612" target="id-722" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-90702769" source="id-588" target="id-674" xsi:type="AccessRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-756" source="id-733" target="id-521" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-760" source="id-733" target="id-507" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-758" source="id-733" target="id-514" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-762" source="id-740" target="id-507" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-764" source="id-740" target="id-514" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-768" source="id-740" target="id-521" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-1386" source="id-275" target="id-514" xsi:type="AssignmentRelationship" />
+    <relationship identifier="id-774" source="id-514" target="id-612" xsi:type="AssignmentRelationship" />
+    <relationship identifier="id-772" source="id-733" target="id-721" xsi:type="AssignmentRelationship" />
+    <relationship identifier="id-1388" source="id-514" target="id-556" xsi:type="AssignmentRelationship" />
+    <relationship identifier="id-1381" source="id-1337" target="id-1368" xsi:type="AssignmentRelationship" />
+    <relationship identifier="id-464" source="id-416" target="id-310" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-466" source="id-416" target="id-317" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-468" source="id-416" target="id-352" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-458" source="id-409" target="id-282" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-445" source="id-402" target="id-345" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-447" source="id-402" target="id-409" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-460" source="id-409" target="id-289" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-470" source="id-423" target="id-331" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-449" source="id-402" target="id-423" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-443" source="id-402" target="id-338" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-462" source="id-416" target="id-303" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-437" source="id-402" target="id-416" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-1259" source="id-521" target="id-1250" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-1618" source="id-352" target="id-282" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1616" source="id-282" target="id-352" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1772" source="id-521" target="id-477" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1638" source="id-331" target="id-324" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1636" source="id-528" target="id-331" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1780" source="id-507" target="id-471" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1752" source="id-521" target="id-507" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1630" source="id-352" target="id-324" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1622" source="id-352" target="id-289" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1778" source="id-528" target="id-501" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1648" source="id-345" target="id-324" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1650" source="id-324" target="id-345" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1652" source="id-324" target="id-338" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1644" source="id-338" target="id-324" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1620" source="id-289" target="id-352" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1628" source="id-324" target="id-352" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1634" source="id-331" target="id-528" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1632" source="id-324" target="id-331" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1750" source="id-507" target="id-521" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-f19393d1" source="id-1536" target="id-521" xsi:type="UsedByRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-7f9b43e9" source="id-1538" target="id-521" xsi:type="UsedByRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-16871b47" source="id-1544" target="id-521" xsi:type="UsedByRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-a2243077" source="id-282" target="id-1536" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-659978dc" source="id-1538" target="id-282" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-be2dbdfd" source="id-1544" target="id-352" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-09da63b3" source="id-1540" target="id-507" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-8d85d21d" source="id-1542" target="id-507" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-58ee7df2" source="id-1540" target="id-289" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-4a4cdf33" source="id-1542" target="id-289" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-81b9d07c" source="id-1546" target="id-352" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-2891eb9f" source="id-1546" target="id-528" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-4a214d41" source="id-740" target="id-722" xsi:type="AssignmentRelationship" />
+    <relationship identifier="id-95f13189" source="id-521" target="id-650" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-806" source="id-791" target="id-674" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-816" source="id-675" target="id-792" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-814" source="id-675" target="id-673" xsi:type="AggregationRelationship" />
+    <relationship identifier="id-812" source="id-674" target="id-673" xsi:type="CompositionRelationship" />
+    <relationship identifier="id-810" source="id-674" target="id-675" xsi:type="CompositionRelationship" />
+    <relationship identifier="id-808" source="id-674" target="id-792" xsi:type="CompositionRelationship" />
+    <relationship identifier="id-718" source="id-676" target="id-673" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-826" source="id-796" target="id-675" xsi:type="SpecialisationRelationship" />
+    <relationship identifier="id-818" source="id-793" target="id-675" xsi:type="SpecialisationRelationship" />
+    <relationship identifier="id-824" source="id-795" target="id-675" xsi:type="SpecialisationRelationship" />
+    <relationship identifier="id-822" source="id-803" target="id-675" xsi:type="SpecialisationRelationship" />
+    <relationship identifier="id-820" source="id-794" target="id-675" xsi:type="SpecialisationRelationship" />
+    <relationship identifier="id-1762" source="id-495" target="id-483" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1784" source="id-489" target="id-521" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1758" source="id-483" target="id-471" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1760" source="id-483" target="id-495" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1756" source="id-471" target="id-483" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1768" source="id-489" target="id-501" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1766" source="id-489" target="id-477" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1786" source="id-495" target="id-501" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1764" source="id-477" target="id-489" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1770" source="id-501" target="id-489" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1776" source="id-501" target="id-528" xsi:type="FlowRelationship" />
+    <relationship identifier="id-1774" source="id-477" target="id-521" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1788" source="id-501" target="id-495" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1782" source="id-471" target="id-507" xsi:type="FlowRelationship">
+      <label>relationship</label>
+    </relationship>
+    <relationship identifier="id-1274" source="id-1250" target="id-1208" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-1295" source="id-1226" target="id-521" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1293" source="id-1202" target="id-521" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1297" source="id-1214" target="id-521" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1282" source="id-1196" target="id-521" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1299" source="id-1208" target="id-521" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1438" source="id-1202" target="id-1368" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1444" source="id-1196" target="id-564" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1446" source="id-1220" target="id-564" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1448" source="id-1208" target="id-588" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1442" source="id-1226" target="id-1368" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1440" source="id-1214" target="id-1368" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-b74a5ecd" source="id-1407" target="id-612" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-955" source="id-837" target="id-674" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-957" source="id-839" target="id-673" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-965" source="id-838" target="id-794" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-953" source="id-946" target="id-792" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-967" source="id-838" target="id-793" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-961" source="id-838" target="id-795" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-959" source="id-838" target="id-796" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-963" source="id-838" target="id-803" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-976" source="id-891" target="id-946" xsi:type="AccessRelationship" />
+    <relationship identifier="id-882" source="id-867" target="id-839" xsi:type="AccessRelationship" />
+    <relationship identifier="id-884" source="id-861" target="id-838" xsi:type="AccessRelationship" />
+    <relationship identifier="id-1452" source="id-861" target="id-1220" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1450" source="id-1393" target="id-1196" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1454" source="id-1399" target="id-1208" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1731" source="id-935" target="id-722" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1733" source="id-1414" target="id-721" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-880" source="id-855" target="id-837" xsi:type="AccessRelationship" />
+    <relationship identifier="id-974" source="id-909" target="id-837" xsi:type="AccessRelationship" />
+    <relationship identifier="id-972" source="id-903" target="id-838" xsi:type="AccessRelationship" />
+    <relationship identifier="id-1831" source="id-843" target="id-855" xsi:type="CompositionRelationship" />
+    <relationship identifier="id-1833" source="id-843" target="id-861" xsi:type="CompositionRelationship" />
+    <relationship identifier="id-1424" source="id-861" target="id-1414" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1422" source="id-1393" target="id-1407" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-943" source="id-843" target="id-935" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-930" source="id-891" target="id-897" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-932" source="id-897" target="id-903" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-934" source="id-903" target="id-909" xsi:type="TriggeringRelationship" />
+    <relationship identifier="id-1428" source="id-1414" target="id-1399" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1426" source="id-1407" target="id-861" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1821" source="id-1793" target="id-1800" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1823" source="id-1393" target="id-1800" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1825" source="id-849" target="id-1800" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1829" source="id-1399" target="id-843" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1827" source="id-855" target="id-849" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1835" source="id-855" target="id-1793" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-853128f7" source="id-1813" target="id-1399" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-1127" source="id-1065" target="id-1110" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1125" source="id-998" target="id-1116" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1136" source="id-986" target="id-1128" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1482" source="id-986" target="id-1455" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1480" source="id-1065" target="id-1462" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1892" source="id-1882" target="id-1813" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-1879" source="id-1870" target="id-1399" xsi:type="RealisationRelationship" />
+    <relationship identifier="id-40e2692a" source="id-1455" target="id-1393" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-63eeca37" source="id-1455" target="id-861" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-bc36ad29" source="id-1462" target="id-861" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-776f61b0" source="id-1462" target="id-1399" xsi:type="UsedByRelationship" />
+    <relationship identifier="id-670aa5ed" source="id-986" target="id-1089" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-197b66d6" source="id-1089" target="id-998" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-e479d313" source="id-998" target="id-1095" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-2dd4031d" source="id-1095" target="id-1004" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-3fb2a575" source="id-1004" target="id-1101" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-7e50c753" source="id-1101" target="id-1071" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-80c919e4" source="id-1089" target="id-1065" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-ec3fef51" source="id-992" target="id-1089" xsi:type="AssociationRelationship" />
+    <relationship identifier="id-dd9c00de" source="id-1101" target="id-1882" xsi:type="AssociationRelationship" />
+  </relationships>
+</model>

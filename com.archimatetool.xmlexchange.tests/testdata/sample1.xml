@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate archimate_v2p1.xsd" identifier="id-5d370918">
+  <elements>
+    <element identifier="id-37d5bc4b" xsi:type="BusinessRole">
+      <label>Sales Person</label>
+      <documentation>A description of a sales person</documentation>
+    </element>
+    <element identifier="id-89c22226" xsi:type="BusinessProcess">
+      <label>Sell Product</label>
+      <documentation>A description of the sell product process</documentation>
+    </element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-52b86b7b" source="id-37d5bc4b" target="id-89c22226" xsi:type="AssignmentRelationship" />
+  </relationships>
+</model>

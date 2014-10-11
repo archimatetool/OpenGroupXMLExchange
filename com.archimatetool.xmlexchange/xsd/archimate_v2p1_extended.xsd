@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.opengroup.org/xsd/archimate"
+	targetNamespace="http://www.opengroup.org/xsd/archimate"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	version="1.0">
+	
+	<xs:include schemaLocation="archimate_v2p1.xsd" />
+	
+	<xs:complexType name="MyConcept">
+		<xs:complexContent>
+			<xs:extension base="elementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>
