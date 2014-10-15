@@ -24,6 +24,7 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRelationship;
@@ -122,7 +123,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write the model
      */
     private void writeModel(Element rootElement) {
-        rootElement.setAttribute(ATTRIBUTE_IDENTIFIER, "id-" + fModel.getId()); //$NON-NLS-1$
+        rootElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(fModel)); //$NON-NLS-1$
         
         // Gather all properties now
         fPropertyDefsList = getAllUniquePropertyKeysForModel();
@@ -145,12 +146,18 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             rootElement.addContent(documentationElement);
             documentationElement.setText(fModel.getPurpose());
         }
+
+        // Model Properties
+        writeProperties(fModel, rootElement);
         
         // Model Elements
         writeModelElements(rootElement);
         
         // Relationships
         writeModelRelationships(rootElement);
+        
+        // Organization
+        writeOrganization(rootElement);
         
         // Properties Definitions
         writeModelPropertiesDefinitions(rootElement);
@@ -224,7 +231,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         parentElement.addContent(elementElement);
         
         // Identifier
-        elementElement.setAttribute(ATTRIBUTE_IDENTIFIER, "id-" + element.getId()); //$NON-NLS-1$
+        elementElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(element));
         
         // Type
         elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getType(element), JDOMUtils.XSI_Namespace);
@@ -293,13 +300,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         parentElement.addContent(relationshipElement);
         
         // Identifier
-        relationshipElement.setAttribute(ATTRIBUTE_IDENTIFIER, "id-" + relationship.getId()); //$NON-NLS-1$
+        relationshipElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(relationship));
         
         // Source ID
-        relationshipElement.setAttribute(ATTRIBUTE_SOURCE, "id-" + relationship.getSource().getId()); //$NON-NLS-1$
+        relationshipElement.setAttribute(ATTRIBUTE_SOURCE, createID(relationship.getSource()));
         
         // Target ID
-        relationshipElement.setAttribute(ATTRIBUTE_TARGET, "id-" + relationship.getTarget().getId()); //$NON-NLS-1$
+        relationshipElement.setAttribute(ATTRIBUTE_TARGET, createID(relationship.getTarget()));
 
         // Type
         relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getType(relationship), JDOMUtils.XSI_Namespace);
@@ -308,7 +315,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(hasSomeText(relationship.getName())) {
             Element nameElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
             relationshipElement.addContent(nameElement);
-            nameElement.setText(relationshipElement.getName());
+            nameElement.setText(relationship.getName());
         }
         
         // Documentation
@@ -322,6 +329,53 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeProperties(relationship, relationshipElement);
 
         return relationshipElement;
+    }
+    
+    Element writeOrganization(Element parentElement) {
+        Element organizationElement = new Element(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(organizationElement);
+        
+        for(IFolder folder : fModel.getFolders()) {
+            if(folder.getType() != FolderType.DIAGRAMS) { // TODO Views
+                writeFolder(folder, organizationElement);
+            }
+        }
+        
+        return organizationElement;
+    }
+    
+    Element writeFolder(IFolder folder, Element parentElement) {
+        if(folder.getFolders().isEmpty() && folder.getElements().isEmpty()) {
+            return null;
+        }
+        
+        Element itemFolder = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(itemFolder);
+        
+        Element labelElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
+        itemFolder.addContent(labelElement);
+        labelElement.setText(folder.getName());
+        
+        if(hasSomeText(folder.getDocumentation())) {
+            Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
+            itemFolder.addContent(documentationElement);
+            documentationElement.setText(folder.getDocumentation());
+        }
+        
+        for(IFolder subFolder : folder.getFolders()) {
+            writeFolder(subFolder, itemFolder);
+        }
+        
+        for(EObject eObject : folder.getElements()) {
+            if(eObject instanceof IArchimateElement) {
+                IArchimateElement element = (IArchimateElement)eObject;
+                Element itemElement = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
+                itemFolder.addContent(itemElement);
+                itemElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, createID(element));
+            }
+        }
+        
+        return itemFolder;
     }
     
     Element writeModelPropertiesDefinitions(Element parentElement) {
@@ -406,4 +460,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return string != null && !string.isEmpty();
     }
 
+    private String createID(IIdentifier identifier) {
+        return "id-" + identifier.getId();
+    }
 }

@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<model xmlns="http://www.opengroup.org/xsd/archimate" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate archimate_v2p1.xsd" identifier="id-11f5304f">
+<model xmlns="http://www.opengroup.org/xsd/archimate" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengroup.org/xsd/archimate archimate_v2p1.xsd http://purl.org/dc/elements/1.1/ dc.xsd" identifier="id-11f5304f">
+  <metadata>
+    <schema>Dublin Core</schema>
+    <schemaversion>1.1</schemaversion>
+    <dc:creator>Phil Beauvoir</dc:creator>
+    <dc:date>2014-10-15 16:45</dc:date>
+    <dc:description>Test the Archisurance Exchange Model</dc:description>
+    <dc:language>en</dc:language>
+    <dc:subject>ArchiMate, Testing</dc:subject>
+    <dc:title>Archisurance Test Exchange Model</dc:title>
+  </metadata>
   <name>Archisurance</name>
   <documentation>An example of a fictional Insurance company.</documentation>
+  <properties>
+    <property identifierref="propid-1">
+      <value>P1V1</value>
+    </property>
+    <property identifierref="propid-3">
+      <value>P2V1</value>
+    </property>
+  </properties>
   <elements>
     <element identifier="id-1544" xsi:type="BusinessInterface">
       <label>mail</label>
@@ -77,6 +95,14 @@
     </element>
     <element identifier="id-275" xsi:type="BusinessActor">
       <label>Archisurance</label>
+      <properties>
+        <property identifierref="propid-1">
+          <value>P1V2</value>
+        </property>
+        <property identifierref="propid-2">
+          <value>P3V1</value>
+        </property>
+      </properties>
     </element>
     <element identifier="id-1337" xsi:type="BusinessActor">
       <label>Client</label>
@@ -367,22 +393,22 @@
   </elements>
   <relationships>
     <relationship identifier="id-693" source="id-564" target="id-674" xsi:type="AccessRelationship">
-      <label>relationship</label>
+      <label>create/ update</label>
     </relationship>
     <relationship identifier="id-697" source="id-564" target="id-673" xsi:type="AccessRelationship">
-      <label>relationship</label>
+      <label>create/ update</label>
     </relationship>
     <relationship identifier="id-708" source="id-580" target="id-673" xsi:type="AccessRelationship">
-      <label>relationship</label>
+      <label>crud</label>
     </relationship>
     <relationship identifier="id-706" source="id-572" target="id-675" xsi:type="AccessRelationship">
-      <label>relationship</label>
+      <label>read</label>
     </relationship>
     <relationship identifier="id-704" source="id-572" target="id-673" xsi:type="AccessRelationship">
-      <label>relationship</label>
+      <label>read</label>
     </relationship>
     <relationship identifier="id-695" source="id-572" target="id-674" xsi:type="AccessRelationship">
-      <label>relationship</label>
+      <label>read</label>
     </relationship>
     <relationship identifier="id-1329" source="id-1311" target="id-1208" xsi:type="RealisationRelationship" />
     <relationship identifier="id-1323" source="id-556" target="id-1202" xsi:type="RealisationRelationship" />
@@ -402,11 +428,11 @@
     <relationship identifier="id-661" source="id-580" target="id-588" xsi:type="TriggeringRelationship" />
     <relationship identifier="id-732" source="id-650" target="id-721" xsi:type="TriggeringRelationship" />
     <relationship identifier="id-712" source="id-588" target="id-674" xsi:type="AccessRelationship">
-      <label>relationship</label>
+      <label>update</label>
     </relationship>
     <relationship identifier="id-2d89d4e7" source="id-612" target="id-722" xsi:type="TriggeringRelationship" />
     <relationship identifier="id-90702769" source="id-588" target="id-674" xsi:type="AccessRelationship">
-      <label>relationship</label>
+      <label>update</label>
     </relationship>
     <relationship identifier="id-756" source="id-733" target="id-521" xsi:type="AggregationRelationship" />
     <relationship identifier="id-760" source="id-733" target="id-507" xsi:type="AggregationRelationship" />
@@ -433,31 +459,31 @@
     <relationship identifier="id-437" source="id-402" target="id-416" xsi:type="AssociationRelationship" />
     <relationship identifier="id-1259" source="id-521" target="id-1250" xsi:type="AssociationRelationship" />
     <relationship identifier="id-1618" source="id-352" target="id-282" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>Claim form (electronic)</label>
     </relationship>
     <relationship identifier="id-1616" source="id-282" target="id-352" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>claim form (paper)</label>
     </relationship>
     <relationship identifier="id-1772" source="id-521" target="id-477" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>claims</label>
     </relationship>
     <relationship identifier="id-1638" source="id-331" target="id-324" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>confirm</label>
     </relationship>
     <relationship identifier="id-1636" source="id-528" target="id-331" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>confirmation</label>
     </relationship>
     <relationship identifier="id-1780" source="id-507" target="id-471" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>cust. info</label>
     </relationship>
     <relationship identifier="id-1752" source="id-521" target="id-507" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>Customer Information</label>
     </relationship>
     <relationship identifier="id-1630" source="id-352" target="id-324" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>electronic contracts</label>
     </relationship>
     <relationship identifier="id-1622" source="id-352" target="id-289" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>Electronic Contracts</label>
     </relationship>
     <relationship identifier="id-1778" source="id-528" target="id-501" xsi:type="FlowRelationship" />
     <relationship identifier="id-1648" source="id-345" target="id-324" xsi:type="FlowRelationship" />
@@ -465,28 +491,28 @@
     <relationship identifier="id-1652" source="id-324" target="id-338" xsi:type="FlowRelationship" />
     <relationship identifier="id-1644" source="id-338" target="id-324" xsi:type="FlowRelationship" />
     <relationship identifier="id-1620" source="id-289" target="id-352" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>Intermediary Contracts</label>
     </relationship>
     <relationship identifier="id-1628" source="id-324" target="id-352" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>paper contracts</label>
     </relationship>
     <relationship identifier="id-1634" source="id-331" target="id-528" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>payment</label>
     </relationship>
     <relationship identifier="id-1632" source="id-324" target="id-331" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>payment order</label>
     </relationship>
     <relationship identifier="id-1750" source="id-507" target="id-521" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>Product Information</label>
     </relationship>
     <relationship identifier="id-f19393d1" source="id-1536" target="id-521" xsi:type="UsedByRelationship">
-      <label>relationship</label>
+      <label>call</label>
     </relationship>
     <relationship identifier="id-7f9b43e9" source="id-1538" target="id-521" xsi:type="UsedByRelationship">
-      <label>relationship</label>
+      <label>write</label>
     </relationship>
     <relationship identifier="id-16871b47" source="id-1544" target="id-521" xsi:type="UsedByRelationship">
-      <label>relationship</label>
+      <label>write</label>
     </relationship>
     <relationship identifier="id-a2243077" source="id-282" target="id-1536" xsi:type="AssociationRelationship" />
     <relationship identifier="id-659978dc" source="id-1538" target="id-282" xsi:type="AssociationRelationship" />
@@ -512,19 +538,19 @@
     <relationship identifier="id-822" source="id-803" target="id-675" xsi:type="SpecialisationRelationship" />
     <relationship identifier="id-820" source="id-794" target="id-675" xsi:type="SpecialisationRelationship" />
     <relationship identifier="id-1762" source="id-495" target="id-483" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>asset info</label>
     </relationship>
     <relationship identifier="id-1784" source="id-489" target="id-521" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>claim info</label>
     </relationship>
     <relationship identifier="id-1758" source="id-483" target="id-471" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>contract info</label>
     </relationship>
     <relationship identifier="id-1760" source="id-483" target="id-495" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>contract info.</label>
     </relationship>
     <relationship identifier="id-1756" source="id-471" target="id-483" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>customer information</label>
     </relationship>
     <relationship identifier="id-1768" source="id-489" target="id-501" xsi:type="FlowRelationship" />
     <relationship identifier="id-1766" source="id-489" target="id-477" xsi:type="FlowRelationship" />
@@ -533,13 +559,13 @@
     <relationship identifier="id-1770" source="id-501" target="id-489" xsi:type="FlowRelationship" />
     <relationship identifier="id-1776" source="id-501" target="id-528" xsi:type="FlowRelationship" />
     <relationship identifier="id-1774" source="id-477" target="id-521" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>insurance info</label>
     </relationship>
     <relationship identifier="id-1788" source="id-501" target="id-495" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>money</label>
     </relationship>
     <relationship identifier="id-1782" source="id-471" target="id-507" xsi:type="FlowRelationship">
-      <label>relationship</label>
+      <label>product info.</label>
     </relationship>
     <relationship identifier="id-1274" source="id-1250" target="id-1208" xsi:type="AssociationRelationship" />
     <relationship identifier="id-1295" source="id-1226" target="id-521" xsi:type="UsedByRelationship" />
@@ -563,7 +589,13 @@
     <relationship identifier="id-959" source="id-838" target="id-796" xsi:type="RealisationRelationship" />
     <relationship identifier="id-963" source="id-838" target="id-803" xsi:type="RealisationRelationship" />
     <relationship identifier="id-976" source="id-891" target="id-946" xsi:type="AccessRelationship" />
-    <relationship identifier="id-882" source="id-867" target="id-839" xsi:type="AccessRelationship" />
+    <relationship identifier="id-882" source="id-867" target="id-839" xsi:type="AccessRelationship">
+      <properties>
+        <property identifierref="propid-2">
+          <value>P3V2</value>
+        </property>
+      </properties>
+    </relationship>
     <relationship identifier="id-884" source="id-861" target="id-838" xsi:type="AccessRelationship" />
     <relationship identifier="id-1452" source="id-861" target="id-1220" xsi:type="RealisationRelationship" />
     <relationship identifier="id-1450" source="id-1393" target="id-1196" xsi:type="RealisationRelationship" />
@@ -611,4 +643,375 @@
     <relationship identifier="id-ec3fef51" source="id-992" target="id-1089" xsi:type="AssociationRelationship" />
     <relationship identifier="id-dd9c00de" source="id-1101" target="id-1882" xsi:type="AssociationRelationship" />
   </relationships>
+  <organization>
+    <item>
+      <label>Business</label>
+      <item>
+        <label>Actors</label>
+        <item identifierref="id-1544" />
+        <item identifierref="id-1540" />
+        <item identifierref="id-1542" />
+        <item identifierref="id-1538" />
+        <item identifierref="id-1536" />
+        <item identifierref="id-528" />
+        <item identifierref="id-521" />
+        <item identifierref="id-507" />
+        <item identifierref="id-514" />
+        <item identifierref="id-1368" />
+        <item identifierref="id-733" />
+        <item identifierref="id-740" />
+        <item identifierref="id-1546" />
+        <item identifierref="id-345" />
+        <item identifierref="id-338" />
+        <item identifierref="id-296" />
+        <item identifierref="id-289" />
+        <item identifierref="id-282" />
+        <item identifierref="id-331" />
+        <item identifierref="id-352" />
+        <item identifierref="id-324" />
+        <item identifierref="id-303" />
+        <item identifierref="id-310" />
+        <item identifierref="id-317" />
+        <item identifierref="id-275" />
+        <item identifierref="id-1337" />
+        <item identifierref="id-402" />
+        <item identifierref="id-409" />
+        <item identifierref="id-423" />
+        <item identifierref="id-416" />
+      </item>
+      <item>
+        <label>Functions</label>
+        <item identifierref="id-495" />
+        <item identifierref="id-483" />
+        <item identifierref="id-471" />
+        <item identifierref="id-477" />
+        <item identifierref="id-489" />
+        <item identifierref="id-501" />
+      </item>
+      <item>
+        <label>Information</label>
+        <item identifierref="id-676" />
+        <item identifierref="id-796" />
+        <item identifierref="id-792" />
+        <item identifierref="id-795" />
+        <item identifierref="id-675" />
+        <item identifierref="id-674" />
+        <item identifierref="id-673" />
+        <item identifierref="id-791" />
+        <item identifierref="id-793" />
+        <item identifierref="id-794" />
+        <item identifierref="id-803" />
+      </item>
+      <item>
+        <label>Processes</label>
+        <item identifierref="id-722" />
+        <item identifierref="id-721" />
+        <item identifierref="id-651" />
+        <item identifierref="id-650" />
+        <item identifierref="id-1302" />
+        <item identifierref="id-1311" />
+        <item identifierref="id-612" />
+        <item identifierref="id-556" />
+        <item identifierref="id-572" />
+        <item identifierref="id-580" />
+        <item identifierref="id-588" />
+        <item identifierref="id-564" />
+        <item identifierref="id-596" />
+      </item>
+      <item>
+        <label>Products</label>
+        <item identifierref="id-1250" />
+        <item identifierref="id-1239" />
+        <item identifierref="id-1208" />
+        <item identifierref="id-1202" />
+        <item identifierref="id-1214" />
+        <item identifierref="id-1196" />
+        <item identifierref="id-1226" />
+        <item identifierref="id-1220" />
+      </item>
+    </item>
+    <item>
+      <label>Application</label>
+      <item>
+        <label>Applications</label>
+        <item identifierref="id-885" />
+        <item identifierref="id-909" />
+        <item identifierref="id-891" />
+        <item identifierref="id-897" />
+        <item identifierref="id-903" />
+        <item identifierref="id-1399" />
+        <item identifierref="id-1393" />
+        <item identifierref="id-861" />
+        <item identifierref="id-843" />
+        <item identifierref="id-855" />
+        <item identifierref="id-849" />
+        <item identifierref="id-867" />
+        <item identifierref="id-1793" />
+        <item identifierref="id-1800" />
+        <item identifierref="id-1813" />
+        <item identifierref="id-1414" />
+        <item identifierref="id-1407" />
+        <item identifierref="id-935" />
+      </item>
+      <item>
+        <label>Data</label>
+        <item identifierref="id-946" />
+        <item identifierref="id-838" />
+        <item identifierref="id-837" />
+        <item identifierref="id-839" />
+      </item>
+    </item>
+    <item>
+      <label>Technology</label>
+      <item identifierref="id-1089" />
+      <item identifierref="id-1101" />
+      <item identifierref="id-1095" />
+      <item identifierref="id-1071" />
+      <item identifierref="id-1065" />
+      <item identifierref="id-1053" />
+      <item identifierref="id-1059" />
+      <item identifierref="id-1882" />
+      <item identifierref="id-1022" />
+      <item identifierref="id-1016" />
+      <item identifierref="id-1010" />
+      <item identifierref="id-1870" />
+      <item identifierref="id-998" />
+      <item identifierref="id-1004" />
+      <item identifierref="id-986" />
+      <item identifierref="id-992" />
+      <item identifierref="id-1110" />
+      <item identifierref="id-1116" />
+      <item identifierref="id-1128" />
+      <item identifierref="id-1455" />
+      <item identifierref="id-1462" />
+    </item>
+    <item>
+      <label>Motivation</label>
+      <item identifierref="id-f5674126" />
+      <item identifierref="id-3938617c" />
+      <item identifierref="id-67316f1f" />
+      <item identifierref="id-b56d54a6" />
+      <item identifierref="id-3764dcef" />
+      <item identifierref="id-712d4eec" />
+      <item identifierref="id-66a2171b" />
+      <item identifierref="id-af0e8c76" />
+      <item identifierref="id-3db08b5c" />
+    </item>
+    <item>
+      <label>Relations</label>
+      <item>
+        <label>Business</label>
+        <item>
+          <label>Processes</label>
+          <item identifierref="id-693" />
+          <item identifierref="id-697" />
+          <item identifierref="id-708" />
+          <item identifierref="id-706" />
+          <item identifierref="id-704" />
+          <item identifierref="id-695" />
+          <item identifierref="id-1329" />
+          <item identifierref="id-1323" />
+          <item identifierref="id-1327" />
+          <item identifierref="id-1321" />
+          <item identifierref="id-1325" />
+          <item identifierref="id-1434" />
+          <item identifierref="id-1430" />
+          <item identifierref="id-1432" />
+          <item identifierref="id-1436" />
+          <item identifierref="id-655" />
+          <item identifierref="id-1335" />
+          <item identifierref="id-657" />
+          <item identifierref="id-1333" />
+          <item identifierref="id-728" />
+          <item identifierref="id-659" />
+          <item identifierref="id-661" />
+          <item identifierref="id-732" />
+          <item identifierref="id-712" />
+          <item identifierref="id-2d89d4e7" />
+          <item identifierref="id-90702769" />
+        </item>
+        <item>
+          <label>Actors</label>
+          <item identifierref="id-756" />
+          <item identifierref="id-760" />
+          <item identifierref="id-758" />
+          <item identifierref="id-762" />
+          <item identifierref="id-764" />
+          <item identifierref="id-768" />
+          <item identifierref="id-1386" />
+          <item identifierref="id-774" />
+          <item identifierref="id-772" />
+          <item identifierref="id-1388" />
+          <item identifierref="id-1381" />
+          <item identifierref="id-464" />
+          <item identifierref="id-466" />
+          <item identifierref="id-468" />
+          <item identifierref="id-458" />
+          <item identifierref="id-445" />
+          <item identifierref="id-447" />
+          <item identifierref="id-460" />
+          <item identifierref="id-470" />
+          <item identifierref="id-449" />
+          <item identifierref="id-443" />
+          <item identifierref="id-462" />
+          <item identifierref="id-437" />
+          <item identifierref="id-1259" />
+          <item identifierref="id-1618" />
+          <item identifierref="id-1616" />
+          <item identifierref="id-1772" />
+          <item identifierref="id-1638" />
+          <item identifierref="id-1636" />
+          <item identifierref="id-1780" />
+          <item identifierref="id-1752" />
+          <item identifierref="id-1630" />
+          <item identifierref="id-1622" />
+          <item identifierref="id-1778" />
+          <item identifierref="id-1648" />
+          <item identifierref="id-1650" />
+          <item identifierref="id-1652" />
+          <item identifierref="id-1644" />
+          <item identifierref="id-1620" />
+          <item identifierref="id-1628" />
+          <item identifierref="id-1634" />
+          <item identifierref="id-1632" />
+          <item identifierref="id-1750" />
+          <item identifierref="id-f19393d1" />
+          <item identifierref="id-7f9b43e9" />
+          <item identifierref="id-16871b47" />
+          <item identifierref="id-a2243077" />
+          <item identifierref="id-659978dc" />
+          <item identifierref="id-be2dbdfd" />
+          <item identifierref="id-09da63b3" />
+          <item identifierref="id-8d85d21d" />
+          <item identifierref="id-58ee7df2" />
+          <item identifierref="id-4a4cdf33" />
+          <item identifierref="id-81b9d07c" />
+          <item identifierref="id-2891eb9f" />
+          <item identifierref="id-4a214d41" />
+          <item identifierref="id-95f13189" />
+        </item>
+        <item>
+          <label>Information</label>
+          <item identifierref="id-806" />
+          <item identifierref="id-816" />
+          <item identifierref="id-814" />
+          <item identifierref="id-812" />
+          <item identifierref="id-810" />
+          <item identifierref="id-808" />
+          <item identifierref="id-718" />
+          <item identifierref="id-826" />
+          <item identifierref="id-818" />
+          <item identifierref="id-824" />
+          <item identifierref="id-822" />
+          <item identifierref="id-820" />
+        </item>
+        <item>
+          <label>Functions</label>
+          <item identifierref="id-1762" />
+          <item identifierref="id-1784" />
+          <item identifierref="id-1758" />
+          <item identifierref="id-1760" />
+          <item identifierref="id-1756" />
+          <item identifierref="id-1768" />
+          <item identifierref="id-1766" />
+          <item identifierref="id-1786" />
+          <item identifierref="id-1764" />
+          <item identifierref="id-1770" />
+          <item identifierref="id-1776" />
+          <item identifierref="id-1774" />
+          <item identifierref="id-1788" />
+          <item identifierref="id-1782" />
+        </item>
+        <item>
+          <label>Products</label>
+          <item identifierref="id-1274" />
+          <item identifierref="id-1295" />
+          <item identifierref="id-1293" />
+          <item identifierref="id-1297" />
+          <item identifierref="id-1282" />
+          <item identifierref="id-1299" />
+          <item identifierref="id-1438" />
+          <item identifierref="id-1444" />
+          <item identifierref="id-1446" />
+          <item identifierref="id-1448" />
+          <item identifierref="id-1442" />
+          <item identifierref="id-1440" />
+          <item identifierref="id-b74a5ecd" />
+        </item>
+      </item>
+      <item>
+        <label>Application</label>
+        <item>
+          <label>Data</label>
+          <item identifierref="id-955" />
+          <item identifierref="id-957" />
+          <item identifierref="id-965" />
+          <item identifierref="id-953" />
+          <item identifierref="id-967" />
+          <item identifierref="id-961" />
+          <item identifierref="id-959" />
+          <item identifierref="id-963" />
+        </item>
+        <item>
+          <label>Applications</label>
+          <item identifierref="id-976" />
+          <item identifierref="id-882" />
+          <item identifierref="id-884" />
+          <item identifierref="id-1452" />
+          <item identifierref="id-1450" />
+          <item identifierref="id-1454" />
+          <item identifierref="id-1731" />
+          <item identifierref="id-1733" />
+          <item identifierref="id-880" />
+          <item identifierref="id-974" />
+          <item identifierref="id-972" />
+          <item identifierref="id-1831" />
+          <item identifierref="id-1833" />
+          <item identifierref="id-1424" />
+          <item identifierref="id-1422" />
+          <item identifierref="id-943" />
+          <item identifierref="id-930" />
+          <item identifierref="id-932" />
+          <item identifierref="id-934" />
+          <item identifierref="id-1428" />
+          <item identifierref="id-1426" />
+          <item identifierref="id-1821" />
+          <item identifierref="id-1823" />
+          <item identifierref="id-1825" />
+          <item identifierref="id-1829" />
+          <item identifierref="id-1827" />
+          <item identifierref="id-1835" />
+          <item identifierref="id-853128f7" />
+        </item>
+      </item>
+      <item>
+        <label>Technology</label>
+        <item identifierref="id-1127" />
+        <item identifierref="id-1125" />
+        <item identifierref="id-1136" />
+        <item identifierref="id-1482" />
+        <item identifierref="id-1480" />
+        <item identifierref="id-1892" />
+        <item identifierref="id-1879" />
+        <item identifierref="id-40e2692a" />
+        <item identifierref="id-63eeca37" />
+        <item identifierref="id-bc36ad29" />
+        <item identifierref="id-776f61b0" />
+        <item identifierref="id-670aa5ed" />
+        <item identifierref="id-197b66d6" />
+        <item identifierref="id-e479d313" />
+        <item identifierref="id-2dd4031d" />
+        <item identifierref="id-3fb2a575" />
+        <item identifierref="id-7e50c753" />
+        <item identifierref="id-80c919e4" />
+        <item identifierref="id-ec3fef51" />
+        <item identifierref="id-dd9c00de" />
+      </item>
+    </item>
+  </organization>
+  <propertydefs>
+    <propertydef identifier="propid-1" name="P1" type="string" />
+    <propertydef identifier="propid-3" name="P2" type="string" />
+    <propertydef identifier="propid-2" name="P3" type="string" />
+  </propertydefs>
 </model>
