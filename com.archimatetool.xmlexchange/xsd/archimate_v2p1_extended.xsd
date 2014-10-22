@@ -6,9 +6,9 @@
 	
 	<xs:include schemaLocation="archimate_v2p1.xsd" />
 	
-	<xs:complexType name="MyConcept">
+	<xs:complexType name="Program">
 		<xs:complexContent>
-			<xs:extension base="elementType"/>
+			<xs:extension base="WorkPackage"/>
 		</xs:complexContent>
 	</xs:complexType>
 
