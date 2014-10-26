@@ -139,7 +139,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 continue;
             }
             
-            IArchimateElement element = XMLTypeMapper.createElement(type);
+            IArchimateElement element = (IArchimateElement)XMLTypeMapper.createArchimateComponent(type);
             // If element is null throw exception
             if(element == null) {
                 throw new IOException("Element for type: " + type + " not found.");
@@ -180,7 +180,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 continue;
             }
             
-            IRelationship relation = (IRelationship)XMLTypeMapper.createElement(type);
+            IRelationship relation = (IRelationship)XMLTypeMapper.createArchimateComponent(type);
             // If relation is null throw exception
             if(relation == null) {
                 throw new IOException("Relation for type: " + type + " not found.");

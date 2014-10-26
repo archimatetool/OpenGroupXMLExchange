@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -93,7 +93,7 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         //ElementsMapping.put("OrJunction", IArchimatePackage.eINSTANCE.getOrJunction());
     }
 
-    public static IArchimateElement createElement(String type) {
+    public static IArchimateComponent createArchimateComponent(String type) {
         // Junction is a special case
         if("Junction".equals(type)) {
             // TODO: ascertain from Property if AND/OR
@@ -101,18 +101,18 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         }
 
         EClass eClass = ElementsMapping.get(type);
-        return (IArchimateElement)(eClass == null ? null : IArchimateFactory.eINSTANCE.create(eClass));
+        return (IArchimateComponent)(eClass == null ? null : IArchimateFactory.eINSTANCE.create(eClass));
     }
     
-    public static String getType(IArchimateElement element) {
+    public static String getArchimateComponentName(IArchimateComponent archimateComponent) {
         // Junctions are a special case
-        if(element.eClass() == IArchimatePackage.eINSTANCE.getJunction() || element.eClass() == IArchimatePackage.eINSTANCE.getAndJunction()
-                || element.eClass() == IArchimatePackage.eINSTANCE.getOrJunction()) {
+        if(archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getJunction() || archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getAndJunction()
+                || archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getOrJunction()) {
             return "Junction";
         }
 
         for(Entry<String, EClass> entry : ElementsMapping.entrySet()) {
-            if(entry.getValue().equals(element.eClass())) {
+            if(entry.getValue().equals(archimateComponent.eClass())) {
                 return entry.getKey();
             }
         }

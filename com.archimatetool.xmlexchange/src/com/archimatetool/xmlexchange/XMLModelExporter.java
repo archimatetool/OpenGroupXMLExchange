@@ -234,7 +234,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         elementElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(element));
         
         // Type
-        elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getType(element), JDOMUtils.XSI_Namespace);
+        elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateComponentName(element), JDOMUtils.XSI_Namespace);
         
         // Name
         if(hasSomeText(element.getName())) {
@@ -309,7 +309,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         relationshipElement.setAttribute(ATTRIBUTE_TARGET, createID(relationship.getTarget()));
 
         // Type
-        relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getType(relationship), JDOMUtils.XSI_Namespace);
+        relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateComponentName(relationship), JDOMUtils.XSI_Namespace);
 
         // Name
         if(hasSomeText(relationship.getName())) {
