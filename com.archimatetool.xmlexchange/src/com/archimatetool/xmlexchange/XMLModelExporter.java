@@ -21,6 +21,7 @@ import org.jdom2.Element;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
@@ -367,11 +368,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
         
         for(EObject eObject : folder.getElements()) {
-            if(eObject instanceof IArchimateElement) {
-                IArchimateElement element = (IArchimateElement)eObject;
+            if(eObject instanceof IArchimateComponent) {
+                IArchimateComponent component = (IArchimateComponent)eObject;
                 Element itemElement = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
                 itemFolder.addContent(itemElement);
-                itemElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, createID(element));
+                itemElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, createID(component));
             }
         }
         
