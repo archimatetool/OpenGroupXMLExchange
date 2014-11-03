@@ -15,8 +15,8 @@
             -------------------------
             Author:         Phil Beauvoir
             Start date:     2 May 2013
-            Revision date:  11 October 2014
-            XSD Version:    0.52
+            Revision date:  03 November 2014
+            XSD Version:    0.53
             Status:         Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
@@ -568,13 +568,11 @@
     <xs:complexType name="Junction">
         <xs:annotation>
             <xs:documentation>
-                Junction is a special case. It is treated as an element and can be futher defined by its "junctiontype"
+                Junction is a special case. It is treated as an element.
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="elementType">
-                <xs:attribute name="junctiontype" use="optional" type="xs:string" />
-            </xs:extension>
+            <xs:extension base="elementType" />
         </xs:complexContent>
     </xs:complexType>
     

@@ -79,7 +79,7 @@
     <element identifier="id-90b44027" xsi:type="Location">
       <label>Location</label>
     </element>
-    <element identifier="id-45582523" xsi:type="Junction" junctiontype="AND">
+    <element identifier="id-45582523" xsi:type="Junction">
       <label>Junction</label>
     </element>
   </elements>
