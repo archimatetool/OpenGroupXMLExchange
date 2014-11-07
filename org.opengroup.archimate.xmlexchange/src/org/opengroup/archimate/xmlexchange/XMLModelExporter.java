@@ -50,6 +50,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      */
     private Map<String, String> fMetadata;
     
+    /**
+     * Whether to save organisation of folders
+     */
+    private boolean fDoSaveOrganisation;
+    
     public void exportModel(IArchimateModel model, File outputFile) throws IOException {
         fModel = model;
         
@@ -72,6 +77,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      */
     public void setMetadata(Map<String, String> metadata) {
         fMetadata = metadata;
+    }
+    
+    /**
+     * Set whether to save organisation of folders
+     * @param set
+     */
+    public void setSaveOrganisation(boolean set) {
+        fDoSaveOrganisation = set;
     }
     
     /**
@@ -158,7 +171,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeModelRelationships(rootElement);
         
         // Organization
-        writeOrganization(rootElement);
+        if(fDoSaveOrganisation) {
+            writeOrganization(rootElement);
+        }
         
         // Properties Definitions
         writeModelPropertiesDefinitions(rootElement);

@@ -44,8 +44,10 @@ public class ExportToXMLPage extends WizardPage {
     private static String HELP_ID = "com.archimatetool.xmlexchange.ExportToXMLPage"; //$NON-NLS-1$
     
     private static final String PREFS_LAST_FILE = "ExportXMLExchangeLastFile"; //$NON-NLS-1$
+    private static final String PREFS_ORGANISATION = "ExportXMLExchangeOrganisation"; //$NON-NLS-1$
     
     private Text fFileTextField;
+    private Button fOrganiseButton;
     
     /**
      * The model to export
@@ -111,10 +113,28 @@ public class ExportToXMLPage extends WizardPage {
                 }
             }
         });
+        
+        Group optionsGroup = new Group(container, SWT.NULL);
+        optionsGroup.setText("Options");
+        optionsGroup.setLayout(new GridLayout(2, false));
+        optionsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+        label = new Label(optionsGroup, SWT.NULL);
+        label.setText("Include Folder Organisation:");
+        fOrganiseButton = new Button(optionsGroup, SWT.CHECK);
+        
+        boolean doOrganisation = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_ORGANISATION);
+        if(doOrganisation) {
+            fOrganiseButton.setSelection(true);
+        }
     }
 
     String getFileName() {
         return fFileTextField.getText();
+    }
+    
+    boolean doSaveOrganisation() {
+        return fOrganiseButton.getSelection();
     }
 
     private void validateFields() {
@@ -160,5 +180,6 @@ public class ExportToXMLPage extends WizardPage {
     void storePreferences() {
         IPreferenceStore store = XMLExchangePlugin.INSTANCE.getPreferenceStore();
         store.setValue(PREFS_LAST_FILE, getFileName());
+        store.setValue(PREFS_ORGANISATION, doSaveOrganisation());
     }
 }
