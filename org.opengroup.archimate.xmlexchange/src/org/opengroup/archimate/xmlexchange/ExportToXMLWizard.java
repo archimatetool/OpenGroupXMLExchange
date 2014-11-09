@@ -74,6 +74,7 @@ public class ExportToXMLWizard extends Wizard {
                     XMLModelExporter xmlModelExporter = new XMLModelExporter();
                     xmlModelExporter.setMetadata(fPageMetadata.getMetadata());
                     xmlModelExporter.setSaveOrganisation(fPage.doSaveOrganisation());
+                    xmlModelExporter.setIncludeXSD(fPage.doIncludeXSD());
                     xmlModelExporter.exportModel(fModel, file);
 
                     fPage.storePreferences();

@@ -33,7 +33,7 @@ import com.archimatetool.editor.utils.StringUtils;
 @SuppressWarnings("nls")
 public class ExportToXMLPageMetadata extends WizardPage {
 
-    private static String HELP_ID = "com.archimatetool.xmlexchange.ExportToXMLPageMetadata"; //$NON-NLS-1$
+    private static String HELP_ID = "org.opengroup.archimate.xmlexchange.help.ExportToXMLPageMetadata"; //$NON-NLS-1$
     
     private static final String PREFS_LAST_VALUE = "ExportXMLExchangeLastMD_"; //$NON-NLS-1$
     

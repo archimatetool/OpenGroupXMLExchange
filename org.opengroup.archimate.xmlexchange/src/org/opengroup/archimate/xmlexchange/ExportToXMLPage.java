@@ -41,13 +41,15 @@ import com.archimatetool.model.IArchimateModel;
 @SuppressWarnings("nls")
 public class ExportToXMLPage extends WizardPage {
 
-    private static String HELP_ID = "com.archimatetool.xmlexchange.ExportToXMLPage"; //$NON-NLS-1$
+    private static String HELP_ID = "org.opengroup.archimate.xmlexchange.help.ExportToXMLPage"; //$NON-NLS-1$
     
     private static final String PREFS_LAST_FILE = "ExportXMLExchangeLastFile"; //$NON-NLS-1$
     private static final String PREFS_ORGANISATION = "ExportXMLExchangeOrganisation"; //$NON-NLS-1$
+    private static final String PREFS_INCLUDE_XSD = "ExportXMLExchangeIncludeXSD"; //$NON-NLS-1$
     
     private Text fFileTextField;
     private Button fOrganiseButton;
+    private Button fIncludeXSDButton;
     
     /**
      * The model to export
@@ -127,6 +129,15 @@ public class ExportToXMLPage extends WizardPage {
         if(doOrganisation) {
             fOrganiseButton.setSelection(true);
         }
+        
+        label = new Label(optionsGroup, SWT.NULL);
+        label.setText("Copy XSD files to target location:");
+        fIncludeXSDButton = new Button(optionsGroup, SWT.CHECK);
+        
+        boolean doIncludeXSD = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_INCLUDE_XSD);
+        if(doIncludeXSD) {
+            fIncludeXSDButton.setSelection(true);
+        }
     }
 
     String getFileName() {
@@ -135,6 +146,10 @@ public class ExportToXMLPage extends WizardPage {
     
     boolean doSaveOrganisation() {
         return fOrganiseButton.getSelection();
+    }
+
+    boolean doIncludeXSD() {
+        return fIncludeXSDButton.getSelection();
     }
 
     private void validateFields() {
@@ -181,5 +196,6 @@ public class ExportToXMLPage extends WizardPage {
         IPreferenceStore store = XMLExchangePlugin.INSTANCE.getPreferenceStore();
         store.setValue(PREFS_LAST_FILE, getFileName());
         store.setValue(PREFS_ORGANISATION, doSaveOrganisation());
+        store.setValue(PREFS_INCLUDE_XSD, doIncludeXSD());
     }
 }

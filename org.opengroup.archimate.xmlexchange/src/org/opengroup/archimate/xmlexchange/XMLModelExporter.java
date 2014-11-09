@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
+import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
@@ -55,6 +56,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      */
     private boolean fDoSaveOrganisation;
     
+    /**
+     * Whether to copy XSD files
+     */
+    private boolean fIncludeXSD;
+
     public void exportModel(IArchimateModel model, File outputFile) throws IOException {
         fModel = model;
         
@@ -69,6 +75,20 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // Save
         JDOMUtils.write2XMLFile(doc, outputFile);
+        
+        // XSD
+        if(fIncludeXSD) {
+            File parent = outputFile.getParentFile();
+            
+            File archimateXSD = XMLExchangePlugin.INSTANCE.getArchiMateXSDFile(); 
+            FileUtils.copyFile(archimateXSD, new File(parent, archimateXSD.getName()), false);
+            
+            // Dublin Core
+            if(hasMetadata()) {
+                File dcXSD = XMLExchangePlugin.INSTANCE.getDublinCoreXSDFile(); 
+                FileUtils.copyFile(dcXSD, new File(parent, dcXSD.getName()), false);
+            }
+        }
     }
     
     /**
@@ -79,6 +99,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         fMetadata = metadata;
     }
     
+    boolean hasMetadata() {
+        return fMetadata != null && !fMetadata.isEmpty();
+    }
+    
     /**
      * Set whether to save organisation of folders
      * @param set
@@ -87,6 +111,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         fDoSaveOrganisation = set;
     }
     
+    /**
+     * Set whether to copy XSD files to target
+     * @param set
+     */
+    public void setIncludeXSD(boolean set) {
+        fIncludeXSD = set;
+    }
+
     /**
      * @return A JDOM Document
      */
@@ -106,7 +138,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // rootElement.addNamespaceDeclaration(OPEN_GROUP_NAMESPACE_EMBEDDED); // Don't include this
         
         // DC Namespace
-        if(fMetadata != null) {
+        if(hasMetadata()) {
             rootElement.addNamespaceDeclaration(DC_NAMESPACE);
         }
 
@@ -121,7 +153,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         schemaLocationURI.append(OPEN_GROUP_SCHEMA_LOCATION);
         
         // DC Schema Location
-        if(fMetadata != null) {
+        if(hasMetadata()) {
             schemaLocationURI.append(" ");  //$NON-NLS-1$
             schemaLocationURI.append(DC_NAMESPACE.getURI());
             schemaLocationURI.append(" ");  //$NON-NLS-1$
@@ -143,9 +175,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         fPropertyDefsList = getAllUniquePropertyKeysForModel();
         
         // Metadata
-        if(fMetadata != null) {
-            writeMetadata(rootElement);
-        }
+        writeMetadata(rootElement);
         
         // Name
         if(hasSomeText(fModel.getName())) {
@@ -183,7 +213,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write any DC Metadata
      */
     Element writeMetadata(Element parentElement) {
-        if(fMetadata == null || fMetadata.isEmpty()) {
+        if(!hasMetadata()) {
             return null;
         }
         

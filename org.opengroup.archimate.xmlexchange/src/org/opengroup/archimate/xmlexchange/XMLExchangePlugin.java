@@ -21,6 +21,7 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
     public static final String PLUGIN_ID = "org.opengroup.archimate.xmlexchange";
     
     public static final File ARCHIMATE_XSD_FILE = new File("xsd", "archimate_v2p1.xsd");
+    public static final File ARCHIMATE_DC_FILE = new File("xsd", "dc.xsd");
 
     /**
      * The shared instance
@@ -36,6 +37,13 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
      */
     public File getArchiMateXSDFile() {
         return getAssetFile(ARCHIMATE_XSD_FILE);
+    }
+
+    /**
+     * @return The DC XSD file
+     */
+    public File getDublinCoreXSDFile() {
+        return getAssetFile(ARCHIMATE_DC_FILE);
     }
 
     /**
