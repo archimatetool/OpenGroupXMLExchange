@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<?NLS TYPE="org.eclipse.help.contexts"?> 
+<contexts>
+    
+    <context id="ExportToXMLPage" title="Export to Open Group XML format">
+        <description>Export a model to the Open Group XML format</description>
+        <topic label="Export" href="help/Text/intro.html"/>
+    </context>
+    
+</contexts>
