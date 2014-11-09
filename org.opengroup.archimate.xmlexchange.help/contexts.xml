@@ -2,9 +2,13 @@
 <?NLS TYPE="org.eclipse.help.contexts"?> 
 <contexts>
     
-    <context id="ExportToXMLPage" title="Export to Open Group XML format">
+    <context id="ExportToXMLPage">
         <description>Export a model to the Open Group XML format</description>
-        <topic label="Export" href="help/Text/intro.html"/>
+        <topic label="Export Settings" href="help/Text/export.html"/>
+    </context>
+    <context id="ExportToXMLPageMetadata">
+       <description>Adding Metadata to the Open Group XML format</description>
+       <topic href="help/Text/export_metadata.html" label="Adding Metadata"/>
     </context>
     
 </contexts>

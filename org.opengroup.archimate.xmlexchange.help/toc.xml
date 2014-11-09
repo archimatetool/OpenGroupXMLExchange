@@ -4,4 +4,12 @@
     
  <topic href="help/Text/intro.html" label="Introduction">
  </topic>
+ <topic label="Exporting a Model to XML format">
+    <topic href="help/Text/export.html" label="Export Settings">
+    </topic>
+    <topic href="help/Text/export_metadata.html" label="Adding Metadata">
+    </topic>
+ </topic>
+ <topic href="help/Text/import.html" label="Importing from an Open Exchange XML file">
+ </topic>
 </toc>
