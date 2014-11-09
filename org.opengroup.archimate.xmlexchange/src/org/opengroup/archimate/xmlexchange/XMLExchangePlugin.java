@@ -2,11 +2,10 @@ package org.opengroup.archimate.xmlexchange;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 
@@ -20,8 +19,9 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
 
     public static final String PLUGIN_ID = "org.opengroup.archimate.xmlexchange";
     
-    public static final File ARCHIMATE_XSD_FILE = new File("xsd", "archimate_v2p1.xsd");
-    public static final File ARCHIMATE_DC_FILE = new File("xsd", "dc.xsd");
+    public static final String XSD_FOLDER = "xsd/";
+    public static final String ARCHIMATE_XSD = "archimate_v2p1.xsd";
+    public static final String DUBLINCORE_XSD = "dc.xsd";
 
     /**
      * The shared instance
@@ -31,35 +31,15 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
     public XMLExchangePlugin() {
         INSTANCE = this;
     }
-
-    /**
-     * @return The ArchiMate XSD file
-     */
-    public File getArchiMateXSDFile() {
-        return getAssetFile(ARCHIMATE_XSD_FILE);
+    
+    public void copyXSDFile(String xsdFile, File outputFile) throws IOException {
+        InputStream in = getBundleInputStream(XSD_FOLDER + xsdFile);
+        Files.copy(in, outputFile.toPath());
+        in.close();
     }
 
-    /**
-     * @return The DC XSD file
-     */
-    public File getDublinCoreXSDFile() {
-        return getAssetFile(ARCHIMATE_DC_FILE);
+    private InputStream getBundleInputStream(String bundleFileName) throws IOException {
+        URL url = getBundle().getResource(bundleFileName);
+        return url.openStream();
     }
-
-    /**
-     * @return An asset file relative to this Bundle
-     */
-    public File getAssetFile(File file) {
-        URL url = FileLocator.find(Platform.getBundle(PLUGIN_ID), new Path(file.getPath()), null);
-        
-        try {
-            url = FileLocator.resolve(url);
-        }
-        catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        
-        return new File(url.getPath()); 
-    }
-
 }

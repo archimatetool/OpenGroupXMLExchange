@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
-import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
@@ -78,15 +77,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // XSD
         if(fIncludeXSD) {
-            File parent = outputFile.getParentFile();
-            
-            File archimateXSD = XMLExchangePlugin.INSTANCE.getArchiMateXSDFile(); 
-            FileUtils.copyFile(archimateXSD, new File(parent, archimateXSD.getName()), false);
+            File out = new File(outputFile.getParentFile(), XMLExchangePlugin.ARCHIMATE_XSD);
+            XMLExchangePlugin.INSTANCE.copyXSDFile(XMLExchangePlugin.ARCHIMATE_XSD, out);
             
             // Dublin Core
             if(hasMetadata()) {
-                File dcXSD = XMLExchangePlugin.INSTANCE.getDublinCoreXSDFile(); 
-                FileUtils.copyFile(dcXSD, new File(parent, dcXSD.getName()), false);
+                out = new File(outputFile.getParentFile(), XMLExchangePlugin.DUBLINCORE_XSD);
+                XMLExchangePlugin.INSTANCE.copyXSDFile(XMLExchangePlugin.DUBLINCORE_XSD, out);
             }
         }
     }
