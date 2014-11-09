@@ -97,7 +97,15 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     }
     
     boolean hasMetadata() {
-        return fMetadata != null && !fMetadata.isEmpty();
+        if(fMetadata != null) {
+            for(String value : fMetadata.values()) {
+                if(StringUtils.isSet(value)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
     
     /**
