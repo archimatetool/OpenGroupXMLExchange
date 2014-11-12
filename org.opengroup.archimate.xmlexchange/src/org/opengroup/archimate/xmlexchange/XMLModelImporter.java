@@ -8,11 +8,14 @@ package org.opengroup.archimate.xmlexchange;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
 
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.IArchimateElement;
@@ -59,8 +62,6 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Parse ArchiMate Relations
         parseArchiMateRelations(doc.getRootElement());
         
-        // TODO Organization
-
         return fModel;
     }
     
@@ -92,13 +93,13 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
         
         // Name
-        String name = getChildElementTextNormalized(rootElement, ELEMENT_NAME);
+        String name = getChildElementText(rootElement, ELEMENT_NAME, true);
         if(name != null) {
             fModel.setName(name);
         }
         
         // Documentation
-        String documentation = getChildElementText(rootElement, ELEMENT_DOCUMENTATION);
+        String documentation = getChildElementText(rootElement, ELEMENT_DOCUMENTATION, false);
         if(documentation != null) {
             fModel.setPurpose(documentation);
         }
@@ -115,7 +116,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 if(idref != null) {
                     String propertyName = fPropertyDefsList.get(idref);
                     if(propertyName != null) {
-                        String propertyValue = getChildElementTextNormalized(propertyElement, ELEMENT_VALUE);
+                        String propertyValue = getChildElementText(propertyElement, ELEMENT_VALUE, true);
                         IProperty property = IArchimateFactory.eINSTANCE.createProperty();
                         property.setKey(propertyName);
                         property.setValue(propertyValue);
@@ -152,12 +153,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 element.setId(id);
             }
 
-            String name = getChildElementTextNormalized(childElement, ELEMENT_LABEL);
+            String name = getChildElementText(childElement, ELEMENT_LABEL, true);
             if(name != null) {
                 element.setName(name);
             }
             
-            String documentation = getChildElementText(childElement, ELEMENT_DOCUMENTATION);
+            String documentation = getChildElementText(childElement, ELEMENT_DOCUMENTATION, false);
             if(documentation != null) {
                 element.setDocumentation(documentation);
             }
@@ -190,22 +191,18 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             String sourceID = childElement.getAttributeValue(ATTRIBUTE_SOURCE);
             String targetID = childElement.getAttributeValue(ATTRIBUTE_TARGET);
             
-            IArchimateElement src = (IArchimateElement)ArchimateModelUtils.getObjectByID(fModel, sourceID);
-
-            // If not found throw exception
-            if(src == null) {
+            EObject eObjectSrc = ArchimateModelUtils.getObjectByID(fModel, sourceID);
+            if(!(eObjectSrc instanceof IArchimateElement)) {
                 throw new IOException("Source Element not found for id: " + sourceID);
             }
             
-            IArchimateElement tgt = (IArchimateElement)ArchimateModelUtils.getObjectByID(fModel, targetID);
-            
-            // If not found throw exception
-            if(tgt == null) {
+            EObject eObjectTgt = ArchimateModelUtils.getObjectByID(fModel, targetID);
+            if(!(eObjectTgt instanceof IArchimateElement)) {
                 throw new IOException("Target Element not found for id: " + targetID);
             }
             
-            relation.setSource(src);
-            relation.setTarget(tgt);
+            relation.setSource((IArchimateElement)eObjectSrc);
+            relation.setTarget((IArchimateElement)eObjectTgt);
             
             fModel.getDefaultFolderForElement(relation).getElements().add(relation);
             
@@ -214,12 +211,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 relation.setId(id);
             }
 
-            String name = getChildElementTextNormalized(childElement, ELEMENT_LABEL);
+            String name = getChildElementText(childElement, ELEMENT_LABEL, true);
             if(name != null) {
                 relation.setName(name);
             }
             
-            String documentation = getChildElementText(childElement, ELEMENT_DOCUMENTATION);
+            String documentation = getChildElementText(childElement, ELEMENT_DOCUMENTATION, false);
             if(documentation != null) {
                 relation.setDocumentation(documentation);
             }
@@ -229,15 +226,22 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
     
-    String getChildElementText(Element parentElement, String childElementName) {
-        // TODO Check for localised element according to system locale
+    String getChildElementText(Element parentElement, String childElementName, boolean normalise) {
+        //Check for localised element according to the system's locale
+        String code = Locale.getDefault().getLanguage();
+        if(code == null) {
+            code = "en";
+        }
+        
+        for(Element childElement : parentElement.getChildren(childElementName, OPEN_GROUP_NAMESPACE)) {
+            String lang = childElement.getAttributeValue(ATTRIBUTE_LANG, Namespace.XML_NAMESPACE);
+            if(code.equals(lang)) {
+                return normalise ? childElement.getTextNormalize() : childElement.getText();
+            }
+        }
+        
+        // Default to first element found
         Element element = parentElement.getChild(childElementName, OPEN_GROUP_NAMESPACE);
-        return element == null ? null : element.getText();
-    }
-    
-    String getChildElementTextNormalized(Element parentElement, String childElementName) {
-        // TODO Check for localised element according to system locale
-        Element element = parentElement.getChild(childElementName, OPEN_GROUP_NAMESPACE);
-        return element == null ? null : element.getTextNormalize();
+        return element == null ? null : normalise ? element.getTextNormalize() : element.getText();
     }
 }

@@ -59,6 +59,7 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_TYPE = "type";
     String ATTRIBUTE_SOURCE = "source";
     String ATTRIBUTE_TARGET = "target";
+    String ATTRIBUTE_LANG = "lang";
     
     
 }
