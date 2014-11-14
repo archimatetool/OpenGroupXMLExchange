@@ -117,7 +117,9 @@ public class ExportToXMLPageMetadata extends WizardPage {
         Composite tableComp = new Composite(container, SWT.BORDER);
         TableColumnLayout tableLayout = new TableColumnLayout();
         tableComp.setLayout(tableLayout);
-        tableComp.setLayoutData(new GridData(GridData.FILL_BOTH));
+        GridData gd = new GridData(GridData.FILL_BOTH);
+        gd.heightHint = 300; // stop overstretch
+        tableComp.setLayoutData(gd);
         
         fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
         fTableViewer.getTable().setHeaderVisible(true);
