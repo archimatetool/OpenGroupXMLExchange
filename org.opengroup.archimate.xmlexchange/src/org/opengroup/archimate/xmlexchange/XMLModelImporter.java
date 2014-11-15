@@ -18,6 +18,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 
 import com.archimatetool.jdom.JDOMUtils;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -61,6 +62,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         // Parse ArchiMate Relations
         parseArchiMateRelations(doc.getRootElement());
+        
+        // Parse Organization - Not implemented
+        // parseOrganization(doc.getRootElement());
         
         return fModel;
     }
@@ -226,6 +230,39 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
     
+    void parseOrganization(Element rootElement) {
+        Element organizationElement = rootElement.getChild(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE);
+        if(organizationElement == null) { // Optional
+            return;
+        }
+
+        for(Element childElement : organizationElement.getChildren(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE)) {
+            parseItem(childElement);
+        }
+    }
+    
+    void parseItem(Element itemElement) {
+        // The idea is to see if we can match any referenced elements/relations into a suitable folder
+        // and then move them to that folder. At this stage, it's not worth it.
+        
+        String idref = itemElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
+        
+        if(idref != null) {
+            EObject eObject = ArchimateModelUtils.getObjectByID(fModel, idref);
+            if(eObject instanceof IArchimateComponent) {
+                
+            }
+        }
+        // Folder?
+        else {
+            
+        }
+
+        for(Element childElement : itemElement.getChildren(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE)) {
+            parseItem(childElement);
+        }
+    }
+
     String getChildElementText(Element parentElement, String childElementName, boolean normalise) {
         //Check for localised element according to the system's locale
         String code = Locale.getDefault().getLanguage();
