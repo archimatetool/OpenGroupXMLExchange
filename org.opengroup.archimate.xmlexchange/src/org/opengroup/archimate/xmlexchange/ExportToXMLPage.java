@@ -6,6 +6,7 @@
 package org.opengroup.archimate.xmlexchange;
 
 import java.io.File;
+import java.util.Locale;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.wizard.WizardPage;
@@ -17,6 +18,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -46,10 +48,12 @@ public class ExportToXMLPage extends WizardPage {
     private static final String PREFS_LAST_FILE = "ExportXMLExchangeLastFile"; //$NON-NLS-1$
     private static final String PREFS_ORGANISATION = "ExportXMLExchangeOrganisation"; //$NON-NLS-1$
     private static final String PREFS_INCLUDE_XSD = "ExportXMLExchangeIncludeXSD"; //$NON-NLS-1$
+    private static final String PREFS_LANGUAGE = "ExportXMLExchangeLanguage"; //$NON-NLS-1$
     
     private Text fFileTextField;
     private Button fOrganiseButton;
     private Button fIncludeXSDButton;
+    private Combo fLanguageCombo;
     
     /**
      * The model to export
@@ -138,6 +142,24 @@ public class ExportToXMLPage extends WizardPage {
         if(doIncludeXSD) {
             fIncludeXSDButton.setSelection(true);
         }
+        
+        label = new Label(optionsGroup, SWT.NULL);
+        label.setText("Language:");
+        
+        fLanguageCombo = new Combo(optionsGroup, SWT.READ_ONLY);
+        fLanguageCombo.setItems(Locale.getISOLanguages());
+        
+        String lastLanguage = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(PREFS_LANGUAGE);
+        if(StringUtils.isSet(lastLanguage)) {
+            fLanguageCombo.setText(lastLanguage);
+        }
+        else {
+            String code = Locale.getDefault().getLanguage();
+            if(code == null) {
+                code = "en";
+            }
+            fLanguageCombo.setText(code);
+        }
     }
 
     String getFileName() {
@@ -150,6 +172,10 @@ public class ExportToXMLPage extends WizardPage {
 
     boolean doIncludeXSD() {
         return fIncludeXSDButton.getSelection();
+    }
+    
+    String getLanguageCode() {
+        return fLanguageCombo.getText();
     }
 
     private void validateFields() {
@@ -197,5 +223,6 @@ public class ExportToXMLPage extends WizardPage {
         store.setValue(PREFS_LAST_FILE, getFileName());
         store.setValue(PREFS_ORGANISATION, doSaveOrganisation());
         store.setValue(PREFS_INCLUDE_XSD, doIncludeXSD());
+        store.setValue(PREFS_LANGUAGE, getLanguageCode());
     }
 }

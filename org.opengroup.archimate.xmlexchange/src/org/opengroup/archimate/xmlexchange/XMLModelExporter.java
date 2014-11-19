@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import org.eclipse.emf.ecore.EObject;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
@@ -59,6 +60,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Whether to copy XSD files
      */
     private boolean fIncludeXSD;
+
+    /**
+     * The language code
+     */
+    private String fLanguageCode;
 
     public void exportModel(IArchimateModel model, File outputFile) throws IOException {
         fModel = model;
@@ -123,6 +129,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     public void setIncludeXSD(boolean set) {
         fIncludeXSD = set;
     }
+    
+    /**
+     * Set the language code to use
+     * @param languageCode
+     */
+    public void setLanguageCode(String languageCode) {
+        fLanguageCode = languageCode;
+    }
 
     /**
      * @return A JDOM Document
@@ -185,15 +199,15 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Name
         if(hasSomeText(fModel.getName())) {
             Element nameElement = new Element(ELEMENT_NAME, OPEN_GROUP_NAMESPACE);
-            nameElement.setText(fModel.getName());
             rootElement.addContent(nameElement);
+            writeElementTextWithLanguageCode(nameElement, fModel.getName());
         }
         
         // Documentation (Purpose)
         if(hasSomeText(fModel.getPurpose())) {
             Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
             rootElement.addContent(documentationElement);
-            documentationElement.setText(fModel.getPurpose());
+            writeElementTextWithLanguageCode(documentationElement, fModel.getPurpose());
         }
 
         // Model Properties
@@ -291,14 +305,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(hasSomeText(element.getName())) {
             Element nameElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
             elementElement.addContent(nameElement);
-            nameElement.setText(element.getName());
+            writeElementTextWithLanguageCode(nameElement, element.getName());
         }
 
         // Documentation
         if(hasSomeText(element.getDocumentation())) {
             Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
             elementElement.addContent(documentationElement);
-            documentationElement.setText(element.getDocumentation());
+            writeElementTextWithLanguageCode(documentationElement, element.getDocumentation());
         }
         
         // Properties
@@ -366,14 +380,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(hasSomeText(relationship.getName())) {
             Element nameElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
             relationshipElement.addContent(nameElement);
-            nameElement.setText(relationship.getName());
+            writeElementTextWithLanguageCode(nameElement, relationship.getName());
         }
         
         // Documentation
         if(hasSomeText(relationship.getDocumentation())) {
             Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
             relationshipElement.addContent(documentationElement);
-            documentationElement.setText(relationship.getDocumentation());
+            writeElementTextWithLanguageCode(documentationElement, relationship.getDocumentation());
         }
         
         // Properties
@@ -405,12 +419,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         Element labelElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
         itemFolder.addContent(labelElement);
-        labelElement.setText(folder.getName());
+        writeElementTextWithLanguageCode(labelElement, folder.getName());
         
         if(hasSomeText(folder.getDocumentation())) {
             Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
             itemFolder.addContent(documentationElement);
-            documentationElement.setText(folder.getDocumentation());
+            writeElementTextWithLanguageCode(documentationElement, folder.getDocumentation());
         }
         
         for(IFolder subFolder : folder.getFolders()) {
@@ -495,13 +509,21 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
                     propertyElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, propertyRefID);
                     
                     Element valueElement = new Element(ELEMENT_VALUE, OPEN_GROUP_NAMESPACE);
-                    valueElement.setText(value);
                     propertyElement.addContent(valueElement);
+                    writeElementTextWithLanguageCode(valueElement, value);
                 }
             }
         }
         
         return propertiesElement;
+    }
+    
+    private void writeElementTextWithLanguageCode(Element element, String text) {
+        element.setText(text);
+        
+        if(fLanguageCode != null) {
+            element.setAttribute(ATTRIBUTE_LANG, fLanguageCode, Namespace.XML_NAMESPACE);
+        }
     }
 
     /**
