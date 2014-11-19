@@ -13,36 +13,70 @@
         <xs:documentation>
             XSD Data File Information
             -------------------------
-            Author:         Phil Beauvoir
+            Author:         The Open Group ArchiMate Forum
             Start date:     2 May 2013
             Revision date:  03 November 2014
-            XSD Version:    0.53
-            Status:         Draft
+            XSD Version:    0.53S
+            Status:         Snapshot Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
         
         <xs:documentation>
-            Notes and rationale
-            -------------------
-            This is a working document inspired by some IMS specifications' XSD documents.
-            It is a starting point and therefore open to debate and improvement!
+
+Notes and rationale
+-------------------
+
+This is a Snapshot of the ArchiMate Model Exchange File Format.
+
+Snapshots are draft documents, which provide a mechanism
+for The Open Group to disseminate information on its
+current direction and thinking to an interested audience,
+in advance of formal publication, with a view to
+soliciting feedback and comment.
+
+A Snapshot represents the interim results of a technical
+activity.  Although at the time of publication The Open
+Group intends to progress the activity towards publication
+of a Preliminary Standard or Open Group Standard, The
+Open Group is a consensus organization, and makes no
+commitment regarding publication. Similarly, a Snapshot
+does not represent any commitment by any member of The
+Open Group to make any specific products available.
+
+The ArchiMate Model Exchange File Format is being
+implemented in two phases. This Snapshot is for Phase
+1 and excludes the detailed visual layout (denoted as
+Level 4 below)  which will be included in Phase 2.
+
+It is a starting point and therefore open to debate and improvement!
             
-            Proposal of different levels of information:
+Proposal of different levels of information:
             
-            Level 1 - A flat list of ArchiMate elements and relationships
-            with their associated information data (name, documentation, id, idref).
-            This equates to a repository of elements and relationships.
+Level 1 - A flat list of ArchiMate elements and relationships
+with their associated information data (name, documentation, id, idref).
+This equates to a repository of elements and relationships.
             
-            Level 2 - Properties.
+Level 2 - Properties.
             
-            Level 3 - Structural Organisation.
+Level 3 - Structural Organisation.
             
-            Level 4 - Diagram information referencing the ArchiMate elements and relationships
-            enumerated at Level 1.
+Level 4 - Diagram information referencing the ArchiMate elements and relationships enumerated at Level 1.  
             
-        </xs:documentation>
+
+This documentation is automatically generated from the XSD that has
+been developed. The master XSD file can be obtained with the Snapshot
+draft standard from http://www.opengroup.org/bookstore/catalog/ .
+
+A number of example models in the exchange file format are available
+for interoperability testing. For details of how to obtain those
+files, see the cover pages.
+
+For information on how to provide feedback on this snapshot see the
+cover pages.
+
+    </xs:documentation>
     </xs:annotation>
-    
+
 
     <!-- ========================== Namespaced extension Group ================================= -->
 
