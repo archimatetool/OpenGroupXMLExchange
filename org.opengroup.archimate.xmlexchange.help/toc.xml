@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
-<toc label="Open Group XML Exchange">
+<toc label="The Open Group's ArchiMate XML Exchange">
     
  <topic href="help/Text/intro.html" label="Introduction">
  </topic>
- <topic label="Exporting a Model to XML format">
+ <topic label="Exporting a Model to the Open Exchange XML format">
     <topic href="help/Text/export.html" label="Export Settings">
     </topic>
     <topic href="help/Text/export_metadata.html" label="Adding Metadata">

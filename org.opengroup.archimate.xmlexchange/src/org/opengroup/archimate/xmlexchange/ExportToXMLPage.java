@@ -66,7 +66,7 @@ public class ExportToXMLPage extends WizardPage {
         fModel = model;
         
         setTitle("Export model");
-        setDescription("Export model to Open Group Exchange XML file");
+        setDescription("Export model to Open Exchange XML file");
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     }
 
