@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -22,9 +23,10 @@ import org.jdom2.Namespace;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProperties;
@@ -226,7 +228,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // Properties Definitions
         writeModelPropertiesDefinitions(rootElement);
+        
+        // Views
+        writeViews(rootElement);
     }
+    
+    // ========================================= Metadata ======================================
     
     /**
      * Write any DC Metadata
@@ -258,6 +265,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return null;
     }
     
+    // ========================================= Model Elements ======================================
+
     /**
      * Write the elements from the layers and extensions
      */
@@ -334,6 +343,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
     }
     
+    // ========================================= Model Relationships ======================================
+
     /**
      * Write the relationships
      */
@@ -396,14 +407,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return relationshipElement;
     }
     
+    // ========================================= Organization ======================================
+
     Element writeOrganization(Element parentElement) {
         Element organizationElement = new Element(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE);
         parentElement.addContent(organizationElement);
         
         for(IFolder folder : fModel.getFolders()) {
-            if(folder.getType() != FolderType.DIAGRAMS) { // TODO Views
-                writeFolder(folder, organizationElement);
-            }
+            writeFolder(folder, organizationElement);
         }
         
         return organizationElement;
@@ -432,8 +443,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
         
         for(EObject eObject : folder.getElements()) {
-            if(eObject instanceof IArchimateComponent) {
-                IArchimateComponent component = (IArchimateComponent)eObject;
+            if(eObject instanceof IIdentifier) {
+                IIdentifier component = (IIdentifier)eObject;
                 Element itemElement = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
                 itemFolder.addContent(itemElement);
                 itemElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, createID(component));
@@ -443,6 +454,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return itemFolder;
     }
     
+    // ========================================= Properties ======================================
+
     Element writeModelPropertiesDefinitions(Element parentElement) {
         if(fPropertyDefsList.isEmpty()) {
             return null;
@@ -518,6 +531,63 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return propertiesElement;
     }
     
+    // ========================================= Views ======================================
+    
+    Element writeViews(Element parentElement) {
+        // Do we have any views?
+        EList<IDiagramModel> views = fModel.getDiagramModels();
+        if(views.isEmpty()) {
+            return null;
+        }
+        
+        Element viewsElement = new Element(ELEMENT_VIEWS, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(viewsElement);
+        
+        for(IDiagramModel dm : views) {
+            if(dm instanceof IArchimateDiagramModel) {
+                writeView((IArchimateDiagramModel)dm, viewsElement);
+            }
+        }
+        
+        return viewsElement;
+    }
+    
+    Element writeView(IArchimateDiagramModel dm, Element parentElement) {
+        Element viewElement = new Element(ELEMENT_VIEW, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(viewElement);
+
+        // Identifier
+        viewElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(dm));
+
+        // Viewpoint
+        String viewPointName = XMLTypeMapper.getViewpointName(dm.getViewpoint());
+        if(StringUtils.isSet(viewPointName)) {
+            viewElement.setAttribute(ATTRIBUTE_VIEWPOINT, viewPointName);
+        }
+
+        // Name
+        if(hasSomeText(dm.getName())) {
+            Element nameElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
+            viewElement.addContent(nameElement);
+            writeElementTextWithLanguageCode(nameElement, dm.getName());
+        }
+
+        // Documentation
+        if(hasSomeText(dm.getDocumentation())) {
+            Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
+            viewElement.addContent(documentationElement);
+            writeElementTextWithLanguageCode(documentationElement, dm.getDocumentation());
+        }
+
+        // Properties
+        writeProperties(dm, viewElement);
+        
+        return viewElement;
+    }
+    
+
+    // ========================================= Helpers ======================================
+
     private void writeElementTextWithLanguageCode(Element element, String text) {
         element.setText(text);
         

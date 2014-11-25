@@ -19,6 +19,7 @@ import org.jdom2.Namespace;
 
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -63,12 +64,17 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Parse ArchiMate Relations
         parseArchiMateRelations(doc.getRootElement());
         
+        // Parse Views
+        parseViews(doc.getRootElement());
+        
         // Parse Organization - Not implemented
         // parseOrganization(doc.getRootElement());
         
         return fModel;
     }
     
+    // ========================================= Property Definitions ======================================
+
     void parsePropertyDefinitions(Element rootElement) {
         fPropertyDefsList = null;
         
@@ -89,6 +95,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
     
+    // ========================================= Root Element ======================================
+
     void parseRootElement(Element rootElement) {
         // Identifier
         String id = rootElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
@@ -112,6 +120,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         addProperties(rootElement, fModel);
     }
     
+    // ========================================= Properties ======================================
+
     void addProperties(Element parentElement, IProperties propertiesModel) {
         Element propertiesElement = parentElement.getChild(ELEMENT_PROPERTIES, OPEN_GROUP_NAMESPACE);
         if(propertiesElement != null) {
@@ -131,6 +141,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
     
+    // ========================================= Elements ======================================
+
     void parseArchiMateElements(Element rootElement) throws IOException {
         Element elementsElement = rootElement.getChild(ELEMENT_ELEMENTS, OPEN_GROUP_NAMESPACE);
         if(elementsElement == null) {
@@ -172,6 +184,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
     
+    // ========================================= Relations ======================================
+
     void parseArchiMateRelations(Element rootElement) throws IOException {
         Element relationsElement = rootElement.getChild(ELEMENT_RELATIONSHIPS, OPEN_GROUP_NAMESPACE);
         if(relationsElement == null) { // Optional
@@ -230,6 +244,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
     
+    // ========================================= Organization ======================================
+
     void parseOrganization(Element rootElement) {
         Element organizationElement = rootElement.getChild(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE);
         if(organizationElement == null) { // Optional
@@ -262,6 +278,46 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             parseItem(childElement);
         }
     }
+    
+    // ========================================= Views ======================================
+
+    void parseViews(Element rootElement) {
+        Element viewsElement = rootElement.getChild(ELEMENT_VIEWS, OPEN_GROUP_NAMESPACE);
+        if(viewsElement == null) { // Optional
+            return;
+        }
+        
+        for(Element viewElement : viewsElement.getChildren(ELEMENT_VIEW, OPEN_GROUP_NAMESPACE)) {
+            IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+            fModel.getDefaultFolderForElement(dm).getElements().add(dm);
+            
+            String id = viewElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
+            if(id != null) {
+                dm.setId(id);
+            }
+            
+            String viewPointName = viewElement.getAttributeValue(ATTRIBUTE_VIEWPOINT);
+            if(viewPointName != null) {
+                int viewPointID = XMLTypeMapper.getViewpointID(viewPointName);
+                dm.setViewpoint(viewPointID);
+            }
+
+            String name = getChildElementText(viewElement, ELEMENT_LABEL, true);
+            if(name != null) {
+                dm.setName(name);
+            }
+            
+            String documentation = getChildElementText(viewElement, ELEMENT_DOCUMENTATION, false);
+            if(documentation != null) {
+                dm.setDocumentation(documentation);
+            }
+            
+            // Properties
+            addProperties(viewElement, dm);
+        }
+    }
+
+    // ========================================= Helpers ======================================
 
     String getChildElementText(Element parentElement, String childElementName, boolean normalise) {
         //Check for localised element according to the system's locale

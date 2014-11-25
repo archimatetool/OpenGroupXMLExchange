@@ -15,9 +15,9 @@
             -------------------------
             Author:         The Open Group ArchiMate Forum
             Start date:     2 May 2013
-            Revision date:  03 November 2014
-            XSD Version:    0.53S
-            Status:         Snapshot Draft
+            Revision date:  25 November 2014
+            XSD Version:    0.600
+            Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
         
@@ -122,6 +122,7 @@ cover pages.
             <xs:element name="relationships" type="relationshipsType" minOccurs="0" maxOccurs="1" />
             <xs:element name="organization" type="organizationType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="propertydefs" type="propertiesDefinitionsType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="views" type="viewsType" minOccurs="0" maxOccurs="1" />
             <xs:group ref="grp.any" />
         </xs:sequence>
         <xs:attribute name="identifier" type="xs:ID" use="required" />
@@ -328,6 +329,73 @@ cover pages.
         </xs:simpleContent>
     </xs:complexType>
 
+    <!-- =========================== Views ========================== -->
+
+    <xs:complexType name="viewsType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for all of the Views in the model.
+                Must contain at least one View.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="view" type="viewType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="viewType">
+        <xs:annotation>
+            <xs:documentation>
+                This is a container for a View type.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="label" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="documentation" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
+            <xs:group ref="grp.any" />
+        </xs:sequence>
+        <xs:attribute name="identifier" use="required" type="xs:ID" />
+        <xs:attribute name="viewpoint" use="optional" type="viewpointsEnum" />
+        <xs:anyAttribute namespace ="##other" processContents ="strict" />
+    </xs:complexType>
+
+	<xs:simpleType name="viewpointsEnum">
+        <xs:annotation>
+            <xs:documentation>
+                Enumeration of View types.
+            </xs:documentation>
+        </xs:annotation>
+	    <xs:restriction base="xs:string">
+			<xs:enumeration value="Introductory"/>
+			<xs:enumeration value="Organization"/>
+			<xs:enumeration value="Actor Co-operation"/>
+			<xs:enumeration value="Business Function"/>
+			<xs:enumeration value="Business Process"/>
+			<xs:enumeration value="Business Process Co-operation"/>
+			<xs:enumeration value="Product"/>
+			<xs:enumeration value="Application Behavior"/>
+			<xs:enumeration value="Application Co-operation"/>
+			<xs:enumeration value="Application Structure"/>
+			<xs:enumeration value="Application Usage"/>
+			<xs:enumeration value="Infrastructure"/>
+			<xs:enumeration value="Infrastructure Usage"/>
+			<xs:enumeration value="Implementation and Deployment"/>
+			<xs:enumeration value="Information Structure"/>
+			<xs:enumeration value="Service Realization"/>
+			<xs:enumeration value="Layered"/>
+			<xs:enumeration value="Landscape Map"/>
+			<xs:enumeration value="Stakeholder"/>
+			<xs:enumeration value="Goal Realization"/>
+			<xs:enumeration value="Goal Contribution"/>
+			<xs:enumeration value="Principles"/>
+			<xs:enumeration value="Requirements Realization"/>
+			<xs:enumeration value="Motivation"/>
+			<xs:enumeration value="Project"/>
+			<xs:enumeration value="Migration"/>
+			<xs:enumeration value="Implementation and Migration"/>
+	    </xs:restriction>
+	</xs:simpleType>
 
     <!-- =========================== Business Layer Element Types ========================== -->
 
