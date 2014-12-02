@@ -245,7 +245,6 @@ cover pages.
         <xs:annotation>
             <xs:documentation>
                 An enumeration of data types.
-                TODO: Agree and add more data types.
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
@@ -253,6 +252,7 @@ cover pages.
             <xs:enumeration value="boolean" />
             <xs:enumeration value="currency" />
             <xs:enumeration value="date" />
+            <xs:enumeration value="number" />
         </xs:restriction>
     </xs:simpleType>
 
