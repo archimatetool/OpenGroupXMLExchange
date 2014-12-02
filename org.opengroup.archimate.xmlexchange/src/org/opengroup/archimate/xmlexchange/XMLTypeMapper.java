@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 
+import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -119,4 +120,51 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         
         return null;
     }
+    
+    // Mapping of Viewpoint Names
+    private static Map<Integer, String> ViewPointsMapping = new Hashtable<Integer, String>();
+    
+    static {
+        ViewPointsMapping.put(IViewpoint.TOTAL_VIEWPOINT, ""); // This means no Viewpoint
+        ViewPointsMapping.put(IViewpoint.ACTOR_COOPERATION_VIEWPOINT, "Actor Co-operation");
+        ViewPointsMapping.put(IViewpoint.APPLICATION_BEHAVIOUR_VIEWPOINT, "Application Behavior");
+        ViewPointsMapping.put(IViewpoint.APPLICATION_COOPERATION_VIEWPOINT, "Application Co-operation");
+        ViewPointsMapping.put(IViewpoint.APPLICATION_STRUCTURE_VIEWPOINT, "Application Structure");
+        ViewPointsMapping.put(IViewpoint.APPLICATION_USAGE_VIEWPOINT, "Application Usage");
+        ViewPointsMapping.put(IViewpoint.BUSINESS_FUNCTION_VIEWPOINT, "Business Function");
+        ViewPointsMapping.put(IViewpoint.BUSINESS_PROCESS_COOPERATION_VIEWPOINT, "Business Process Co-operation");
+        ViewPointsMapping.put(IViewpoint.BUSINESS_PROCESS_VIEWPOINT, "Business Process");
+        ViewPointsMapping.put(IViewpoint.BUSINESS_PRODUCT_VIEWPOINT, "Product");
+        ViewPointsMapping.put(IViewpoint.IMPLEMENTATION_DEPLOYMENT_VIEWPOINT, "Implementation and Deployment");
+        ViewPointsMapping.put(IViewpoint.INFORMATION_STRUCTURE_VIEWPOINT, "Information Structure");
+        ViewPointsMapping.put(IViewpoint.INFRASTRUCTURE_USAGE_VIEWPOINT, "Infrastructure Usage");
+        ViewPointsMapping.put(IViewpoint.INFRASTRUCTURE_VIEWPOINT, "Infrastructure");
+        ViewPointsMapping.put(IViewpoint.LAYERED_VIEWPOINT, "Layered");
+        ViewPointsMapping.put(IViewpoint.ORGANISATION_VIEWPOINT, "Organization");
+        ViewPointsMapping.put(IViewpoint.SERVICE_REALISATION_VIEWPOINT, "Service Realization");
+        ViewPointsMapping.put(IViewpoint.STAKEHOLDER_VIEWPOINT, "Stakeholder");
+        ViewPointsMapping.put(IViewpoint.GOAL_REALISATION_VIEWPOINT, "Goal Realization");
+        ViewPointsMapping.put(IViewpoint.GOAL_CONTRIBUTION_VIEWPOINT, "Goal Contribution");
+        ViewPointsMapping.put(IViewpoint.PRINCIPLES_VIEWPOINT, "Principles");
+        ViewPointsMapping.put(IViewpoint.REQUIREMENTS_REALISATION_VIEWPOINT, "Requirements Realization");
+        ViewPointsMapping.put(IViewpoint.MOTIVATION_VIEWPOINT, "Motivation");
+        ViewPointsMapping.put(IViewpoint.PROJECT_VIEWPOINT, "Project");
+        ViewPointsMapping.put(IViewpoint.MIGRATION_VIEWPOINT, "Migration");
+        ViewPointsMapping.put(IViewpoint.IMPLEMENTATION_MIGRATION_VIEWPOINT, "Implementation and Migration");
+    }
+
+    public static String getViewpointName(int viewPointID) {
+        return ViewPointsMapping.get(viewPointID);
+    }
+    
+    public static int getViewpointID(String viewPointName) {
+        for(Entry<Integer, String> entry : ViewPointsMapping.entrySet()) {
+            if(entry.getValue().equals(viewPointName)) {
+                return entry.getKey();
+            }
+        }
+        
+        return 0;
+    }
+
 }

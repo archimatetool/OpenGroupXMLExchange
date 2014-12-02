@@ -47,6 +47,8 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_VALUE = "value";
     String ELEMENT_ORGANIZATION = "organization";
     String ELEMENT_ITEM = "item";
+    String ELEMENT_VIEWS = "views";
+    String ELEMENT_VIEW = "view";
     
     String ELEMENT_METADATA = "metadata";
     String ELEMENT_SCHEMA = "schema";
@@ -60,6 +62,6 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_SOURCE = "source";
     String ATTRIBUTE_TARGET = "target";
     String ATTRIBUTE_LANG = "lang";
-    
+    String ATTRIBUTE_VIEWPOINT = "viewpoint";
     
 }
