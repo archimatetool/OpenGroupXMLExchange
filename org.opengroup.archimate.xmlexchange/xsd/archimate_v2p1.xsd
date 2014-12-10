@@ -15,8 +15,8 @@
             -------------------------
             Author:         The Open Group ArchiMate Forum
             Start date:     2 May 2013
-            Revision date:  01 December 2014
-            XSD Version:    0.601
+            Revision date:  10 December 2014
+            XSD Version:    0.602
             Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
@@ -346,13 +346,14 @@ cover pages.
     <xs:complexType name="viewType">
         <xs:annotation>
             <xs:documentation>
-                This is a container for a View type.
+                Container for a View type.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="label" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="documentation" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="node" type="nodeType" minOccurs="0" maxOccurs="unbounded" />
             <xs:group ref="grp.any" />
         </xs:sequence>
         <xs:attribute name="identifier" use="required" type="xs:ID" />
@@ -360,10 +361,45 @@ cover pages.
         <xs:anyAttribute namespace ="##other" processContents ="strict" />
     </xs:complexType>
 
+    <xs:complexType name="nodeType">
+        <xs:annotation>
+            <xs:documentation>
+                Graphical node type. It can contain other node types.
+                If the 'elementref' attribute is present, it should reference an ArchiMate element.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="label" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="documentation" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="fillColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="node" type="nodeType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:group ref="grp.any" />
+        </xs:sequence>
+        <xs:attribute name="identifier" use="required" type="xs:ID" />
+        <xs:attribute name="elementref" type="xs:IDREF" use="optional" />
+        <xs:attribute name="x" use="required" type="xs:integer" />
+        <xs:attribute name="y" use="required" type="xs:integer" />
+        <xs:attribute name="w" use="required" type="xs:integer" />
+        <xs:attribute name="h" use="required" type="xs:integer" />
+        <xs:anyAttribute namespace ="##other" processContents ="strict" />
+    </xs:complexType>
+
+    <xs:complexType name="rgbColorType">
+        <xs:annotation>
+            <xs:documentation>
+                RGB Color type.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="r" use="required" type="xs:unsignedByte" />
+        <xs:attribute name="g" use="required" type="xs:unsignedByte" />
+        <xs:attribute name="b" use="required" type="xs:unsignedByte" />
+    </xs:complexType>
+
 	<xs:simpleType name="viewpointsEnum">
         <xs:annotation>
             <xs:documentation>
-                Enumeration of View types.
+                Enumeration of Viewpoint types.
             </xs:documentation>
         </xs:annotation>
 	    <xs:restriction base="xs:string">

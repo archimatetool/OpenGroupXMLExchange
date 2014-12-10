@@ -11,7 +11,6 @@ import java.io.IOException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.jdom2.JDOMException;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.IModelImporter;
@@ -40,7 +39,7 @@ public class XMLExchangeImportProvider implements IModelImporter, IXMLExchangeGl
             XMLModelImporter xmlModelImporter = new XMLModelImporter();
             model = xmlModelImporter.createArchiMateModel(file);
         }
-        catch(JDOMException ex) {
+        catch(Exception ex) {
             ex.printStackTrace();
             throw new IOException(ex);
         }

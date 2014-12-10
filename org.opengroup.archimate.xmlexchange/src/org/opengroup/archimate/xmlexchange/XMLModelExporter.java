@@ -16,17 +16,27 @@ import java.util.TreeMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProperties;
@@ -199,18 +209,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeMetadata(rootElement);
         
         // Name
-        if(hasSomeText(fModel.getName())) {
-            Element nameElement = new Element(ELEMENT_NAME, OPEN_GROUP_NAMESPACE);
-            rootElement.addContent(nameElement);
-            writeElementTextWithLanguageCode(nameElement, fModel.getName());
-        }
+        writeTextToElement(fModel.getName(), rootElement, ELEMENT_NAME);
         
         // Documentation (Purpose)
-        if(hasSomeText(fModel.getPurpose())) {
-            Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
-            rootElement.addContent(documentationElement);
-            writeElementTextWithLanguageCode(documentationElement, fModel.getPurpose());
-        }
+        writeTextToElement(fModel.getPurpose(), rootElement, ELEMENT_DOCUMENTATION);
 
         // Model Properties
         writeProperties(fModel, rootElement);
@@ -311,18 +313,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateComponentName(element), JDOMUtils.XSI_Namespace);
         
         // Name
-        if(hasSomeText(element.getName())) {
-            Element nameElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
-            elementElement.addContent(nameElement);
-            writeElementTextWithLanguageCode(nameElement, element.getName());
-        }
-
+        writeTextToElement(element.getName(), elementElement, ELEMENT_LABEL);
+        
         // Documentation
-        if(hasSomeText(element.getDocumentation())) {
-            Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
-            elementElement.addContent(documentationElement);
-            writeElementTextWithLanguageCode(documentationElement, element.getDocumentation());
-        }
+        writeTextToElement(element.getDocumentation(), elementElement, ELEMENT_DOCUMENTATION);
         
         // Properties
         writeProperties(element, elementElement);
@@ -388,18 +382,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateComponentName(relationship), JDOMUtils.XSI_Namespace);
 
         // Name
-        if(hasSomeText(relationship.getName())) {
-            Element nameElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
-            relationshipElement.addContent(nameElement);
-            writeElementTextWithLanguageCode(nameElement, relationship.getName());
-        }
+        writeTextToElement(relationship.getName(), relationshipElement, ELEMENT_LABEL);
         
         // Documentation
-        if(hasSomeText(relationship.getDocumentation())) {
-            Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
-            relationshipElement.addContent(documentationElement);
-            writeElementTextWithLanguageCode(documentationElement, relationship.getDocumentation());
-        }
+        writeTextToElement(relationship.getDocumentation(), relationshipElement, ELEMENT_DOCUMENTATION);
         
         // Properties
         writeProperties(relationship, relationshipElement);
@@ -428,16 +414,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         Element itemFolder = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
         parentElement.addContent(itemFolder);
         
-        Element labelElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
-        itemFolder.addContent(labelElement);
-        writeElementTextWithLanguageCode(labelElement, folder.getName());
+        // Name
+        writeTextToElement(folder.getName(), itemFolder, ELEMENT_LABEL);
         
-        if(hasSomeText(folder.getDocumentation())) {
-            Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
-            itemFolder.addContent(documentationElement);
-            writeElementTextWithLanguageCode(documentationElement, folder.getDocumentation());
-        }
-        
+        // Documentation
+        writeTextToElement(folder.getDocumentation(), itemFolder, ELEMENT_DOCUMENTATION);
+
         for(IFolder subFolder : folder.getFolders()) {
             writeFolder(subFolder, itemFolder);
         }
@@ -566,27 +548,145 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
 
         // Name
-        if(hasSomeText(dm.getName())) {
-            Element nameElement = new Element(ELEMENT_LABEL, OPEN_GROUP_NAMESPACE);
-            viewElement.addContent(nameElement);
-            writeElementTextWithLanguageCode(nameElement, dm.getName());
-        }
-
+        writeTextToElement(dm.getName(), viewElement, ELEMENT_LABEL);
+        
         // Documentation
-        if(hasSomeText(dm.getDocumentation())) {
-            Element documentationElement = new Element(ELEMENT_DOCUMENTATION, OPEN_GROUP_NAMESPACE);
-            viewElement.addContent(documentationElement);
-            writeElementTextWithLanguageCode(documentationElement, dm.getDocumentation());
-        }
+        writeTextToElement(dm.getDocumentation(), viewElement, ELEMENT_DOCUMENTATION);
 
         // Properties
         writeProperties(dm, viewElement);
         
+        // Nodes
+        for(IDiagramModelObject child : dm.getChildren()) {
+            writeNode(child, viewElement);
+        }
+        
         return viewElement;
     }
     
+    void writeNode(IDiagramModelComponent component, Element parentElement) {
+        if(component instanceof IDiagramModelArchimateObject) {
+            writeArchimateNode((IDiagramModelArchimateObject)component, parentElement);
+        }
+        else if(component instanceof IDiagramModelGroup) {
+            writeGroupNode((IDiagramModelGroup)component, parentElement);
+        }
+        else if(component instanceof IDiagramModelNote) {
+            //writeNoteNode((IDiagramModelNote)component, parentElement);
+        }
+        else if(component instanceof IDiagramModelReference) {
+            //writeReferenceNode((IDiagramModelReference)component, parentElement);
+        }
+    }
+    
+    /**
+     * Write an ArchiMate node
+     */
+    Element writeArchimateNode(IDiagramModelArchimateObject dmo, Element parentElement) {
+        Element nodeElement = new Element(ELEMENT_NODE, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(nodeElement);
+        
+        // ID
+        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(dmo));
+        
+        // Element Ref
+        IArchimateElement element = dmo.getArchimateElement();
+        nodeElement.setAttribute(ATTRIBUTE_ELEMENTREF, createID(element));
+        
+        // Bounds
+        writeAbsoluteBounds(dmo, nodeElement);
+        
+        // Fill Color
+        writeFillColor(dmo, nodeElement);
 
+        // Children
+        for(IDiagramModelObject child : dmo.getChildren()) {
+            writeNode(child, nodeElement);
+        }
+        
+        return nodeElement;
+    }
+    
+    /**
+     * Write a Group node
+     */
+    Element writeGroupNode(IDiagramModelGroup group, Element parentElement) {
+        Element nodeElement = new Element(ELEMENT_NODE, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(nodeElement);
+        
+        // ID
+        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(group));
+
+        // Bounds
+        writeAbsoluteBounds(group, nodeElement);
+        
+        // Name
+        writeTextToElement(group.getName(), nodeElement, ELEMENT_LABEL);
+        
+        // Documentation
+        writeTextToElement(group.getDocumentation(), nodeElement, ELEMENT_DOCUMENTATION);
+
+        // Properties
+        writeProperties(group, nodeElement);
+        
+        // Fill Color
+        writeFillColor(group, nodeElement);
+        
+        // Children
+        for(IDiagramModelObject child : group.getChildren()) {
+            writeNode(child, nodeElement);
+        }
+        
+        return nodeElement;
+    }
+    
+    /**
+     * Write absolute bounds
+     */
+    void writeAbsoluteBounds(IDiagramModelObject dmo, Element element) {
+        IBounds bounds = getAbsoluteBounds(dmo);
+        element.setAttribute(ATTRIBUTE_X, Integer.toString(bounds.getX()));
+        element.setAttribute(ATTRIBUTE_Y, Integer.toString(bounds.getY()));
+        element.setAttribute(ATTRIBUTE_WIDTH, Integer.toString(bounds.getWidth()));
+        element.setAttribute(ATTRIBUTE_HEIGHT, Integer.toString(bounds.getHeight()));
+    }
+
+    Element writeFillColor(IDiagramModelObject dmo, Element parentElement) {
+        Element fillColorElement = null;
+        
+        RGB rgb = ColorFactory.convertStringToRGB(dmo.getFillColor());
+        if(rgb == null) {
+            Color color = ColorFactory.getDefaultFillColor(dmo);
+            if(color != null) {
+                rgb = color.getRGB();
+            }
+        }
+        
+        if(rgb != null) {
+            fillColorElement = new Element(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE);
+            parentElement.addContent(fillColorElement);
+
+            fillColorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
+            fillColorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
+            fillColorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
+        }
+        
+        return fillColorElement;
+    }
+    
     // ========================================= Helpers ======================================
+    
+    Element writeTextToElement(String text, Element parentElement, String childElementName) {
+        Element element = null;
+        
+        if(hasSomeText(text)) {
+            element = new Element(childElementName, OPEN_GROUP_NAMESPACE);
+            parentElement.addContent(element);
+            writeElementTextWithLanguageCode(element, text);
+        }
+        
+        return element;
+    }
 
     private void writeElementTextWithLanguageCode(Element element, String text) {
         element.setText(text);
@@ -603,7 +703,31 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return string != null && !string.isEmpty();
     }
 
+    /**
+     * Create a uniform id
+     */
     private String createID(IIdentifier identifier) {
         return "id-" + identifier.getId();
+    }
+    
+   /**
+     * @param dmo
+     * @return The absolute bounds of an element
+     */
+    IBounds getAbsoluteBounds(IDiagramModelObject dmo) {
+        IBounds bounds = dmo.getBounds().getCopy();
+        
+        EObject container = dmo.eContainer();
+        while(container instanceof IDiagramModelObject) {
+            IDiagramModelObject parent = (IDiagramModelObject)container;
+            IBounds parentBounds = parent.getBounds().getCopy();
+            
+            bounds.setX(bounds.getX() + parentBounds.getX());
+            bounds.setY(bounds.getY() + parentBounds.getY());
+            
+            container = container.eContainer();
+        }
+
+        return bounds;
     }
 }

@@ -5,22 +5,24 @@
  */
 package org.opengroup.archimate.xmlexchange;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.After;
-import org.junit.Before;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
-import org.opengroup.archimate.xmlexchange.XMLModelExporter;
 
-import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 
 
 /**
@@ -35,58 +37,65 @@ public class XMLModelExporterTests {
         return new JUnit4TestAdapter(XMLModelExporterTests.class);
     }
 
-    private XMLModelExporter exporter;
-    private File outputFile;
-
-    @Before
-    public void runOnceBeforeEachTest() {
-        exporter = new XMLModelExporter();
-    }
 
     @Test
-    public void testExportModel() throws Exception {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setDefaults();
+    public void testGetAbsoluteBounds() {
+        XMLModelExporter exporter = new XMLModelExporter();
+        IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         
-        IFolder businessFolder = model.getFolder(FolderType.BUSINESS);
-        IFolder relationsFolder = model.getFolder(FolderType.RELATIONS);
+        IDiagramModelGroup dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo1.setBounds(10, 15, 500, 500);
+        dm.getChildren().add(dmo1);
         
-        IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        element1.setName("Sales Person");
-        element1.setDocumentation("A description of a sales person");
-        businessFolder.getElements().add(element1);
+        IBounds bounds = exporter.getAbsoluteBounds(dmo1);
+        assertEquals(10, bounds.getX());
+        assertEquals(15, bounds.getY());
         
-        element1.getProperties().add(createProperty("property1", "value1"));
-        element1.getProperties().add(createProperty("property2", "value2"));
-        element1.getProperties().add(createProperty("property3", "value3"));
+        IDiagramModelGroup dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo2.setBounds(10, 15, 400, 400);
+        dmo1.getChildren().add(dmo2);
+
+        bounds = exporter.getAbsoluteBounds(dmo2);
+        assertEquals(20, bounds.getX());
+        assertEquals(30, bounds.getY());
         
-        IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessProcess();
-        element2.setName("Sell Product");
-        element2.setDocumentation("A description of the sell product process");
-        businessFolder.getElements().add(element2);
+        IDiagramModelGroup dmo3 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo3.setBounds(10, 15, 300, 300);
+        dmo2.getChildren().add(dmo3);
+
+        bounds = exporter.getAbsoluteBounds(dmo3);
+        assertEquals(30, bounds.getX());
+        assertEquals(45, bounds.getY());
+    }
+    
+    @Test
+    public void testExportModel() throws IOException {
+        File inputFile = new File(TestSupport.getTestDataFolder(), "archisurance.archimate");
+        Resource resource = ArchimateResourceFactory.createNewResource(inputFile);
+        resource.load(null);
         
-        element2.getProperties().add(createProperty("property1", "value1a"));
+        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
         
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
-        relation.setSource(element1);
-        relation.setTarget(element2);
-        relationsFolder.getElements().add(relation);
+        XMLModelExporter exporter = new XMLModelExporter();
         
-        relation.getProperties().add(createProperty("property2", "value2a"));
+        // Language code
+        exporter.setLanguageCode("en");
         
-        outputFile = new File("testdata", "Archi-Exported.xml");
+        // Metadata
+        Map<String, String> metadata = new HashMap<String, String>();
+        metadata.put("creator", "Phil Beauvoir");
+        metadata.put("date", "2014-12-09 16:45");
+        metadata.put("description", "Test the Archisurance Exchange Model");
+        metadata.put("language", "en");
+        metadata.put("subject", "ArchiMate, Testing");
+        metadata.put("title", "Archisurance Test Exchange Model");
+        exporter.setMetadata(metadata);
+        
+        // Organization
+        exporter.setSaveOrganisation(false);
+        
+        File outputFile = new File(TestSupport.getTestDataFolder(), "archisurance.xml");
         exporter.exportModel(model, outputFile);
     }
-    
-    @After
-    public void deleteOutputFile() {
-        outputFile.delete();
-    }
-    
-    IProperty createProperty(String key, String name) {
-        IProperty property = IArchimateFactory.eINSTANCE.createProperty();
-        property.setKey(key);
-        property.setValue(name);
-        return property;
-    }
+
 }
