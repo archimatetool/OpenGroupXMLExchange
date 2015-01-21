@@ -70,7 +70,7 @@ public class XMLModelExporterTests {
     
     @Test
     public void testExportModel() throws IOException {
-        File inputFile = new File(TestSupport.getTestDataFolder(), "Archisurance.archimate");
+        File inputFile = new File(TestSupport.getTestDataFolder(), "archisurance.archimate");
         Resource resource = ArchimateResourceFactory.createNewResource(inputFile);
         resource.load(null);
         
@@ -94,7 +94,7 @@ public class XMLModelExporterTests {
         // Organization
         exporter.setSaveOrganisation(true);
         
-        File outputFile = new File(TestSupport.getTestDataFolder(), "Archisurance.xml");
+        File outputFile = new File(TestSupport.getTestDataFolder(), "archisurance.xml");
         exporter.exportModel(model, outputFile);
     }
 
