@@ -50,6 +50,7 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_VIEWS = "views";
     String ELEMENT_VIEW = "view";
     String ELEMENT_NODE = "node";
+    String ELEMENT_CONNECTION = "connection";
     String ELEMENT_FILLCOLOR = "fillColor";
     
     String ELEMENT_METADATA = "metadata";
@@ -66,6 +67,7 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_LANG = "lang";
     String ATTRIBUTE_VIEWPOINT = "viewpoint";
     String ATTRIBUTE_ELEMENTREF = "elementref";
+    String ATTRIBUTE_RELATIONSHIPREF = "relationshipref";
     String ATTRIBUTE_X = "x";
     String ATTRIBUTE_Y = "y";
     String ATTRIBUTE_WIDTH = "w";

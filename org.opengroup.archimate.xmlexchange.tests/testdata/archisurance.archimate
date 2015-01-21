@@ -27,8 +27,9 @@
       <element xsi:type="archimate:BusinessActor" id="310" name="Car"/>
       <element xsi:type="archimate:BusinessActor" id="317" name="Legal Aid"/>
       <element xsi:type="archimate:BusinessActor" id="275" name="Archisurance">
-        <property key="P1" value="P1V2"/>
-        <property key="P3" value="P3V1"/>
+        <property key="Property1" value="Another Value of Property 1"/>
+        <property key="Property2" value="Another Value of Property 2"/>
+        <property key="Property3" value="Value of Property 3"/>
       </element>
       <element xsi:type="archimate:BusinessActor" id="1337" name="Client"/>
       <element xsi:type="archimate:BusinessActor" id="402" name="Board"/>
@@ -102,8 +103,7 @@
       <element xsi:type="archimate:ApplicationComponent" id="1813" name="Bank System"/>
       <element xsi:type="archimate:ApplicationService" id="1414" name="Claim InfoServ"/>
       <element xsi:type="archimate:ApplicationService" id="1407" name="CIS">
-        <documentation>Customer Information Service
-</documentation>
+        <documentation>Customer Information Service</documentation>
       </element>
       <element xsi:type="archimate:ApplicationService" id="935" name="Policy Creation Service"/>
     </folder>
@@ -298,9 +298,7 @@
       </folder>
       <folder name="Applications" id="74944b84">
         <element xsi:type="archimate:AccessRelationship" id="976" source="891" target="946" accessType="1"/>
-        <element xsi:type="archimate:AccessRelationship" id="882" source="867" target="839">
-          <property key="P3" value="P3V2"/>
-        </element>
+        <element xsi:type="archimate:AccessRelationship" id="882" source="867" target="839"/>
         <element xsi:type="archimate:AccessRelationship" id="884" source="861" target="838"/>
         <element xsi:type="archimate:RealisationRelationship" id="1452" source="861" target="1220"/>
         <element xsi:type="archimate:RealisationRelationship" id="1450" source="1393" target="1196"/>
@@ -1406,7 +1404,7 @@
       </child>
     </element>
   </folder>
-  <property key="P1" value="P1V1"/>
-  <property key="P2" value="P2V1"/>
+  <property key="Property1" value="Value of Property 1"/>
+  <property key="Property2" value="Value of Property 2"/>
   <purpose>An example of a fictional Insurance company.</purpose>
 </archimate:model>

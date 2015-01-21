@@ -31,8 +31,10 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
@@ -557,24 +559,41 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeProperties(dm, viewElement);
         
         // Nodes
-        for(IDiagramModelObject child : dm.getChildren()) {
-            writeNode(child, viewElement);
-        }
+        writeNodes(dm, viewElement);
+        
+        // Connections
+        writeConnections(dm, viewElement);
         
         return viewElement;
     }
     
-    void writeNode(IDiagramModelComponent component, Element parentElement) {
-        if(component instanceof IDiagramModelArchimateObject) {
-            writeArchimateNode((IDiagramModelArchimateObject)component, parentElement);
+    // ========================================= Nodes ======================================
+    
+    /**
+     * Write all diagram nodes
+     */
+    void writeNodes(IDiagramModel dm, Element parentElement) {
+        for(IDiagramModelObject child : dm.getChildren()) {
+            writeNode(child, parentElement);
         }
-        else if(component instanceof IDiagramModelGroup) {
-            writeGroupNode((IDiagramModelGroup)component, parentElement);
+    }
+    
+    /**
+     * Write a diagram node
+     */
+    void writeNode(IDiagramModelObject dmo, Element parentElement) {
+        if(dmo instanceof IDiagramModelArchimateObject) {
+            writeArchimateNode((IDiagramModelArchimateObject)dmo, parentElement);
         }
-        else if(component instanceof IDiagramModelNote) {
+        else if(dmo instanceof IDiagramModelGroup) {
+            writeGroupNode((IDiagramModelGroup)dmo, parentElement);
+        }
+        /// TODO Notes
+        else if(dmo instanceof IDiagramModelNote) {
             //writeNoteNode((IDiagramModelNote)component, parentElement);
         }
-        else if(component instanceof IDiagramModelReference) {
+        // TODO Diagram Model Reference type
+        else if(dmo instanceof IDiagramModelReference) {
             //writeReferenceNode((IDiagramModelReference)component, parentElement);
         }
     }
@@ -640,8 +659,61 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return nodeElement;
     }
     
+    // ========================================= Connections ======================================
+    
     /**
-     * Write absolute bounds
+     * Write all connections
+     */
+    void writeConnections(IDiagramModel dm, Element parentElement) {
+        for(IDiagramModelObject child : dm.getChildren()) {
+            writeConnections(child, parentElement);
+        }
+    }
+    
+    /**
+     * Write connections from a diagram model object
+     */
+    void writeConnections(IDiagramModelObject dmo, Element parentElement) {
+        for(IDiagramModelConnection connection : dmo.getSourceConnections()) {
+            if(connection instanceof IDiagramModelArchimateConnection) {
+                writeArchiMateConnection((IDiagramModelArchimateConnection)connection, parentElement);
+            }
+        }
+        
+        // Children
+        if(dmo instanceof IDiagramModelContainer) {
+            for(IDiagramModelObject child : ((IDiagramModelContainer)dmo).getChildren()) {
+                writeConnections(child, parentElement);
+            }
+        }
+    }
+    
+    /**
+     * Write an ArchiMate type connection
+     */
+    Element writeArchiMateConnection(IDiagramModelArchimateConnection connection, Element parentElement) {
+        Element connectionElement = new Element(ELEMENT_CONNECTION, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(connectionElement);
+        
+        // ID
+        connectionElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(connection));
+
+        // Relationship ref
+        connectionElement.setAttribute(ATTRIBUTE_RELATIONSHIPREF, createID(connection.getRelationship()));
+        
+        // Source node
+        connectionElement.setAttribute(ATTRIBUTE_SOURCE, createID(connection.getSource()));
+        
+        // Target node
+        connectionElement.setAttribute(ATTRIBUTE_TARGET, createID(connection.getTarget()));
+
+        return connectionElement;
+    }
+    
+    // ========================================= Helpers ======================================
+    
+    /**
+     * Write absolute bounds of a diagram object
      */
     void writeAbsoluteBounds(IDiagramModelObject dmo, Element element) {
         IBounds bounds = getAbsoluteBounds(dmo);
@@ -651,6 +723,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         element.setAttribute(ATTRIBUTE_HEIGHT, Integer.toString(bounds.getHeight()));
     }
 
+    /**
+     * Write fill colour of a diagram object
+     */
     Element writeFillColor(IDiagramModelObject dmo, Element parentElement) {
         Element fillColorElement = null;
         
@@ -673,8 +748,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         return fillColorElement;
     }
-    
-    // ========================================= Helpers ======================================
     
     Element writeTextToElement(String text, Element parentElement, String childElementName) {
         Element element = null;
@@ -707,6 +780,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Create a uniform id
      */
     private String createID(IIdentifier identifier) {
+        if(identifier.getId() != null && identifier.getId().startsWith("id-")) {
+            return identifier.getId();
+        }
         return "id-" + identifier.getId();
     }
     

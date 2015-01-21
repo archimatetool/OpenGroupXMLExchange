@@ -70,7 +70,7 @@ public class XMLModelExporterTests {
     
     @Test
     public void testExportModel() throws IOException {
-        File inputFile = new File(TestSupport.getTestDataFolder(), "archisurance.archimate");
+        File inputFile = new File(TestSupport.getTestDataFolder(), "Archisurance.archimate");
         Resource resource = ArchimateResourceFactory.createNewResource(inputFile);
         resource.load(null);
         
@@ -84,7 +84,7 @@ public class XMLModelExporterTests {
         // Metadata
         Map<String, String> metadata = new HashMap<String, String>();
         metadata.put("creator", "Phil Beauvoir");
-        metadata.put("date", "2014-12-09 16:45");
+        metadata.put("date", "2015-01-21 17:50");
         metadata.put("description", "Test the Archisurance Exchange Model");
         metadata.put("language", "en");
         metadata.put("subject", "ArchiMate, Testing");
@@ -92,9 +92,9 @@ public class XMLModelExporterTests {
         exporter.setMetadata(metadata);
         
         // Organization
-        exporter.setSaveOrganisation(false);
+        exporter.setSaveOrganisation(true);
         
-        File outputFile = new File(TestSupport.getTestDataFolder(), "archisurance.xml");
+        File outputFile = new File(TestSupport.getTestDataFolder(), "Archisurance.xml");
         exporter.exportModel(model, outputFile);
     }
 

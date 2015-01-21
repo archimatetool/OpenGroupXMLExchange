@@ -15,8 +15,8 @@
             -------------------------
             Author:         The Open Group ArchiMate Forum
             Start date:     2 May 2013
-            Revision date:  10 December 2014
-            XSD Version:    0.602
+            Revision date:  21 January 2015
+            XSD Version:    0.611
             Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
@@ -108,7 +108,7 @@ cover pages.
                 The "properties" element is optional and is for any property instance of the model.
                 The "elements" element is mandatory and is a container for all elements.
                 The "relationships" element is optional and is a container for any relationships.
-                The "organisation" element is optional and is a container for structural organisation of model elements and relationships.
+                The "organization" element is optional and is a container for structural organisation of model elements and relationships.
                 The "propertydefs" element is optional and is a container for any property definitions.
             </xs:documentation>
         </xs:annotation>
@@ -354,6 +354,7 @@ cover pages.
             <xs:element name="documentation" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
             <xs:element name="node" type="nodeType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="connection" type="connectionType" minOccurs="0" maxOccurs="unbounded" />
             <xs:group ref="grp.any" />
         </xs:sequence>
         <xs:attribute name="identifier" use="required" type="xs:ID" />
@@ -366,6 +367,10 @@ cover pages.
             <xs:documentation>
                 Graphical node type. It can contain other node types.
                 If the 'elementref' attribute is present, it should reference an ArchiMate element.
+                
+                If the node is an ArchiMate element type, the label, documentation and properties will be determined from
+                the referenced ArchiMate element. If the node is some other type, for example a Group, then these
+                elements can be used.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -382,6 +387,30 @@ cover pages.
         <xs:attribute name="y" use="required" type="xs:integer" />
         <xs:attribute name="w" use="required" type="xs:integer" />
         <xs:attribute name="h" use="required" type="xs:integer" />
+        <xs:anyAttribute namespace ="##other" processContents ="strict" />
+    </xs:complexType>
+
+    <xs:complexType name="connectionType">
+        <xs:annotation>
+            <xs:documentation>
+                Graphical connection type.
+                If the 'relationshipref' attribute is present, it should reference an ArchiMate relationship.
+                
+                If the connection is an ArchiMate relationship type, the label, documentation and properties will be determined from
+                the referenced ArchiMate relationship. If the connection is some other type, for example a plain connection, then these
+                elements can be used.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="label" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="documentation" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
+            <xs:group ref="grp.any" />
+        </xs:sequence>
+        <xs:attribute name="identifier" use="required" type="xs:ID" />
+        <xs:attribute name="relationshipref" type="xs:IDREF" use="optional" />
+        <xs:attribute name="source" type="xs:IDREF" use="required" />
+        <xs:attribute name="target" type="xs:IDREF" use="required" />
         <xs:anyAttribute namespace ="##other" processContents ="strict" />
     </xs:complexType>
 
