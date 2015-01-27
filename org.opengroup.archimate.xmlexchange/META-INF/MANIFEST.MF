@@ -7,8 +7,8 @@ Bundle-Version: 0.6.0.qualifier
 Bundle-Vendor: The Open Group
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- com.archimatetool.editor;bundle-version="3.1.1",
- com.archimatetool.jdom;bundle-version="2.0.5"
+ com.archimatetool.editor,
+ com.archimatetool.jdom
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Activator: org.opengroup.archimate.xmlexchange.XMLExchangePlugin
