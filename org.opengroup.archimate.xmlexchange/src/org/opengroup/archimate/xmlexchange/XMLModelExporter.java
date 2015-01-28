@@ -22,6 +22,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
+import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
@@ -676,7 +677,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     void writeConnections(IDiagramModelObject dmo, Element parentElement) {
         for(IDiagramModelConnection connection : dmo.getSourceConnections()) {
             if(connection instanceof IDiagramModelArchimateConnection) {
-                writeArchiMateConnection((IDiagramModelArchimateConnection)connection, parentElement);
+                IDiagramModelArchimateConnection conn = (IDiagramModelArchimateConnection)connection;
+                // If it's nested don't write a connection
+                if(!isNestedConnection(conn)) {
+                    writeArchiMateConnection(conn, parentElement);
+                }
             }
         }
         
@@ -686,6 +691,18 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
                 writeConnections(child, parentElement);
             }
         }
+    }
+    
+    /**
+     * Check whether this is a nested connection
+     */
+    boolean isNestedConnection(IDiagramModelArchimateConnection connection) {
+        if(connection.getSource() instanceof IDiagramModelArchimateObject && connection.getTarget() instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject src = (IDiagramModelArchimateObject)connection.getSource();
+            IDiagramModelArchimateObject tgt = (IDiagramModelArchimateObject)connection.getTarget();
+            return src.getChildren().contains(tgt) && DiagramModelUtils.isNestedConnectionTypeRelationship(connection.getRelationship());
+        }
+        return false;
     }
     
     /**
