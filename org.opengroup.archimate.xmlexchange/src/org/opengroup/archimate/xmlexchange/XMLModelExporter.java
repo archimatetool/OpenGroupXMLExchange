@@ -34,6 +34,7 @@ import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
@@ -723,8 +724,29 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // Target node
         connectionElement.setAttribute(ATTRIBUTE_TARGET, createID(connection.getTarget()));
+        
+        // Bendpoints
+        writeConnectionBendpoints(connection, connectionElement);
 
         return connectionElement;
+    }
+    
+    /**
+     * Write an connection bendpoints
+     */
+    void writeConnectionBendpoints(IDiagramModelConnection connection, Element connectionElement) {
+        for(IDiagramModelBendpoint bendpoint : connection.getBendpoints()) {
+            Element bendpointElement = new Element(ELEMENT_BENDPOINT, OPEN_GROUP_NAMESPACE);
+            connectionElement.addContent(bendpointElement);
+            
+            IBounds srcBounds = getAbsoluteBounds(connection.getSource());
+            
+            int x = (srcBounds.getX() + (srcBounds.getWidth() / 2)) + bendpoint.getStartX();
+            int y = (srcBounds.getY() + (srcBounds.getHeight() / 2)) + bendpoint.getStartY();
+            
+            bendpointElement.setAttribute(ATTRIBUTE_X, Integer.toString(x));
+            bendpointElement.setAttribute(ATTRIBUTE_Y, Integer.toString(y));
+        }
     }
     
     // ========================================= Helpers ======================================
