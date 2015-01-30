@@ -748,13 +748,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             Element bendpointElement = new Element(ELEMENT_BENDPOINT, OPEN_GROUP_NAMESPACE);
             connectionElement.addContent(bendpointElement);
             
-            IBounds srcBounds = connection.getSource().getBounds(); // get bounds of source node
+            IBounds srcBounds = getAbsoluteBounds(connection.getSource()); // get bounds of source node
             double startX = (srcBounds.getX() + (srcBounds.getWidth() / 2)) + bendpoint.getStartX();
             startX *= (1.0 - bpweight);
             double startY = (srcBounds.getY() + (srcBounds.getHeight() / 2)) + bendpoint.getStartY();
             startY *= (1.0 - bpweight);
             
-            IBounds tgtBounds = connection.getTarget().getBounds(); // get bounds of target node
+            IBounds tgtBounds = getAbsoluteBounds(connection.getTarget()); // get bounds of target node
             double endX = (tgtBounds.getX() + (tgtBounds.getWidth() / 2)) + bendpoint.getEndX();
             endX *= bpweight;
             double endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();

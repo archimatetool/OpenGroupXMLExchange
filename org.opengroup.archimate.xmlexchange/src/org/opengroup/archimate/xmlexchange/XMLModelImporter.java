@@ -500,8 +500,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             IDiagramModelBendpoint bendpoint = IArchimateFactory.eINSTANCE.createDiagramModelBendpoint();
             connection.getBendpoints().add(bendpoint);
 
-            IBounds srcBounds = connection.getSource().getBounds();
-            IBounds tgtBounds = connection.getTarget().getBounds();
+            IBounds srcBounds = getAbsoluteBounds(connection.getSource());
+            IBounds tgtBounds = getAbsoluteBounds(connection.getTarget());
             
             int startX = x - (srcBounds.getX() + (srcBounds.getWidth() / 2));
             int startY = y - (srcBounds.getY() + (srcBounds.getHeight() / 2));
@@ -557,4 +557,24 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         return bounds;
     }
 
+    /**
+     * @param dmo
+     * @return The absolute bounds of an element
+     */
+    IBounds getAbsoluteBounds(IDiagramModelObject dmo) {
+        IBounds bounds = dmo.getBounds().getCopy();
+        
+        EObject container = dmo.eContainer();
+        while(container instanceof IDiagramModelObject) {
+            IDiagramModelObject parent = (IDiagramModelObject)container;
+            IBounds parentBounds = parent.getBounds().getCopy();
+            
+            bounds.setX(bounds.getX() + parentBounds.getX());
+            bounds.setY(bounds.getY() + parentBounds.getY());
+            
+            container = container.eContainer();
+        }
+
+        return bounds;
+    }
 }
