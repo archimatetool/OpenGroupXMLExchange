@@ -14,6 +14,7 @@ public class AllTests {
     public static junit.framework.Test suite() {
 		TestSuite suite = new TestSuite("com.archimatetool.xmlexchange");
 
+        suite.addTest(XMLExchangeUtilsTests.suite());
 		suite.addTest(XMLModelExporterTests.suite());
         suite.addTest(XMLModelImporterTests.suite());
 		

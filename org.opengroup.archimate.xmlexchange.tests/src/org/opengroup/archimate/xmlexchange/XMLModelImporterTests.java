@@ -15,16 +15,11 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.opengroup.archimate.xmlexchange.XMLModelImporter;
 
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IBounds;
-import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.tests.TestUtils;
@@ -86,34 +81,4 @@ public class XMLModelImporterTests {
         assertEquals(element1, relation.getSource());
         assertEquals(element2, relation.getTarget());
     }
-    
-    @Test
-    public void testGetRelativeBounds() {
-        IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        
-        IDiagramModelGroup dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
-        dm.getChildren().add(dmo1);
-        
-        IBounds bounds = importer.getRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(10, 15, 500, 500), dmo1);
-        assertEquals(10, bounds.getX());
-        assertEquals(15, bounds.getY());
-        dmo1.setBounds(bounds);
-        
-        IDiagramModelGroup dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
-        dmo1.getChildren().add(dmo2);
-
-        bounds = importer.getRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(20, 30, 500, 500), dmo2);
-        assertEquals(10, bounds.getX());
-        assertEquals(15, bounds.getY());
-        dmo2.setBounds(bounds);
-        
-        IDiagramModelGroup dmo3 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
-        dmo2.getChildren().add(dmo3);
-
-        bounds = importer.getRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(30, 45, 500, 500), dmo3);
-        assertEquals(10, bounds.getX());
-        assertEquals(15, bounds.getY());
-        dmo3.setBounds(bounds);
-    }
-
 }

@@ -748,13 +748,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             Element bendpointElement = new Element(ELEMENT_BENDPOINT, OPEN_GROUP_NAMESPACE);
             connectionElement.addContent(bendpointElement);
             
-            IBounds srcBounds = getAbsoluteBounds(connection.getSource()); // get bounds of source node
+            IBounds srcBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getSource()); // get bounds of source node
             double startX = (srcBounds.getX() + (srcBounds.getWidth() / 2)) + bendpoint.getStartX();
             startX *= (1.0 - bpweight);
             double startY = (srcBounds.getY() + (srcBounds.getHeight() / 2)) + bendpoint.getStartY();
             startY *= (1.0 - bpweight);
             
-            IBounds tgtBounds = getAbsoluteBounds(connection.getTarget()); // get bounds of target node
+            IBounds tgtBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getTarget()); // get bounds of target node
             double endX = (tgtBounds.getX() + (tgtBounds.getWidth() / 2)) + bendpoint.getEndX();
             endX *= bpweight;
             double endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();
@@ -773,7 +773,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write absolute bounds of a diagram object
      */
     void writeAbsoluteBounds(IDiagramModelObject dmo, Element element) {
-        IBounds bounds = getAbsoluteBounds(dmo);
+        IBounds bounds = XMLExchangeUtils.getAbsoluteBounds(dmo);
         element.setAttribute(ATTRIBUTE_X, Integer.toString(bounds.getX()));
         element.setAttribute(ATTRIBUTE_Y, Integer.toString(bounds.getY()));
         element.setAttribute(ATTRIBUTE_WIDTH, Integer.toString(bounds.getWidth()));
@@ -841,26 +841,5 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             return identifier.getId();
         }
         return "id-" + identifier.getId();
-    }
-    
-   /**
-     * @param dmo
-     * @return The absolute bounds of an element
-     */
-    IBounds getAbsoluteBounds(IDiagramModelObject dmo) {
-        IBounds bounds = dmo.getBounds().getCopy();
-        
-        EObject container = dmo.eContainer();
-        while(container instanceof IDiagramModelObject) {
-            IDiagramModelObject parent = (IDiagramModelObject)container;
-            IBounds parentBounds = parent.getBounds().getCopy();
-            
-            bounds.setX(bounds.getX() + parentBounds.getX());
-            bounds.setY(bounds.getY() + parentBounds.getY());
-            
-            container = container.eContainer();
-        }
-
-        return bounds;
     }
 }

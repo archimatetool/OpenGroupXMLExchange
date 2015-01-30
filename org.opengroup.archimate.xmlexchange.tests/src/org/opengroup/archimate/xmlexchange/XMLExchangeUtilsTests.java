@@ -1,0 +1,88 @@
+/**
+ * This program and the accompanying materials
+ * are made available under the terms of the License
+ * which accompanies this distribution in the file LICENSE.txt
+ */
+package org.opengroup.archimate.xmlexchange;
+
+import static org.junit.Assert.assertEquals;
+import junit.framework.JUnit4TestAdapter;
+
+import org.junit.Test;
+
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IDiagramModelGroup;
+
+
+/**
+ * XML Model Exporter Tests
+ * 
+ * @author Phillip Beauvoir
+ */
+public class XMLExchangeUtilsTests {
+    
+    public static junit.framework.Test suite() {
+        return new JUnit4TestAdapter(XMLExchangeUtilsTests.class);
+    }
+
+    @Test
+    public void testGetAbsoluteBounds() {
+        IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        
+        IDiagramModelGroup dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo1.setBounds(10, 15, 500, 500);
+        dm.getChildren().add(dmo1);
+        
+        IBounds bounds = XMLExchangeUtils.getAbsoluteBounds(dmo1);
+        assertEquals(10, bounds.getX());
+        assertEquals(15, bounds.getY());
+        
+        IDiagramModelGroup dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo2.setBounds(10, 15, 400, 400);
+        dmo1.getChildren().add(dmo2);
+
+        bounds = XMLExchangeUtils.getAbsoluteBounds(dmo2);
+        assertEquals(20, bounds.getX());
+        assertEquals(30, bounds.getY());
+        
+        IDiagramModelGroup dmo3 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo3.setBounds(10, 15, 300, 300);
+        dmo2.getChildren().add(dmo3);
+
+        bounds = XMLExchangeUtils.getAbsoluteBounds(dmo3);
+        assertEquals(30, bounds.getX());
+        assertEquals(45, bounds.getY());
+    }
+    
+    
+    @Test
+    public void testConvertAbsoluteToRelativeBounds() {
+        IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        
+        IDiagramModelGroup dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dm.getChildren().add(dmo1);
+        
+        IBounds bounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(10, 15, 500, 500), dmo1);
+        assertEquals(10, bounds.getX());
+        assertEquals(15, bounds.getY());
+        dmo1.setBounds(bounds);
+        
+        IDiagramModelGroup dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo1.getChildren().add(dmo2);
+
+        bounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(20, 30, 500, 500), dmo2);
+        assertEquals(10, bounds.getX());
+        assertEquals(15, bounds.getY());
+        dmo2.setBounds(bounds);
+        
+        IDiagramModelGroup dmo3 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo2.getChildren().add(dmo3);
+
+        bounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(30, 45, 500, 500), dmo3);
+        assertEquals(10, bounds.getX());
+        assertEquals(15, bounds.getY());
+        dmo3.setBounds(bounds);
+    }
+}

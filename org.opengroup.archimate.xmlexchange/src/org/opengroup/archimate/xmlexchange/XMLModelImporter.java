@@ -382,14 +382,14 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 String identifier = nodeElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
                 dmo.setId(identifier);
                 
-                // Get absolute bounds
-                IBounds absoluteBounds = getNodeBounds(nodeElement);
-                
-                // Add child first
+                // Add the child first
                 parentContainer.getChildren().add(dmo);
                 
-                // Now convert absolute bounds into relative bounds
-                IBounds relativeBounds = getRelativeBounds(absoluteBounds, dmo);
+                // Get the absolute bounds as declared in the XML file
+                IBounds absoluteBounds = getNodeBounds(nodeElement);
+                
+                // Now convert the given absolute bounds into relative bounds
+                IBounds relativeBounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(absoluteBounds, dmo);
                 dmo.setBounds(relativeBounds);
                 
                 // Fill Color
@@ -500,8 +500,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             IDiagramModelBendpoint bendpoint = IArchimateFactory.eINSTANCE.createDiagramModelBendpoint();
             connection.getBendpoints().add(bendpoint);
 
-            IBounds srcBounds = getAbsoluteBounds(connection.getSource());
-            IBounds tgtBounds = getAbsoluteBounds(connection.getTarget());
+            IBounds srcBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getSource());
+            IBounds tgtBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getTarget());
             
             int startX = x - (srcBounds.getX() + (srcBounds.getWidth() / 2));
             int startY = y - (srcBounds.getY() + (srcBounds.getHeight() / 2));
@@ -538,43 +538,5 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     
     boolean hasValue(String val) {
         return StringUtils.isSet(val);
-    }
-    
-    IBounds getRelativeBounds(IBounds absoluteBounds, IDiagramModelObject dmo) {
-        IBounds bounds = absoluteBounds.getCopy();
-        
-        EObject container = dmo.eContainer();
-        while(container instanceof IDiagramModelObject) {
-            IDiagramModelObject parent = (IDiagramModelObject)container;
-            IBounds parentBounds = parent.getBounds().getCopy();
-            
-            bounds.setX(bounds.getX() - parentBounds.getX());
-            bounds.setY(bounds.getY() - parentBounds.getY());
-            
-            container = container.eContainer();
-        }
-
-        return bounds;
-    }
-
-    /**
-     * @param dmo
-     * @return The absolute bounds of an element
-     */
-    IBounds getAbsoluteBounds(IDiagramModelObject dmo) {
-        IBounds bounds = dmo.getBounds().getCopy();
-        
-        EObject container = dmo.eContainer();
-        while(container instanceof IDiagramModelObject) {
-            IDiagramModelObject parent = (IDiagramModelObject)container;
-            IBounds parentBounds = parent.getBounds().getCopy();
-            
-            bounds.setX(bounds.getX() + parentBounds.getX());
-            bounds.setY(bounds.getY() + parentBounds.getY());
-            
-            container = container.eContainer();
-        }
-
-        return bounds;
     }
 }
