@@ -735,33 +735,33 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write an connection bendpoints
      */
     void writeConnectionBendpoints(IDiagramModelConnection connection, Element connectionElement) {
-    	int bpindex = 0;
-    	int bpcount = connection.getBendpoints().size();
+        double bpindex = 1; // index count + 1
+    	double bpcount = connection.getBendpoints().size() + 1; // number of bendpoints + 1
     	
         for(IDiagramModelBendpoint bendpoint : connection.getBendpoints()) {
         	// The weight of this Bendpoint should use to calculate its location.
         	// The weight should be between 0.0 and 1.0. A weight of 0.0 will
         	// cause the Bendpoint to follow the start point, while a weight
         	// of 1.0 will cause the Bendpoint to follow the end point
-        	double bpweight = (bpindex + 1) / ((float)bpcount + 1);
+        	double bpweight = bpindex / bpcount;
         	
             Element bendpointElement = new Element(ELEMENT_BENDPOINT, OPEN_GROUP_NAMESPACE);
             connectionElement.addContent(bendpointElement);
             
             IBounds srcBounds = connection.getSource().getBounds(); // get bounds of source node
-            int startX = (srcBounds.getX() + (srcBounds.getWidth() / 2)) + bendpoint.getStartX();
+            double startX = (srcBounds.getX() + (srcBounds.getWidth() / 2)) + bendpoint.getStartX();
             startX *= (1.0 - bpweight);
-            int startY = (srcBounds.getY() + (srcBounds.getHeight() / 2)) + bendpoint.getStartY();
+            double startY = (srcBounds.getY() + (srcBounds.getHeight() / 2)) + bendpoint.getStartY();
             startY *= (1.0 - bpweight);
             
             IBounds tgtBounds = connection.getTarget().getBounds(); // get bounds of target node
-            int endX = (tgtBounds.getX() + (tgtBounds.getWidth() / 2)) + bendpoint.getEndX();
+            double endX = (tgtBounds.getX() + (tgtBounds.getWidth() / 2)) + bendpoint.getEndX();
             endX *= bpweight;
-            int endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();
+            double endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();
             endY *= bpweight;
             
-            bendpointElement.setAttribute(ATTRIBUTE_X, Integer.toString(startX+endX));
-            bendpointElement.setAttribute(ATTRIBUTE_Y, Integer.toString(startY+endY));
+            bendpointElement.setAttribute(ATTRIBUTE_X, Integer.toString((int)(startX + endX)));
+            bendpointElement.setAttribute(ATTRIBUTE_Y, Integer.toString((int)(startY + endY)));
             
             bpindex++;
         }
