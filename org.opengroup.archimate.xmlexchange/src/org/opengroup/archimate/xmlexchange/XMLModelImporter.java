@@ -29,6 +29,8 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelBendpoint;
+import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
@@ -94,7 +96,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         fPropertyDefinitionsList = new HashMap<String, String>();
         
-        // Archi only supports String types so we can ignor the data type
+        // Archi only supports String types so we can ignore the data type
         for(Element propertyDefElement : propertydefsElement.getChildren(ELEMENT_PROPERTYDEF, OPEN_GROUP_NAMESPACE)) {
             String identifier = propertyDefElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
             String name = propertyDefElement.getAttributeValue(ATTRIBUTE_NAME);
@@ -452,7 +454,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, OPEN_GROUP_NAMESPACE)) {
             // An ArchiMate relationship connection
             String relationshipRef = connectionElement.getAttributeValue(ATTRIBUTE_RELATIONSHIPREF);
-            if(hasValue(relationshipRef) ) {
+            if(hasValue(relationshipRef)) {
                 // Get relationship
                 EObject eObjectRelationship = ArchimateModelUtils.getObjectByID(fModel, relationshipRef);
                 if(!(eObjectRelationship instanceof IRelationship)) {
@@ -477,7 +479,39 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
                 connection.setRelationship((IRelationship)eObjectRelationship);
                 connection.connect((IDiagramModelObject)eObjectSourceNode, (IDiagramModelObject)eObjectTargetNode);
+                
+                // Bendpoints
+                addBendpoints(connection, connectionElement);
             }
+        }
+    }
+    
+    void addBendpoints(IDiagramModelConnection connection, Element connectionElement) throws XMLModelParserException {
+        for(Element bendpointElement : connectionElement.getChildren(ELEMENT_BENDPOINT, OPEN_GROUP_NAMESPACE)) {
+            String xString = bendpointElement.getAttributeValue(ATTRIBUTE_X);
+            String yString = bendpointElement.getAttributeValue(ATTRIBUTE_Y);
+            if(!hasValue(xString) || !hasValue(yString)) {
+                throw new XMLModelParserException("Bendpoint co-ordinate value not found");
+            }
+            
+            int x = Integer.valueOf(xString);
+            int y = Integer.valueOf(yString);
+            
+            IDiagramModelBendpoint bendpoint = IArchimateFactory.eINSTANCE.createDiagramModelBendpoint();
+            connection.getBendpoints().add(bendpoint);
+
+            IBounds srcBounds = getAbsoluteBounds(connection.getSource());
+            IBounds tgtBounds = getAbsoluteBounds(connection.getTarget());
+            
+            int startX = x - (srcBounds.getX() + (srcBounds.getWidth() / 2));
+            int startY = y - (srcBounds.getY() + (srcBounds.getHeight() / 2));
+            bendpoint.setStartX(startX);
+            bendpoint.setStartY(startY);
+
+            int endX = x - (tgtBounds.getX() + (tgtBounds.getWidth() / 2));
+            int endY = y - (tgtBounds.getY() + (tgtBounds.getHeight() / 2));
+            bendpoint.setEndX(endX);
+            bendpoint.setEndY(endY);
         }
     }
 
@@ -523,4 +557,24 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         return bounds;
     }
 
+    /**
+     * @param dmo
+     * @return The absolute bounds of an element
+     */
+    IBounds getAbsoluteBounds(IDiagramModelObject dmo) {
+        IBounds bounds = dmo.getBounds().getCopy();
+        
+        EObject container = dmo.eContainer();
+        while(container instanceof IDiagramModelObject) {
+            IDiagramModelObject parent = (IDiagramModelObject)container;
+            IBounds parentBounds = parent.getBounds().getCopy();
+            
+            bounds.setX(bounds.getX() + parentBounds.getX());
+            bounds.setY(bounds.getY() + parentBounds.getY());
+            
+            container = container.eContainer();
+        }
+
+        return bounds;
+    }
 }
