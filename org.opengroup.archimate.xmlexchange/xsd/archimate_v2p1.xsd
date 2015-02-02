@@ -15,8 +15,8 @@
             -------------------------
             Author:         The Open Group ArchiMate Forum
             Start date:     2 May 2013
-            Revision date:  21 January 2015
-            XSD Version:    0.611
+            Revision date:  02 February 2015
+            XSD Version:    0.612
             Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
@@ -405,6 +405,7 @@ cover pages.
             <xs:element name="label" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="documentation" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="bendpoint" type="bendpointType" minOccurs="0" maxOccurs="unbounded" />
             <xs:group ref="grp.any" />
         </xs:sequence>
         <xs:attribute name="identifier" use="required" type="xs:ID" />
@@ -461,6 +462,17 @@ cover pages.
 			<xs:enumeration value="Implementation and Migration"/>
 	    </xs:restriction>
 	</xs:simpleType>
+    
+    <xs:complexType name="bendpointType">
+        <xs:annotation>
+            <xs:documentation>
+                A bendpoint type for a connection.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="x" use="required" type="xs:integer" />
+        <xs:attribute name="y" use="required" type="xs:integer" />
+    </xs:complexType>
+    
 
     <!-- =========================== Business Layer Element Types ========================== -->
 
