@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -22,6 +23,7 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
     public static final String XSD_FOLDER = "xsd/";
     public static final String ARCHIMATE_XSD = "archimate_v2p1.xsd";
     public static final String DUBLINCORE_XSD = "dc.xsd";
+    public static final String XML_XSD = "xml.xsd";
 
     /**
      * The shared instance
@@ -34,11 +36,11 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
     
     public void copyXSDFile(String xsdFile, File outputFile) throws IOException {
         InputStream in = getBundleInputStream(XSD_FOLDER + xsdFile);
-        Files.copy(in, outputFile.toPath());
+        Files.copy(in, outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         in.close();
     }
 
-    private InputStream getBundleInputStream(String bundleFileName) throws IOException {
+    public InputStream getBundleInputStream(String bundleFileName) throws IOException {
         URL url = getBundle().getResource(bundleFileName);
         return url.openStream();
     }

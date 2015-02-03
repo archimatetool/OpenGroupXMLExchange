@@ -11,6 +11,7 @@ import java.io.IOException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.xml.sax.SAXException;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.IModelImporter;
@@ -31,7 +32,17 @@ public class XMLExchangeImportProvider implements IModelImporter, IXMLExchangeGl
         if(file == null) {
             return;
         }
-
+        
+        // Validate file
+        try {
+            XMLValidator validator = new XMLValidator();
+            validator.validateXML(file);
+        }
+        catch(SAXException ex) {
+            ex.printStackTrace();
+            throw new IOException(ex);
+        }
+        
         // Create a model
         IArchimateModel model = null;
         

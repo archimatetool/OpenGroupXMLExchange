@@ -101,12 +101,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(fIncludeXSD) {
             File out = new File(outputFile.getParentFile(), XMLExchangePlugin.ARCHIMATE_XSD);
             XMLExchangePlugin.INSTANCE.copyXSDFile(XMLExchangePlugin.ARCHIMATE_XSD, out);
-            
-            // Dublin Core
-            if(hasMetadata()) {
-                out = new File(outputFile.getParentFile(), XMLExchangePlugin.DUBLINCORE_XSD);
-                XMLExchangePlugin.INSTANCE.copyXSDFile(XMLExchangePlugin.DUBLINCORE_XSD, out);
-            }
         }
     }
     

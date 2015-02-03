@@ -17,6 +17,7 @@ public class AllTests {
         suite.addTest(XMLExchangeUtilsTests.suite());
 		suite.addTest(XMLModelExporterTests.suite());
         suite.addTest(XMLModelImporterTests.suite());
+        suite.addTest(XMLValidatorTests.suite());
 		
         return suite;
 	}

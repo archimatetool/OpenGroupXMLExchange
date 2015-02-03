@@ -8,9 +8,6 @@ package org.opengroup.archimate.xmlexchange;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-
-import java.io.File;
-
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
@@ -22,23 +19,18 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.tests.TestUtils;
 
 /**
  * XML Model Importer Tests
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class XMLModelImporterTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(XMLModelImporterTests.class);
     }
 
-    private File testFolder = TestUtils.getLocalBundleFolder("org.opengroup.archimate.xmlexchange.tests", "testdata");
-    private File testFile1 = new File(testFolder, "sample1.xml");
-    
     private XMLModelImporter importer;
     
     @Before
@@ -49,7 +41,7 @@ public class XMLModelImporterTests {
 
     @Test
     public void testArchimateModelExists() throws Exception {
-        IArchimateModel model = importer.createArchiMateModel(testFile1);
+        IArchimateModel model = importer.createArchiMateModel(TestSupport.xmlFile1);
         
         assertNotNull(model);
         
@@ -62,7 +54,7 @@ public class XMLModelImporterTests {
     
     @Test
     public void testArchimateModelHasCorrectElementsAndRelations() throws Exception {
-        IArchimateModel model = importer.createArchiMateModel(testFile1);
+        IArchimateModel model = importer.createArchiMateModel(TestSupport.xmlFile1);
         
         IFolder businessFolder = model.getFolder(FolderType.BUSINESS);
         IFolder relationsFolder = model.getFolder(FolderType.RELATIONS);

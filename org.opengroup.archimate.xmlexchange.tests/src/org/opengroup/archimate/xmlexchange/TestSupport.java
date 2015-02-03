@@ -21,15 +21,14 @@ import org.eclipse.core.runtime.Platform;
 @SuppressWarnings("nls")
 public class TestSupport {
     
-    private static File testFolder;
+    public static File testFolder = getLocalBundleFolder("org.opengroup.archimate.xmlexchange.tests", "testdata");
     
-    public static File getTestDataFolder() {
-        if(testFolder == null) {
-            testFolder = getLocalBundleFolder("org.opengroup.archimate.xmlexchange.tests", "testdata");
-        }
-        return testFolder;
-    }
-
+    public static File xmlFile1 = new File(testFolder, "sample1.xml");
+    public static File xmlFile2 = new File(testFolder, "archisurance.xml");
+    
+    public static File archiFile1 = new File(testFolder, "archisurance.archimate");
+    
+    
     /**
      * @param bundleName
      * @param path
