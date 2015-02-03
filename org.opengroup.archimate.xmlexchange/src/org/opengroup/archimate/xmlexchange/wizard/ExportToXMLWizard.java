@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package org.opengroup.archimate.xmlexchange;
+package org.opengroup.archimate.xmlexchange.wizard;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
+import org.opengroup.archimate.xmlexchange.XMLModelExporter;
 
 import com.archimatetool.model.IArchimateModel;
 

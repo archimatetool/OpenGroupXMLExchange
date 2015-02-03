@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package org.opengroup.archimate.xmlexchange;
+package org.opengroup.archimate.xmlexchange.wizard;
 
 import java.io.File;
 import java.util.Locale;
@@ -26,6 +26,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.opengroup.archimate.xmlexchange.IXMLExchangeGlobals;
+import org.opengroup.archimate.xmlexchange.XMLExchangePlugin;
 
 import com.archimatetool.editor.diagram.wizard.Messages;
 import com.archimatetool.editor.ui.IArchimateImages;

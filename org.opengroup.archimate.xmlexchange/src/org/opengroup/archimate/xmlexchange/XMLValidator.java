@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 
 
 /**
- * Utils for XML Exchange
+ * XML Validator
  * 
  * @author Phillip Beauvoir
  */
@@ -38,18 +38,14 @@ public final class XMLValidator {
         
         // Local XSDs
         Schema schema = factory.newSchema(new Source[]{
-                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER
-                        + XMLExchangePlugin.ARCHIMATE_XSD)),
-                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER
-                        + XMLExchangePlugin.DUBLINCORE_XSD))});
+                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE_XSD)),
+                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.DUBLINCORE_XSD))
+        });
 
         Validator validator = schema.newValidator();
         validator.validate(new StreamSource(xmlInstance));
     }
 
-    /**
-     * From http://stackoverflow.com/questions/2342808/problem-validating-an-xml-file-using-java-with-an-xsd-having-an-include
-     */
     static class ResourceResolver implements LSResourceResolver {
         public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
             // Resolve <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
@@ -68,6 +64,9 @@ public final class XMLValidator {
         }
     }
     
+    /**
+     * From http://stackoverflow.com/questions/2342808/problem-validating-an-xml-file-using-java-with-an-xsd-having-an-include
+     */
     static class Input implements LSInput {
         private String publicId;
         private String systemId;
@@ -79,34 +78,42 @@ public final class XMLValidator {
             this.inputStream = new BufferedInputStream(input);
         }
 
+        @Override
         public String getPublicId() {
             return publicId;
         }
 
+        @Override
         public void setPublicId(String publicId) {
             this.publicId = publicId;
         }
 
+        @Override
         public String getBaseURI() {
             return null;
         }
 
+        @Override
         public InputStream getByteStream() {
             return null;
         }
 
+        @Override
         public boolean getCertifiedText() {
             return false;
         }
 
+        @Override
         public Reader getCharacterStream() {
             return null;
         }
 
+        @Override
         public String getEncoding() {
             return null;
         }
 
+        @Override
         public String getStringData() {
             synchronized(inputStream) {
                 try {
@@ -122,38 +129,38 @@ public final class XMLValidator {
             }
         }
 
+        @Override
         public void setBaseURI(String baseURI) {
         }
 
+        @Override
         public void setByteStream(InputStream byteStream) {
         }
 
+        @Override
         public void setCertifiedText(boolean certifiedText) {
         }
 
+        @Override
         public void setCharacterStream(Reader characterStream) {
         }
 
+        @Override
         public void setEncoding(String encoding) {
         }
 
+        @Override
         public void setStringData(String stringData) {
         }
 
+        @Override
         public String getSystemId() {
             return systemId;
         }
 
+        @Override
         public void setSystemId(String systemId) {
             this.systemId = systemId;
-        }
-
-        public BufferedInputStream getInputStream() {
-            return inputStream;
-        }
-
-        public void setInputStream(BufferedInputStream inputStream) {
-            this.inputStream = inputStream;
         }
     }
 }
