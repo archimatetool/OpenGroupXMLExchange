@@ -655,6 +655,32 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return nodeElement;
     }
     
+    /**
+     * Write fill colour of a diagram object
+     */
+    Element writeFillColor(IDiagramModelObject dmo, Element parentElement) {
+        Element fillColorElement = null;
+        
+        RGB rgb = ColorFactory.convertStringToRGB(dmo.getFillColor());
+        if(rgb == null) {
+            Color color = ColorFactory.getDefaultFillColor(dmo);
+            if(color != null) {
+                rgb = color.getRGB();
+            }
+        }
+        
+        if(rgb != null) {
+            fillColorElement = new Element(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE);
+            parentElement.addContent(fillColorElement);
+
+            fillColorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
+            fillColorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
+            fillColorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
+        }
+        
+        return fillColorElement;
+    }
+    
     // ========================================= Connections ======================================
     
     /**
@@ -721,12 +747,15 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // Bendpoints
         writeConnectionBendpoints(connection, connectionElement);
+        
+        // Line color
+        writeLineColor(connection, connectionElement);
 
         return connectionElement;
     }
     
     /**
-     * Write an connection bendpoints
+     * Write connection bendpoints
      */
     void writeConnectionBendpoints(IDiagramModelConnection connection, Element connectionElement) {
         double bpindex = 1; // index count + 1
@@ -761,6 +790,33 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
     }
     
+    /**
+     * Write line colour of a diagram connection
+     */
+    Element writeLineColor(IDiagramModelConnection connection, Element parentElement) {
+        Element lineColorElement = null;
+        
+        RGB rgb = ColorFactory.convertStringToRGB(connection.getLineColor());
+        if(rgb == null) {
+            Color color = ColorFactory.getDefaultLineColor(connection);
+            if(color != null) {
+                rgb = color.getRGB();
+            }
+        }
+        
+        if(rgb != null) {
+            lineColorElement = new Element(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE);
+            parentElement.addContent(lineColorElement);
+
+            lineColorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
+            lineColorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
+            lineColorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
+        }
+        
+        return lineColorElement;
+    }
+
+
     // ========================================= Helpers ======================================
     
     /**
@@ -774,32 +830,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         element.setAttribute(ATTRIBUTE_HEIGHT, Integer.toString(bounds.getHeight()));
     }
 
-    /**
-     * Write fill colour of a diagram object
-     */
-    Element writeFillColor(IDiagramModelObject dmo, Element parentElement) {
-        Element fillColorElement = null;
-        
-        RGB rgb = ColorFactory.convertStringToRGB(dmo.getFillColor());
-        if(rgb == null) {
-            Color color = ColorFactory.getDefaultFillColor(dmo);
-            if(color != null) {
-                rgb = color.getRGB();
-            }
-        }
-        
-        if(rgb != null) {
-            fillColorElement = new Element(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE);
-            parentElement.addContent(fillColorElement);
-
-            fillColorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
-            fillColorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
-            fillColorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
-        }
-        
-        return fillColorElement;
-    }
-    
     Element writeTextToElement(String text, Element parentElement, String childElementName) {
         Element element = null;
         

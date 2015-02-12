@@ -78,7 +78,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Parse Views
         parseViews(doc.getRootElement());
         
-        // TODO Parse Organization - Not implemented
+        // TODO Parse Organization - not implemented as yet.
         // parseOrganization(doc.getRootElement());
         
         return fModel;
@@ -340,7 +340,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     
     // ========================================= Nodes ======================================
 
-    void addNodes(IDiagramModelContainer parentContainer, Element parentElement) throws XMLModelParserException {
+    private void addNodes(IDiagramModelContainer parentContainer, Element parentElement) throws XMLModelParserException {
         for(Element nodeElement : parentElement.getChildren(ELEMENT_NODE, OPEN_GROUP_NAMESPACE)) {
             IDiagramModelObject dmo = null;
             
@@ -393,7 +393,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 dmo.setBounds(relativeBounds);
                 
                 // Fill Color
-                dmo.setFillColor(getObjectFillColor(nodeElement));
+                dmo.setFillColor(getRGBColorString(nodeElement.getChild(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE)));
 
                 // Child nodes
                 if(dmo instanceof IDiagramModelContainer) {
@@ -425,32 +425,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         return IArchimateFactory.eINSTANCE.createBounds(x, y, width, height);
     }
     
-    String getObjectFillColor(Element nodeElement) throws XMLModelParserException {
-        String colorStr = null;
-        
-        Element elementFillColor = nodeElement.getChild(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE);
-        if(elementFillColor != null) {
-            String rString = elementFillColor.getAttributeValue(ATTRIBUTE_R);
-            String gString = elementFillColor.getAttributeValue(ATTRIBUTE_G);
-            String bString = elementFillColor.getAttributeValue(ATTRIBUTE_B);
-            
-            if(!hasValue(rString) || !hasValue(gString) || !hasValue(bString)) {
-                throw new XMLModelParserException("RGB value not found");
-            }
-            
-            int red = Integer.valueOf(rString);
-            int green = Integer.valueOf(gString);
-            int blue = Integer.valueOf(bString);
-            
-            colorStr = ColorFactory.convertRGBToString(new RGB(red, green, blue));
-        }
-        
-        return colorStr;
-    }
-    
     // ======================================= Connections ====================================
     
-    void addConnections(Element viewElement) throws XMLModelParserException {
+    private void addConnections(Element viewElement) throws XMLModelParserException {
         for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, OPEN_GROUP_NAMESPACE)) {
             // An ArchiMate relationship connection
             String relationshipRef = connectionElement.getAttributeValue(ATTRIBUTE_RELATIONSHIPREF);
@@ -482,11 +459,17 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 
                 // Bendpoints
                 addBendpoints(connection, connectionElement);
+                
+                // Line Color
+                connection.setLineColor(getRGBColorString(connectionElement.getChild(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE)));
             }
         }
     }
     
-    void addBendpoints(IDiagramModelConnection connection, Element connectionElement) throws XMLModelParserException {
+    /**
+     * Add bendpoints
+     */
+    private void addBendpoints(IDiagramModelConnection connection, Element connectionElement) throws XMLModelParserException {
         for(Element bendpointElement : connectionElement.getChildren(ELEMENT_BENDPOINT, OPEN_GROUP_NAMESPACE)) {
             String xString = bendpointElement.getAttributeValue(ATTRIBUTE_X);
             String yString = bendpointElement.getAttributeValue(ATTRIBUTE_Y);
@@ -517,6 +500,31 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
 
     // ========================================= Helpers ======================================
 
+    /**
+     * Get the RGB String for an element, or null.
+     */
+    String getRGBColorString(Element rgbElement) throws XMLModelParserException {
+        String colorStr = null;
+        
+        if(rgbElement != null) {
+            String rString = rgbElement.getAttributeValue(ATTRIBUTE_R);
+            String gString = rgbElement.getAttributeValue(ATTRIBUTE_G);
+            String bString = rgbElement.getAttributeValue(ATTRIBUTE_B);
+            
+            if(!hasValue(rString) || !hasValue(gString) || !hasValue(bString)) {
+                throw new XMLModelParserException("RGB value not found");
+            }
+            
+            int red = Integer.valueOf(rString);
+            int green = Integer.valueOf(gString);
+            int blue = Integer.valueOf(bString);
+            
+            colorStr = ColorFactory.convertRGBToString(new RGB(red, green, blue));
+        }
+        
+        return colorStr;
+    }
+    
     String getChildElementText(Element parentElement, String childElementName, boolean normalise) {
         //Check for localised element according to the system's locale
         String code = Locale.getDefault().getLanguage();
