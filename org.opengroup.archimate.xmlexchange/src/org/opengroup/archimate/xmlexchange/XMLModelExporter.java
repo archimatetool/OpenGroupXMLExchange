@@ -16,7 +16,9 @@ import java.util.TreeMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -42,6 +44,7 @@ import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
@@ -238,13 +241,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write any DC Metadata
      */
-    Element writeMetadata(Element parentElement) {
+    Element writeMetadata(Element rootElement) {
         if(!hasMetadata()) {
             return null;
         }
         
         Element mdElement = new Element(ELEMENT_METADATA, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(mdElement);
+        rootElement.addContent(mdElement);
         
         Element schemaElement = new Element(ELEMENT_SCHEMA, OPEN_GROUP_NAMESPACE);
         schemaElement.setText("Dublin Core");
@@ -270,9 +273,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write the elements from the layers and extensions
      */
-    Element writeModelElements(Element parentElement) {
+    Element writeModelElements(Element rootElement) {
         Element elementsElement = new Element(ELEMENT_ELEMENTS, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(elementsElement);
+        rootElement.addContent(elementsElement);
         
         writeModelElementsFolder(fModel.getFolder(FolderType.BUSINESS), elementsElement);
         writeModelElementsFolder(fModel.getFolder(FolderType.APPLICATION), elementsElement);
@@ -287,12 +290,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write the elements from an Archi folder
      */
-    private void writeModelElementsFolder(IFolder folder, Element parentElement) {
+    private void writeModelElementsFolder(IFolder folder, Element elementsElement) {
         List<EObject> list = new ArrayList<EObject>();
         getElements(folder, list);
         for(EObject eObject : list) {
             if(eObject instanceof IArchimateElement) {
-                writeModelElement((IArchimateElement)eObject, parentElement);
+                writeModelElement((IArchimateElement)eObject, elementsElement);
              }
         }
     }
@@ -300,9 +303,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write an element
      */
-    Element writeModelElement(IArchimateElement element, Element parentElement) { 
+    Element writeModelElement(IArchimateElement element, Element elementsElement) { 
         Element elementElement = new Element(ELEMENT_ELEMENT, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(elementElement);
+        elementsElement.addContent(elementElement);
         
         // Identifier
         elementElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(element));
@@ -340,9 +343,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write the relationships
      */
-    Element writeModelRelationships(Element parentElement) {
+    Element writeModelRelationships(Element rootElement) {
         Element relationshipsElement = new Element(ELEMENT_RELATIONSHIPS, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(relationshipsElement);
+        rootElement.addContent(relationshipsElement);
         writeModelRelationshipsFolder(fModel.getFolder(FolderType.RELATIONS), relationshipsElement);
         return relationshipsElement;
     }
@@ -350,12 +353,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write the relationships from an Archi folder
      */
-    private void writeModelRelationshipsFolder(IFolder folder, Element parentElement) {
+    private void writeModelRelationshipsFolder(IFolder folder, Element relationshipsElement) {
         List<EObject> list = new ArrayList<EObject>();
         getElements(folder, list);
         for(EObject eObject : list) {
             if(eObject instanceof IRelationship) {
-                writeModelRelationship((IRelationship)eObject, parentElement);
+                writeModelRelationship((IRelationship)eObject, relationshipsElement);
              }
         }
     }
@@ -363,9 +366,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write a relationship
      */
-    Element writeModelRelationship(IRelationship relationship, Element parentElement) { 
+    Element writeModelRelationship(IRelationship relationship, Element relationshipsElement) { 
         Element relationshipElement = new Element(ELEMENT_RELATIONSHIP, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(relationshipElement);
+        relationshipsElement.addContent(relationshipElement);
         
         // Identifier
         relationshipElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(relationship));
@@ -393,9 +396,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     
     // ========================================= Organization ======================================
 
-    Element writeOrganization(Element parentElement) {
+    Element writeOrganization(Element rootElement) {
         Element organizationElement = new Element(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(organizationElement);
+        rootElement.addContent(organizationElement);
         
         for(IFolder folder : fModel.getFolders()) {
             writeFolder(folder, organizationElement);
@@ -409,40 +412,40 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             return null;
         }
         
-        Element itemFolder = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(itemFolder);
+        Element itemElement = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(itemElement);
         
         // Name
-        writeTextToElement(folder.getName(), itemFolder, ELEMENT_LABEL);
+        writeTextToElement(folder.getName(), itemElement, ELEMENT_LABEL);
         
         // Documentation
-        writeTextToElement(folder.getDocumentation(), itemFolder, ELEMENT_DOCUMENTATION);
+        writeTextToElement(folder.getDocumentation(), itemElement, ELEMENT_DOCUMENTATION);
 
         for(IFolder subFolder : folder.getFolders()) {
-            writeFolder(subFolder, itemFolder);
+            writeFolder(subFolder, itemElement);
         }
         
         for(EObject eObject : folder.getElements()) {
             if(eObject instanceof IIdentifier) {
                 IIdentifier component = (IIdentifier)eObject;
-                Element itemElement = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
-                itemFolder.addContent(itemElement);
-                itemElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, createID(component));
+                Element itemChildElement = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
+                itemElement.addContent(itemChildElement);
+                itemChildElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, createID(component));
             }
         }
         
-        return itemFolder;
+        return itemElement;
     }
     
     // ========================================= Properties ======================================
 
-    Element writeModelPropertiesDefinitions(Element parentElement) {
+    Element writeModelPropertiesDefinitions(Element rootElement) {
         if(fPropertyDefsList.isEmpty()) {
             return null;
         }
         
         Element propertiesDefinitionsElement = new Element(ELEMENT_PROPERTYDEFS, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(propertiesDefinitionsElement);
+        rootElement.addContent(propertiesDefinitionsElement);
 
         for(Entry<String, String> entry : fPropertyDefsList.entrySet()) {
             Element propertyDefElement = new Element(ELEMENT_PROPERTYDEF, OPEN_GROUP_NAMESPACE);
@@ -513,7 +516,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     
     // ========================================= Views ======================================
     
-    Element writeViews(Element parentElement) {
+    Element writeViews(Element rootElement) {
         // Do we have any views?
         EList<IDiagramModel> views = fModel.getDiagramModels();
         if(views.isEmpty()) {
@@ -521,7 +524,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
         
         Element viewsElement = new Element(ELEMENT_VIEWS, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(viewsElement);
+        rootElement.addContent(viewsElement);
         
         for(IDiagramModel dm : views) {
             if(dm instanceof IArchimateDiagramModel) {
@@ -532,9 +535,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return viewsElement;
     }
     
-    Element writeView(IArchimateDiagramModel dm, Element parentElement) {
+    Element writeView(IArchimateDiagramModel dm, Element viewsElement) {
         Element viewElement = new Element(ELEMENT_VIEW, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(viewElement);
+        viewsElement.addContent(viewElement);
 
         // Identifier
         viewElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(dm));
@@ -568,9 +571,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write all diagram nodes
      */
-    void writeNodes(IDiagramModel dm, Element parentElement) {
+    void writeNodes(IDiagramModel dm, Element viewElement) {
         for(IDiagramModelObject child : dm.getChildren()) {
-            writeNode(child, parentElement);
+            writeNode(child, viewElement);
         }
     }
     
@@ -611,8 +614,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Bounds
         writeAbsoluteBounds(dmo, nodeElement);
         
-        // Fill Color
-        writeFillColor(dmo, nodeElement);
+        // Style
+        writeNodeStyle(dmo, nodeElement);
 
         // Children
         for(IDiagramModelObject child : dmo.getChildren()) {
@@ -644,8 +647,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Properties
         writeProperties(group, nodeElement);
         
-        // Fill Color
-        writeFillColor(group, nodeElement);
+        // Style
+        writeNodeStyle(group, nodeElement);
         
         // Children
         for(IDiagramModelObject child : group.getChildren()) {
@@ -653,6 +656,22 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
         
         return nodeElement;
+    }
+    
+    /**
+     * Write a node style
+     */
+    Element writeNodeStyle(IDiagramModelObject dmo, Element nodeElement) {
+        Element styleElement = new Element(ELEMENT_STYLE, OPEN_GROUP_NAMESPACE);
+        nodeElement.addContent(styleElement);
+        
+        // Fill Color
+        writeFillColor(dmo, styleElement);
+        
+        // Font
+        writeFont(dmo, styleElement);
+        
+        return styleElement;
     }
     
     /**
@@ -672,10 +691,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(rgb != null) {
             fillColorElement = new Element(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE);
             parentElement.addContent(fillColorElement);
-
-            fillColorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
-            fillColorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
-            fillColorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
+            writeRGBAttributes(rgb, fillColorElement);
         }
         
         return fillColorElement;
@@ -748,8 +764,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Bendpoints
         writeConnectionBendpoints(connection, connectionElement);
         
-        // Line color
-        writeLineColor(connection, connectionElement);
+        // Style
+        writeConnectionStyle(connection, connectionElement);
 
         return connectionElement;
     }
@@ -791,6 +807,25 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     }
     
     /**
+     * Write a connection style
+     */
+    Element writeConnectionStyle(IDiagramModelConnection connection, Element parentElement) {
+        Element styleElement = new Element(ELEMENT_STYLE, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(styleElement);
+        
+        // Line Width
+        int lineWidth = connection.getLineWidth();
+        if(lineWidth != 1) {
+            styleElement.setAttribute(ATTRIBUTE_LINEWIDTH, Integer.toString(lineWidth));
+        }
+        
+        // Line color
+        writeLineColor(connection, styleElement);
+        
+        return styleElement;
+    }
+
+    /**
      * Write line colour of a diagram connection
      */
     Element writeLineColor(IDiagramModelConnection connection, Element parentElement) {
@@ -807,10 +842,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(rgb != null) {
             lineColorElement = new Element(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE);
             parentElement.addContent(lineColorElement);
-
-            lineColorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
-            lineColorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
-            lineColorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
+            writeRGBAttributes(rgb, lineColorElement);
         }
         
         return lineColorElement;
@@ -819,6 +851,68 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
 
     // ========================================= Helpers ======================================
     
+    /**
+     * Write font of a diagram component
+     */
+    Element writeFont(IFontAttribute fontObject, Element styleElement) {
+        Element fontElement = new Element(ELEMENT_FONT, OPEN_GROUP_NAMESPACE);
+        
+        String fontString = fontObject.getFont();
+        if(fontString != null) {
+            try {
+                FontData fontData = new FontData(fontString);
+                
+                fontElement.setAttribute(ATTRIBUTE_FONTNAME, fontData.getName());
+                fontElement.setAttribute(ATTRIBUTE_FONTSIZE, Integer.toString(fontData.getHeight()));
+                
+                int style = fontData.getStyle();
+                String styleString = "";
+                
+                if((style & SWT.BOLD) == SWT.BOLD) {
+                    styleString += "bold";
+                }
+                if((style & SWT.ITALIC) == SWT.ITALIC) {
+                    if(StringUtils.isSet(styleString)) {
+                        styleString += "|";
+                    }
+                    styleString += "italic";
+                }
+                
+                if(hasSomeText(styleString)) {
+                    fontElement.setAttribute(ATTRIBUTE_FONTSTYLE, styleString);
+                }
+            }
+            catch(Exception ex) {
+                //ex.printStackTrace();
+            }
+        }
+        
+        String fontColorString = fontObject.getFontColor();
+        if(fontColorString != null) {
+            RGB rgb = ColorFactory.convertStringToRGB(fontColorString);
+            if(rgb != null) {
+                Element fontColorElement = new Element(ELEMENT_FONTCOLOR, OPEN_GROUP_NAMESPACE);
+                fontElement.addContent(fontColorElement);
+                writeRGBAttributes(rgb, fontColorElement);
+            }
+        }
+        
+        if(hasElementContent(fontElement)) {
+            styleElement.addContent(fontElement);
+        }
+
+        return fontElement;
+    }
+    
+    /**
+     * Write RGB attribute on an Element 
+     */
+    void writeRGBAttributes(RGB rgb, Element colorElement) {
+        colorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
+        colorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
+        colorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
+    }
+
     /**
      * Write absolute bounds of a diagram object
      */
@@ -855,6 +949,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      */
     private boolean hasSomeText(String string) {
         return string != null && !string.isEmpty();
+    }
+    
+    /**
+     * @return true if element has attributes or a child element
+     */
+    private boolean hasElementContent(Element element) {
+        return element != null && (element.hasAttributes() || !element.getChildren().isEmpty());
     }
 
     /**

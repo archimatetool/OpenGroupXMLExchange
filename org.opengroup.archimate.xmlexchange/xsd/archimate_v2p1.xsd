@@ -15,8 +15,8 @@
             -------------------------
             Author:         The Open Group ArchiMate Exchange Team
             Start date:     2 May 2013
-            Revision date:  12 February 2015
-            XSD Version:    0.614
+            Revision date:  16 February 2015
+            XSD Version:    0.700
             Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
@@ -91,6 +91,7 @@ cover pages.
                 This is the root model element.
                 It is a container for the elements, relationships, diagrams and organisations of the model.
                 
+                The "metadata" element is the optional metadata for the model.
                 The "name" element is the name of the model.
                 The "documentation" element is for the documentation of the model.
                 The "properties" element is optional and is for any property instance of the model.
@@ -98,6 +99,7 @@ cover pages.
                 The "relationships" element is optional and is a container for any relationships.
                 The "organization" element is optional and is a container for structural organisation of model elements and relationships.
                 The "propertydefs" element is optional and is a container for any property definitions.
+                The "views" element is optional and is a container for any Views.
             </xs:documentation>
         </xs:annotation>
 
@@ -747,7 +749,7 @@ cover pages.
             <xs:element name="label" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="documentation" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
-            <xs:element name="fillColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="style" type="nodeStyleType" minOccurs="0" maxOccurs="1"/>
             <xs:element name="node" type="nodeType" minOccurs="0" maxOccurs="unbounded" />
             <xs:group ref="grp.any" />
         </xs:sequence>
@@ -760,6 +762,20 @@ cover pages.
         <xs:anyAttribute namespace="##other" processContents="strict" />
     </xs:complexType>
 
+    <xs:complexType name="nodeStyleType">
+        <xs:annotation>
+            <xs:documentation>
+                A Style type for a node.
+                It is a container for style properties such as color, font.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="fillColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="font" type="fontType" minOccurs="0" maxOccurs="1" />
+            <xs:group ref="grp.any" />
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="strict" />
+    </xs:complexType>
 
     <!-- =========================== Connections ========================== -->
 
@@ -779,7 +795,7 @@ cover pages.
             <xs:element name="documentation" type="langStringType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
             <xs:element name="bendpoint" type="bendpointType" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="lineColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="style" type="connectionStyleType" minOccurs="0" maxOccurs="1"/>
             <xs:group ref="grp.any" />
         </xs:sequence>
         <xs:attribute name="identifier" use="required" type="xs:ID" />
@@ -788,9 +804,6 @@ cover pages.
         <xs:attribute name="target" type="xs:IDREF" use="required" />
         <xs:anyAttribute namespace="##other" processContents="strict" />
     </xs:complexType>
-
-
-    <!-- =========================== Bendpoint ========================== -->
 
     <xs:complexType name="bendpointType">
         <xs:annotation>
@@ -802,6 +815,22 @@ cover pages.
         <xs:attribute name="y" use="required" type="xs:integer" />
     </xs:complexType>
     
+    <xs:complexType name="connectionStyleType">
+        <xs:annotation>
+            <xs:documentation>
+                A Style type for a connection.
+                It is a container for style properties such as color, font.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="lineColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="font" type="fontType" minOccurs="0" maxOccurs="1" />
+            <xs:group ref="grp.any" />
+        </xs:sequence>
+        <xs:attribute name="lineWidth" use="optional" type="xs:integer" />
+        <xs:anyAttribute namespace="##other" processContents="strict" />
+    </xs:complexType>
+
 
     <!-- =========================== RGBA type ========================== -->
 
@@ -832,6 +861,23 @@ cover pages.
             <xs:maxInclusive value="255"/>
         </xs:restriction>
     </xs:simpleType>
+
+
+    <!-- =========================== Font type ========================== -->
+
+    <xs:complexType name="fontType">
+        <xs:annotation>
+            <xs:documentation>
+                Font type.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="color" type="rgbColorType" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="optional"/>
+        <xs:attribute name="size" type="xs:decimal" use="optional"/>
+        <xs:attribute name="style" type="xs:string" use="optional"/>
+    </xs:complexType>
 
 
     <!-- =========================== Other Types ========================== -->

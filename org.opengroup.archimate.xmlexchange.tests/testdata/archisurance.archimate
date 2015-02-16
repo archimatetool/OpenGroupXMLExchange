@@ -1088,7 +1088,7 @@
       <child xsi:type="archimate:DiagramObject" id="4196" textAlignment="2" targetConnections="40d54571 001e8776" archimateElement="507">
         <bounds x="850" y="74" width="120" height="60"/>
       </child>
-      <child xsi:type="archimate:DiagramObject" id="4194" textAlignment="2" archimateElement="1546">
+      <child xsi:type="archimate:DiagramObject" id="4194" font="1|Segoe UI Semibold|12.0|2|WINDOWS|1|-16|0|0|0|600|-1|0|0|0|3|2|1|34|Segoe UI Semibold" fontColor="#c0c0c0" textAlignment="2" archimateElement="1546">
         <bounds x="700" y="204" width="120" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="b2305fb4" source="4194" target="4186" relationship="81b9d07c"/>
         <sourceConnection xsi:type="archimate:Connection" id="4a9bb550" source="4194" target="4195" relationship="2891eb9f"/>
@@ -1101,10 +1101,10 @@
       </child>
       <child xsi:type="archimate:DiagramObject" id="4193" textAlignment="2" archimateElement="1544">
         <bounds x="200" y="224" width="20" height="21"/>
-        <sourceConnection xsi:type="archimate:Connection" id="018ccb3c" source="4193" target="4197" relationship="16871b47"/>
+        <sourceConnection xsi:type="archimate:Connection" id="018ccb3c" lineWidth="2" source="4193" target="4197" relationship="16871b47"/>
         <sourceConnection xsi:type="archimate:Connection" id="c4c32680" source="4193" target="4186" relationship="be2dbdfd"/>
       </child>
-      <child xsi:type="archimate:DiagramObject" id="4197" textAlignment="2" targetConnections="d9ceaa2d bcc398db 018ccb3c" archimateElement="521">
+      <child xsi:type="archimate:DiagramObject" id="4197" font="1|Times New Roman|12.0|3|WINDOWS|1|-16|0|0|0|700|-1|0|0|0|3|2|1|18|Times New Roman" fontColor="#ff00ff" textAlignment="2" targetConnections="d9ceaa2d bcc398db 018ccb3c" archimateElement="521">
         <bounds x="8" y="74" width="120" height="60"/>
       </child>
       <child xsi:type="archimate:DiagramObject" id="4191" textAlignment="2" archimateElement="1540">
@@ -1140,7 +1140,7 @@
             <bendpoint startX="265" startY="-27" endX="-41" endY="208"/>
           </sourceConnection>
         </child>
-        <child xsi:type="archimate:DiagramObject" id="4186" textAlignment="2" targetConnections="4202 4198 4207 c4c32680 b2305fb4" fillColor="#ffff00" archimateElement="352">
+        <child xsi:type="archimate:DiagramObject" id="4186" fontColor="#8080ff" textAlignment="2" targetConnections="4202 4198 4207 c4c32680 b2305fb4" fillColor="#ffff00" archimateElement="352">
           <bounds x="20" y="180" width="400" height="60"/>
           <sourceConnection xsi:type="archimate:Connection" id="4204" source="4186" target="4178" relationship="1618">
             <bendpoint startX="-148" startY="-47" endX="-35" endY="83"/>
@@ -1193,12 +1193,12 @@
       </child>
       <child xsi:type="archimate:DiagramObject" id="4190" textAlignment="2" archimateElement="1538">
         <bounds x="210" y="114" width="20" height="23"/>
-        <sourceConnection xsi:type="archimate:Connection" id="bcc398db" source="4190" target="4197" relationship="7f9b43e9"/>
+        <sourceConnection xsi:type="archimate:Connection" id="bcc398db" lineColor="#ff0000" source="4190" target="4197" relationship="7f9b43e9"/>
         <sourceConnection xsi:type="archimate:Connection" id="b1f7a4f1" source="4190" target="4178" relationship="659978dc"/>
       </child>
       <child xsi:type="archimate:DiagramObject" id="4189" textAlignment="2" targetConnections="aee60845" archimateElement="1536">
         <bounds x="210" y="74" width="20" height="27"/>
-        <sourceConnection xsi:type="archimate:Connection" id="d9ceaa2d" source="4189" target="4197" relationship="f19393d1"/>
+        <sourceConnection xsi:type="archimate:Connection" id="d9ceaa2d" lineColor="#00ff40" source="4189" target="4197" relationship="f19393d1"/>
       </child>
     </element>
     <element xsi:type="archimate:ArchimateDiagramModel" id="4224" name="Business Cooperation View" viewpoint="7">

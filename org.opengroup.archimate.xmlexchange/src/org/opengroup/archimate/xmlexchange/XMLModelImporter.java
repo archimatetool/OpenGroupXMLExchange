@@ -12,6 +12,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -19,6 +21,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.IArchimateComponent;
@@ -34,6 +37,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRelationship;
@@ -63,37 +67,37 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Read file without Schema validation
         Document doc = JDOMUtils.readXMLFile(instanceFile);
         
+        Element rootElement = doc.getRootElement();
+        
         // Parse Property Definitions first
-        parsePropertyDefinitions(doc.getRootElement());
+        parsePropertyDefinitions(rootElement.getChild(ELEMENT_PROPERTYDEFS, OPEN_GROUP_NAMESPACE));
         
         // Parse Root Element
-        parseRootElement(doc.getRootElement());
+        parseRootElement(rootElement);
         
         // Parse ArchiMate Elements
-        parseArchiMateElements(doc.getRootElement());
+        parseArchiMateElements(rootElement.getChild(ELEMENT_ELEMENTS, OPEN_GROUP_NAMESPACE));
         
         // Parse ArchiMate Relations
-        parseArchiMateRelations(doc.getRootElement());
+        parseArchiMateRelations(rootElement.getChild(ELEMENT_RELATIONSHIPS, OPEN_GROUP_NAMESPACE));
         
         // Parse Views
-        parseViews(doc.getRootElement());
+        parseViews(rootElement.getChild(ELEMENT_VIEWS, OPEN_GROUP_NAMESPACE));
         
         // TODO Parse Organization - not implemented as yet.
-        // parseOrganization(doc.getRootElement());
+        // parseOrganization(rootElement.getChild(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE));
         
         return fModel;
     }
     
     // ========================================= Property Definitions ======================================
 
-    private void parsePropertyDefinitions(Element rootElement) {
-        fPropertyDefinitionsList = null;
-        
-        Element propertydefsElement = rootElement.getChild(ELEMENT_PROPERTYDEFS, OPEN_GROUP_NAMESPACE);
+    private void parsePropertyDefinitions(Element propertydefsElement) {
         if(propertydefsElement == null) {
             return;
         }
-        
+
+        fPropertyDefinitionsList = null;
         fPropertyDefinitionsList = new HashMap<String, String>();
         
         // Archi only supports String types so we can ignore the data type
@@ -154,8 +158,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     
     // ========================================= Elements ======================================
 
-    private void parseArchiMateElements(Element rootElement) throws XMLModelParserException {
-        Element elementsElement = rootElement.getChild(ELEMENT_ELEMENTS, OPEN_GROUP_NAMESPACE);
+    private void parseArchiMateElements(Element elementsElement) throws XMLModelParserException {
         if(elementsElement == null) {
             throw new XMLModelParserException("No Elements found");
         }
@@ -197,8 +200,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     
     // ========================================= Relations ======================================
 
-    private void parseArchiMateRelations(Element rootElement) throws IOException {
-        Element relationsElement = rootElement.getChild(ELEMENT_RELATIONSHIPS, OPEN_GROUP_NAMESPACE);
+    private void parseArchiMateRelations(Element relationsElement) throws IOException {
         if(relationsElement == null) { // Optional
             return;
         }
@@ -258,8 +260,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     // ========================================= Organization ======================================
 
     @SuppressWarnings("unused")
-    private void parseOrganization(Element rootElement) {
-        Element organizationElement = rootElement.getChild(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE);
+    private void parseOrganization(Element organizationElement) {
         if(organizationElement == null) { // Optional
             return;
         }
@@ -293,8 +294,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     
     // ========================================= Views ======================================
 
-    private void parseViews(Element rootElement) throws XMLModelParserException {
-        Element viewsElement = rootElement.getChild(ELEMENT_VIEWS, OPEN_GROUP_NAMESPACE);
+    private void parseViews(Element viewsElement) throws XMLModelParserException {
         if(viewsElement == null) { // Optional
             return;
         }
@@ -392,8 +392,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 IBounds relativeBounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(absoluteBounds, dmo);
                 dmo.setBounds(relativeBounds);
                 
-                // Fill Color
-                dmo.setFillColor(getRGBColorString(nodeElement.getChild(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE)));
+                // Style
+                addNodeStyle(dmo, nodeElement.getChild(ELEMENT_STYLE, OPEN_GROUP_NAMESPACE));
 
                 // Child nodes
                 if(dmo instanceof IDiagramModelContainer) {
@@ -423,6 +423,21 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         int height = Integer.valueOf(hString);
 
         return IArchimateFactory.eINSTANCE.createBounds(x, y, width, height);
+    }
+    
+    /**
+     * Node Style
+     */
+    private void addNodeStyle(IDiagramModelObject dmo, Element styleElement) throws XMLModelParserException {
+        if(styleElement == null) {
+            return;
+        }
+
+        // Fill Color
+        dmo.setFillColor(getRGBColorString(styleElement.getChild(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE)));
+        
+        // Font
+        addFont(dmo, styleElement.getChild(ELEMENT_FONT, OPEN_GROUP_NAMESPACE));
     }
     
     // ======================================= Connections ====================================
@@ -460,8 +475,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 // Bendpoints
                 addBendpoints(connection, connectionElement);
                 
-                // Line Color
-                connection.setLineColor(getRGBColorString(connectionElement.getChild(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE)));
+                // Style
+                addConnectionStyle(connection, connectionElement.getChild(ELEMENT_STYLE, OPEN_GROUP_NAMESPACE));
             }
         }
     }
@@ -497,9 +512,69 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             bendpoint.setEndY(endY);
         }
     }
+    
+    /**
+     * Connection Style
+     */
+    private void addConnectionStyle(IDiagramModelConnection connection, Element styleElement) throws XMLModelParserException {
+        if(styleElement == null) {
+            return;
+        }
+        
+        // Line width
+        String lineWidthString = styleElement.getAttributeValue(ATTRIBUTE_LINEWIDTH);
+        if(hasValue(lineWidthString)) {
+            int width = Integer.valueOf(lineWidthString);
+            if(width < 0) {
+                width = 1;
+            }
+            if(width > 3) {
+                width = 3;
+            }
+            connection.setLineWidth(width);
+        }
+        
+        // Line Color
+        connection.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE)));
+    }
 
     // ========================================= Helpers ======================================
 
+    private void addFont(IFontAttribute fontObject, Element fontElement) throws XMLModelParserException {
+        if(fontElement == null) {
+            return;
+        }
+        
+        FontData newFontData = new FontData(FontFactory.getDefaultUserViewFontData().toString());
+
+        String fontName = fontElement.getAttributeValue(ATTRIBUTE_FONTNAME);
+        if(hasValue(fontName)) {
+            newFontData.setName(fontName);
+        }
+        
+        String fontSize = fontElement.getAttributeValue(ATTRIBUTE_FONTSIZE);
+        if(hasValue(fontSize)) {
+            newFontData.setHeight(Integer.valueOf(fontSize));
+        }
+        
+        String fontStyle = fontElement.getAttributeValue(ATTRIBUTE_FONTSTYLE);
+        if(hasValue(fontStyle)) {
+            int styleValue = SWT.NORMAL;
+            if(fontStyle.contains("bold")) {
+                styleValue |= SWT.BOLD;
+            }
+            if(fontStyle.contains("italic")) {
+                styleValue |= SWT.ITALIC;
+            }
+            newFontData.setStyle(styleValue);
+        }
+        
+        fontObject.setFont(newFontData.toString());
+        
+        // Font color
+        fontObject.setFontColor(getRGBColorString(fontElement.getChild(ELEMENT_FONTCOLOR, OPEN_GROUP_NAMESPACE)));
+    }
+    
     /**
      * Get the RGB String for an element, or null.
      */

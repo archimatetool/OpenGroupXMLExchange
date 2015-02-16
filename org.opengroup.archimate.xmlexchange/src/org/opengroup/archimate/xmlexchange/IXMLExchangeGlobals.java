@@ -50,11 +50,14 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_ITEM = "item";
     String ELEMENT_VIEWS = "views";
     String ELEMENT_VIEW = "view";
+    String ELEMENT_STYLE = "style";
     String ELEMENT_NODE = "node";
     String ELEMENT_CONNECTION = "connection";
     String ELEMENT_FILLCOLOR = "fillColor";
     String ELEMENT_BENDPOINT = "bendpoint";
     String ELEMENT_LINECOLOR = "lineColor";
+    String ELEMENT_FONT = "font";
+    String ELEMENT_FONTCOLOR = "color";
     
     String ELEMENT_METADATA = "metadata";
     String ELEMENT_SCHEMA = "schema";
@@ -78,5 +81,9 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_R = "r";
     String ATTRIBUTE_G = "g";
     String ATTRIBUTE_B = "b";
+    String ATTRIBUTE_FONTNAME = "name";
+    String ATTRIBUTE_FONTSIZE = "size";
+    String ATTRIBUTE_FONTSTYLE = "style";
+    String ATTRIBUTE_LINEWIDTH = "lineWidth";
     
 }
