@@ -1085,7 +1085,7 @@
       </child>
     </element>
     <element xsi:type="archimate:ArchimateDiagramModel" id="4165" name="Actor Cooperation view" viewpoint="1">
-      <child xsi:type="archimate:DiagramObject" id="4196" textAlignment="2" targetConnections="40d54571 001e8776" archimateElement="507">
+      <child xsi:type="archimate:DiagramObject" id="4196" lineColor="#00ffff" textAlignment="2" targetConnections="40d54571 001e8776" archimateElement="507">
         <bounds x="850" y="74" width="120" height="60"/>
       </child>
       <child xsi:type="archimate:DiagramObject" id="4194" font="1|Segoe UI Semibold|12.0|2|WINDOWS|1|-16|0|0|0|600|-1|0|0|0|3|2|1|34|Segoe UI Semibold" fontColor="#c0c0c0" textAlignment="2" archimateElement="1546">
@@ -1093,7 +1093,7 @@
         <sourceConnection xsi:type="archimate:Connection" id="b2305fb4" source="4194" target="4186" relationship="81b9d07c"/>
         <sourceConnection xsi:type="archimate:Connection" id="4a9bb550" source="4194" target="4195" relationship="2891eb9f"/>
       </child>
-      <child xsi:type="archimate:DiagramObject" id="4195" textAlignment="2" targetConnections="4219 4a9bb550" archimateElement="528">
+      <child xsi:type="archimate:DiagramObject" id="4195" lineColor="#ff0080" textAlignment="2" targetConnections="4219 4a9bb550" archimateElement="528">
         <bounds x="850" y="204" width="139" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="4220" source="4195" target="4185" relationship="1636">
           <bendpoint startX="-79" startY="178" endX="227" endY="-57"/>

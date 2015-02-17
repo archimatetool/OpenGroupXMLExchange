@@ -436,6 +436,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Fill Color
         dmo.setFillColor(getRGBColorString(styleElement.getChild(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE)));
         
+        // Line Color
+        dmo.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE)));
+
         // Font
         addFont(dmo, styleElement.getChild(ELEMENT_FONT, OPEN_GROUP_NAMESPACE));
     }

@@ -46,6 +46,7 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRelationship;
@@ -668,6 +669,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Fill Color
         writeFillColor(dmo, styleElement);
         
+        // Line color
+        writeLineColor(dmo, styleElement);
+
         // Font
         writeFont(dmo, styleElement);
         
@@ -825,15 +829,18 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return styleElement;
     }
 
+    // ========================================= Helpers ======================================
+    
     /**
-     * Write line colour of a diagram connection
+     * Write line colour of a diagram object
+     * TODO: Should we export connection line color if it is the default black?
      */
-    Element writeLineColor(IDiagramModelConnection connection, Element parentElement) {
+    Element writeLineColor(ILineObject lineObject, Element parentElement) {
         Element lineColorElement = null;
         
-        RGB rgb = ColorFactory.convertStringToRGB(connection.getLineColor());
+        RGB rgb = ColorFactory.convertStringToRGB(lineObject.getLineColor());
         if(rgb == null) {
-            Color color = ColorFactory.getDefaultLineColor(connection);
+            Color color = ColorFactory.getDefaultLineColor(lineObject);
             if(color != null) {
                 rgb = color.getRGB();
             }
@@ -848,9 +855,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return lineColorElement;
     }
 
-
-    // ========================================= Helpers ======================================
-    
     /**
      * Write font of a diagram component
      */

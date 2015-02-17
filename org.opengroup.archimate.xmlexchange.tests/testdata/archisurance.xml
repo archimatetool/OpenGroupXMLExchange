@@ -1041,20 +1041,24 @@
         <label xml:lang="en">External Application Services</label>
         <style>
           <fillColor r="225" g="225" b="225" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4103" elementref="id-1220" x="284" y="553" w="133" h="60">
           <style>
             <fillColor r="0" g="128" b="192" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4104" elementref="id-1196" x="40" y="553" w="101" h="60">
           <style>
             <fillColor r="0" g="128" b="192" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4102" elementref="id-1208" x="560" y="553" w="90" h="60">
           <style>
             <fillColor r="0" g="128" b="192" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1062,15 +1066,18 @@
         <label xml:lang="en">External infrastructure services</label>
         <style>
           <fillColor r="205" g="205" b="205" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4122" elementref="id-1455" x="60" y="863" w="100" h="40">
           <style>
             <fillColor r="201" g="231" b="183" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4123" elementref="id-1462" x="451" y="863" w="109" h="40">
           <style>
             <fillColor r="201" g="231" b="183" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1078,20 +1085,24 @@
         <label xml:lang="en">External Business Services</label>
         <style>
           <fillColor r="245" g="245" b="245" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4081" elementref="id-1226" x="372" y="213" w="100" h="60">
           <style>
             <fillColor r="255" g="255" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4079" elementref="id-1202" x="40" y="213" w="103" h="60">
           <style>
             <fillColor r="255" g="255" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4080" elementref="id-1214" x="152" y="213" w="110" h="60">
           <style>
             <fillColor r="255" g="255" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1099,44 +1110,53 @@
         <label xml:lang="en">Infrastructure</label>
         <style>
           <fillColor r="195" g="195" b="195" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4131" elementref="id-986" x="50" y="1013" w="120" h="190">
           <style>
             <fillColor r="0" g="128" b="64" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-4133" elementref="id-1022" x="60" y="1053" w="90" h="40">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4134" elementref="id-1016" x="60" y="1103" w="90" h="40">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4135" elementref="id-1010" x="58" y="1153" w="93" h="38">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
         <node identifier="id-4130" elementref="id-1065" x="460" y="1083" w="90" h="50">
           <style>
             <fillColor r="201" g="231" b="183" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4136" elementref="id-992" x="210" y="1063" w="220" h="90">
           <style>
             <fillColor r="0" g="128" b="64" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-4138" elementref="id-1053" x="220" y="1093" w="80" h="50">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4139" elementref="id-1059" x="320" y="1093" w="80" h="50">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
@@ -1145,30 +1165,36 @@
         <label xml:lang="en">Application Components and Services</label>
         <style>
           <fillColor r="215" g="215" b="215" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4115" elementref="id-1414" x="440" y="713" w="87" h="40">
           <style>
             <fillColor r="0" g="128" b="192" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4113" elementref="id-1399" x="550" y="703" w="110" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4112" elementref="id-1393" x="30" y="703" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4111" elementref="id-861" x="290" y="703" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4114" elementref="id-1407" x="180" y="713" w="80" h="40">
           <style>
             <fillColor r="0" g="128" b="192" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1176,40 +1202,48 @@
         <label xml:lang="en">Business processes and internal actors / roles</label>
         <style>
           <fillColor r="235" g="235" b="235" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4094" elementref="id-514" x="509" y="393" w="80" h="40">
           <style>
             <fillColor r="255" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4088" elementref="id-556" x="31" y="373" w="450" h="80">
           <style>
             <fillColor r="128" g="255" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-4092" elementref="id-580" x="269" y="403" w="82" h="40">
             <style>
               <fillColor r="255" g="255" b="181" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4093" elementref="id-588" x="371" y="403" w="100" h="40">
             <style>
               <fillColor r="255" g="255" b="181" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4090" elementref="id-564" x="41" y="403" w="100" h="40">
             <style>
               <fillColor r="255" g="255" b="181" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4091" elementref="id-572" x="161" y="403" w="90" h="40">
             <style>
               <fillColor r="255" g="255" b="181" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
         <node identifier="id-4095" elementref="id-275" x="602" y="393" w="115" h="40">
           <style>
             <fillColor r="255" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1217,15 +1251,18 @@
         <label xml:lang="en">External Roles and Actors</label>
         <style>
           <fillColor r="210" g="215" b="215" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4072" elementref="id-1368" x="240" y="63" w="90" h="40">
           <style>
             <fillColor r="255" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4071" elementref="id-1337" x="390" y="63" w="90" h="40">
           <style>
             <fillColor r="255" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1375,40 +1412,48 @@
       <node identifier="id-3955" elementref="id-838" x="430" y="240" w="120" h="60">
         <style>
           <fillColor r="128" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3953" elementref="id-837" x="430" y="100" w="120" h="60">
         <style>
           <fillColor r="128" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3954" elementref="id-839" x="430" y="170" w="120" h="60">
         <style>
           <fillColor r="128" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3956" elementref="id-843" x="30" y="40" w="340" h="290">
         <style>
           <fillColor r="13" g="176" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-3959" elementref="id-855" x="220" y="100" w="140" h="60">
           <style>
             <fillColor r="128" g="128" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3961" elementref="id-861" x="220" y="240" w="140" h="60">
           <style>
             <fillColor r="128" g="128" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3958" elementref="id-849" x="50" y="170" w="140" h="60">
           <style>
             <fillColor r="128" g="128" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3960" elementref="id-867" x="220" y="170" w="140" h="60">
           <style>
             <fillColor r="128" g="128" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1433,41 +1478,49 @@
       <node identifier="id-3903" elementref="id-1110" x="180" y="20" w="120" h="40">
         <style>
           <fillColor r="0" g="128" b="64" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3904" elementref="id-1116" x="330" y="20" w="120" h="40">
         <style>
           <fillColor r="0" g="128" b="64" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3905" elementref="id-1128" x="30" y="20" w="120" h="40">
         <style>
           <fillColor r="0" g="128" b="64" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3902" elementref="id-1095" x="468" y="264" w="80" h="40">
         <style>
           <fillColor r="201" g="231" b="183" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3924" x="570" y="210" w="370" h="130">
         <label xml:lang="en">Intermediary</label>
         <style>
           <fillColor r="218" g="254" b="203" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-3932" elementref="id-1071" x="846" y="258" w="80" h="50">
           <style>
             <fillColor r="201" g="231" b="183" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3931" elementref="id-1004" x="590" y="253" w="90" h="60">
           <style>
             <fillColor r="255" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3930" elementref="id-1101" x="710" y="263" w="80" h="40">
           <style>
             <fillColor r="201" g="231" b="183" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1475,55 +1528,66 @@
         <label xml:lang="en">Archisurance</label>
         <style>
           <fillColor r="218" g="254" b="203" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-3912" elementref="id-1089" x="200" y="263" w="80" h="40">
           <style>
             <fillColor r="201" g="231" b="183" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3919" elementref="id-986" x="30" y="183" w="120" h="200">
           <style>
             <fillColor r="0" g="128" b="64" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-3923" elementref="id-1010" x="38" y="323" w="93" h="38">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3921" elementref="id-1022" x="40" y="223" w="90" h="40">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3922" elementref="id-1016" x="40" y="273" w="90" h="40">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
         <node identifier="id-3918" elementref="id-1065" x="190" y="133" w="100" h="60">
           <style>
             <fillColor r="201" g="231" b="183" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3913" elementref="id-992" x="130" y="393" w="220" h="90">
           <style>
             <fillColor r="0" g="128" b="64" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-3916" elementref="id-1059" x="240" y="423" w="80" h="50">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3915" elementref="id-1053" x="140" y="423" w="80" h="50">
             <style>
               <fillColor r="201" g="231" b="183" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
         <node identifier="id-3917" elementref="id-998" x="340" y="253" w="100" h="60">
           <style>
             <fillColor r="255" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -1578,51 +1642,61 @@
       <node identifier="id-4038" elementref="id-1214" x="388" y="130" w="103" h="60">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4039" elementref="id-1208" x="540" y="130" w="100" h="60">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4041" elementref="id-556" x="160" y="230" w="190" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4037" elementref="id-1226" x="270" y="130" w="100" h="60">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4035" elementref="id-1196" x="28" y="130" w="103" h="60">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4042" elementref="id-1302" x="371" y="230" w="137" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4043" elementref="id-1311" x="530" y="230" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4034" elementref="id-521" x="30" y="20" w="610" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4040" elementref="id-596" x="17" y="230" w="125" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4036" elementref="id-1202" x="141" y="130" w="109" h="60">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <connection identifier="id-4050" relationshipref="id-1297" source="id-4038" target="id-4034">
@@ -1691,106 +1765,127 @@
       <node identifier="id-3788" elementref="id-521" x="200" y="663" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3782" elementref="id-651" x="20" y="184" w="120" h="40">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3786" elementref="id-674" x="190" y="310" w="120" h="55">
         <style>
           <fillColor r="0" g="128" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3787" elementref="id-673" x="360" y="24" w="100" h="50">
         <style>
           <fillColor r="0" g="128" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3789" elementref="id-740" x="603" y="663" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3776" elementref="id-556" x="170" y="154" w="660" h="90">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-3778" elementref="id-572" x="350" y="174" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3779" elementref="id-564" x="190" y="174" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3781" elementref="id-580" x="520" y="174" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3780" elementref="id-588" x="680" y="174" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
       <node identifier="id-3791" elementref="id-514" x="414" y="514" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3792" elementref="id-507" x="350" y="604" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3783" elementref="id-650" x="20" y="424" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3784" elementref="id-676" x="180" y="24" w="80" h="50">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3770" elementref="id-596" x="170" y="394" w="587" h="100">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-3772" elementref="id-612" x="410" y="424" w="129" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3775" elementref="id-722" x="602" y="424" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3774" elementref="id-721" x="185" y="424" w="150" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
       <node identifier="id-3785" elementref="id-675" x="408" y="310" w="120" h="55">
         <style>
           <fillColor r="0" g="128" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3790" elementref="id-733" x="190" y="514" w="140" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-e1dfdab4" elementref="id-674" x="680" y="302" w="120" h="55">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <connection identifier="id-d8a3a65d" relationshipref="id-95f13189" source="id-3788" target="id-3783">
@@ -1933,60 +2028,72 @@
       <node identifier="id-3707" elementref="id-275" x="20" y="20" w="440" h="500">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="14" />
         </style>
         <node identifier="id-3720" elementref="id-345" x="320" y="330" w="120" h="60">
           <style>
             <fillColor r="255" g="128" b="64" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3721" elementref="id-338" x="170" y="330" w="140" h="60">
           <style>
             <fillColor r="255" g="128" b="64" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3709" elementref="id-296" x="40" y="70" w="400" h="100">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-3712" elementref="id-289" x="255" y="90" w="169" h="60">
             <style>
               <fillColor r="255" g="255" b="181" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3711" elementref="id-282" x="52" y="90" w="155" h="60">
             <style>
               <fillColor r="255" g="255" b="181" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
         <node identifier="id-3718" elementref="id-331" x="40" y="330" w="120" h="60">
           <style>
             <fillColor r="255" g="128" b="64" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3719" elementref="id-352" x="40" y="430" w="400" h="60">
           <style>
             <fillColor r="128" g="128" b="64" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3713" elementref="id-324" x="40" y="190" w="400" h="100">
           <style>
             <fillColor r="0" g="128" b="192" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-3715" elementref="id-303" x="50" y="220" w="120" h="60">
             <style>
               <fillColor r="128" g="128" b="192" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3716" elementref="id-310" x="180" y="220" w="120" h="60">
             <style>
               <fillColor r="128" g="128" b="192" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3717" elementref="id-317" x="310" y="220" w="120" h="60">
             <style>
               <fillColor r="128" g="128" b="192" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
@@ -1997,51 +2104,61 @@
       <node identifier="id-3732" elementref="id-528" x="610" y="360" w="150" h="120">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3733" elementref="id-514" x="200" y="120" w="360" h="360">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-3735" elementref="id-495" x="215" y="380" w="150" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3737" elementref="id-483" x="220" y="260" w="140" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3740" elementref="id-471" x="220" y="140" w="140" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3739" elementref="id-477" x="400" y="140" w="140" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3736" elementref="id-489" x="400" y="260" w="140" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-3738" elementref="id-501" x="396" y="380" w="147" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
       <node identifier="id-3741" elementref="id-507" x="20" y="30" w="120" h="450">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3731" elementref="id-521" x="610" y="30" w="150" h="300">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <connection identifier="id-3757" relationshipref="id-1778" source="id-3732" target="id-3738">
@@ -2163,76 +2280,91 @@
       <node identifier="id-3843" elementref="id-838" x="330" y="460" w="120" h="55">
         <style>
           <fillColor r="128" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3844" elementref="id-946" x="20" y="230" w="120" h="55">
         <style>
           <fillColor r="128" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3836" elementref="id-796" x="640" y="330" w="130" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3835" elementref="id-792" x="170" y="230" w="120" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3837" elementref="id-795" x="480" y="330" w="133" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3833" elementref="id-675" x="330" y="230" w="120" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3830" elementref="id-676" x="650" y="230" w="120" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3834" elementref="id-791" x="330" y="30" w="120" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3838" elementref="id-793" x="12" y="330" w="128" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3841" elementref="id-837" x="20" y="130" w="120" h="55">
         <style>
           <fillColor r="128" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3831" elementref="id-674" x="330" y="130" w="120" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3832" elementref="id-673" x="490" y="230" w="120" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3839" elementref="id-794" x="160" y="330" w="120" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3840" elementref="id-803" x="327" y="330" w="126" h="55">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3842" elementref="id-839" x="490" y="130" w="120" h="55">
         <style>
           <fillColor r="128" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <connection identifier="id-3864" relationshipref="id-965" source="id-3843" target="id-3839">
@@ -2341,39 +2473,47 @@
       <node identifier="id-3885" elementref="id-946" x="80" y="360" w="120" h="60">
         <style>
           <fillColor r="0" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3884" elementref="id-838" x="390" y="360" w="100" h="60">
         <style>
           <fillColor r="0" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3874" elementref="id-843" x="10" y="130" w="700" h="160">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-3876" elementref="id-885" x="60" y="190" w="620" h="80">
           <style>
             <fillColor r="128" g="128" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-3881" elementref="id-909" x="530" y="210" w="120" h="50">
             <style>
               <fillColor r="181" g="255" b="255" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3878" elementref="id-891" x="78" y="210" w="123" h="50">
             <style>
               <fillColor r="181" g="255" b="255" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3879" elementref="id-897" x="230" y="210" w="120" h="50">
             <style>
               <fillColor r="181" g="255" b="255" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-3880" elementref="id-903" x="380" y="210" w="120" h="50">
             <style>
               <fillColor r="181" g="255" b="255" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
@@ -2381,11 +2521,13 @@
       <node identifier="id-3883" elementref="id-837" x="530" y="360" w="120" h="60">
         <style>
           <fillColor r="0" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-3882" elementref="id-935" x="300" y="30" w="120" h="60">
         <style>
           <fillColor r="181" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <connection identifier="id-3889" relationshipref="id-943" source="id-3874" target="id-3882">
@@ -2429,78 +2571,91 @@
       <node identifier="id-3974" elementref="id-402" x="480" y="20" w="100" h="40">
         <style>
           <fillColor r="128" g="128" b="255" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3984" elementref="id-317" x="540" y="250" w="100" h="40">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3985" elementref="id-352" x="650" y="250" w="100" h="40">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3986" elementref="id-331" x="780" y="250" w="100" h="40">
         <style>
           <fillColor r="128" g="64" b="64" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3976" elementref="id-345" x="730" y="50" w="100" h="40">
         <style>
           <fillColor r="255" g="128" b="64" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3977" elementref="id-409" x="120" y="170" w="100" h="40">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3975" elementref="id-338" x="204" y="47" w="116" h="44">
         <style>
           <fillColor r="255" g="128" b="64" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3979" elementref="id-423" x="768" y="170" w="124" h="40">
         <style>
           <fillColor r="128" g="64" b="64" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3982" elementref="id-303" x="320" y="250" w="100" h="40">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3983" elementref="id-310" x="430" y="250" w="100" h="40">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3980" elementref="id-282" x="10" y="250" w="126" h="40">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3981" elementref="id-289" x="150" y="250" w="139" h="40">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
       <node identifier="id-3978" elementref="id-416" x="461" y="160" w="137" h="50">
         <style>
           <fillColor r="0" g="128" b="192" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="8" />
         </style>
       </node>
@@ -2570,51 +2725,61 @@
       <node identifier="id-4009" elementref="id-521" x="200" y="30" w="120" h="50">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4008" elementref="id-1250" x="211" y="120" w="97" h="49">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4010" x="40" y="200" w="670" h="210">
         <label xml:lang="en">Travel Insurance</label>
         <style>
           <fillColor r="210" g="215" b="215" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4017" elementref="id-1214" x="376" y="251" w="104" h="53">
           <style>
             <fillColor r="0" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4016" elementref="id-1239" x="520" y="283" w="150" h="80">
           <style>
             <fillColor r="0" g="128" b="192" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4018" elementref="id-1226" x="376" y="331" w="104" h="53">
           <style>
             <fillColor r="0" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4019" elementref="id-1220" x="210" y="331" w="100" h="53">
           <style>
             <fillColor r="0" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4022" elementref="id-1196" x="60" y="251" w="113" h="53">
           <style>
             <fillColor r="0" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4020" elementref="id-1208" x="210" y="251" w="100" h="53">
           <style>
             <fillColor r="0" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4021" elementref="id-1202" x="60" y="331" w="113" h="53">
           <style>
             <fillColor r="0" g="128" b="128" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -2634,11 +2799,13 @@
       <node identifier="id-4196" elementref="id-507" x="850" y="74" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="0" g="255" b="255" />
         </style>
       </node>
       <node identifier="id-4194" elementref="id-1546" x="700" y="204" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Segoe UI Semibold" size="12" style="italic">
             <color r="192" g="192" b="192" />
           </font>
@@ -2647,16 +2814,19 @@
       <node identifier="id-4195" elementref="id-528" x="850" y="204" w="139" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="255" g="0" b="128" />
         </style>
       </node>
       <node identifier="id-4193" elementref="id-1544" x="200" y="224" w="20" h="21">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4197" elementref="id-521" x="8" y="74" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Times New Roman" size="12" style="bold|italic">
             <color r="255" g="0" b="255" />
           </font>
@@ -2665,36 +2835,43 @@
       <node identifier="id-4191" elementref="id-1540" x="710" y="74" w="20" h="27">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4192" elementref="id-1542" x="710" y="114" w="20" h="23">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4174" elementref="id-275" x="240" y="24" w="440" h="490">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
           <font name="Arial" size="14" />
         </style>
         <node identifier="id-4188" elementref="id-345" x="260" y="444" w="80" h="50">
           <style>
             <fillColor r="255" g="255" b="0" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4187" elementref="id-338" x="410" y="444" w="91" h="53">
           <style>
             <fillColor r="255" g="255" b="0" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4185" elementref="id-331" x="570" y="444" w="86" h="50">
           <style>
             <fillColor r="255" g="255" b="0" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4186" elementref="id-352" x="260" y="204" w="400" h="60">
           <style>
             <fillColor r="255" g="255" b="0" />
+            <lineColor r="92" g="92" b="92" />
             <font>
               <color r="128" g="128" b="255" />
             </font>
@@ -2703,35 +2880,42 @@
         <node identifier="id-4176" elementref="id-296" x="260" y="54" w="400" h="100">
           <style>
             <fillColor r="255" g="255" b="0" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-4178" elementref="id-282" x="270" y="74" w="155" h="60">
             <style>
               <fillColor r="255" g="255" b="181" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4179" elementref="id-289" x="480" y="74" w="169" h="60">
             <style>
               <fillColor r="255" g="255" b="181" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
         <node identifier="id-4180" elementref="id-324" x="260" y="304" w="400" h="100">
           <style>
             <fillColor r="255" g="255" b="0" />
+            <lineColor r="92" g="92" b="92" />
           </style>
           <node identifier="id-4184" elementref="id-317" x="550" y="334" w="93" h="50">
             <style>
               <fillColor r="255" g="255" b="128" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4183" elementref="id-310" x="420" y="334" w="80" h="50">
             <style>
               <fillColor r="255" g="255" b="128" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
           <node identifier="id-4182" elementref="id-303" x="270" y="334" w="78" h="53">
             <style>
               <fillColor r="255" g="255" b="128" />
+              <lineColor r="92" g="92" b="92" />
             </style>
           </node>
         </node>
@@ -2739,11 +2923,13 @@
       <node identifier="id-4190" elementref="id-1538" x="210" y="114" w="20" h="23">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4189" elementref="id-1536" x="210" y="74" w="20" h="27">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <connection identifier="id-b2305fb4" relationshipref="id-81b9d07c" source="id-4194" target="id-4186">
@@ -2895,85 +3081,102 @@
       <node identifier="id-4253" elementref="id-1407" x="446" y="554" w="130" h="60">
         <style>
           <fillColor r="181" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4249" elementref="id-1196" x="24" y="277" w="101" h="53">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4246" elementref="id-1226" x="709" y="132" w="90" h="53">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4251" elementref="id-1414" x="194" y="554" w="120" h="60">
         <style>
           <fillColor r="181" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4233" elementref="id-556" x="154" y="254" w="680" h="100">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4236" elementref="id-564" x="174" y="274" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4237" elementref="id-588" x="694" y="274" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4235" elementref="id-572" x="344" y="274" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4238" elementref="id-580" x="524" y="274" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
       <node identifier="id-4245" elementref="id-1202" x="180" y="132" w="111" h="53">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4254" elementref="id-521" x="345" y="24" w="120" h="60">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4248" elementref="id-1214" x="351" y="131" w="107" h="53">
         <style>
           <fillColor r="255" g="255" b="181" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4252" elementref="id-935" x="694" y="554" w="120" h="60">
         <style>
           <fillColor r="181" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4239" elementref="id-596" x="154" y="394" w="680" h="110">
         <style>
           <fillColor r="255" g="255" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4243" elementref="id-721" x="174" y="424" w="160" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4241" elementref="id-612" x="446" y="424" w="129" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4244" elementref="id-722" x="694" y="424" w="120" h="60">
           <style>
             <fillColor r="255" g="255" b="181" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -3071,30 +3274,36 @@
       <node identifier="id-4288" elementref="id-1813" x="100" y="570" w="120" h="60">
         <style>
           <fillColor r="255" g="128" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4299" x="80" y="300" w="520" h="230">
         <style>
           <fillColor r="210" g="215" b="215" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4308" elementref="id-843" x="280" y="393" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4305" elementref="id-861" x="460" y="433" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4307" elementref="id-1399" x="100" y="393" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4306" elementref="id-855" x="460" y="353" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -3102,25 +3311,30 @@
         <label xml:lang="en">Front office Applications</label>
         <style>
           <fillColor r="210" g="215" b="215" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4298" elementref="id-1793" x="110" y="173" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4297" elementref="id-1800" x="110" y="73" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4296" elementref="id-1393" x="300" y="173" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-4295" elementref="id-849" x="300" y="73" w="120" h="60">
           <style>
             <fillColor r="181" g="255" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -3175,56 +3389,67 @@
       <node identifier="id-4333" elementref="id-1004" x="390" y="270" w="80" h="60">
         <style>
           <fillColor r="255" g="128" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4335" elementref="id-992" x="30" y="150" w="160" h="90">
         <style>
           <fillColor r="201" g="231" b="183" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4337" elementref="id-1870" x="60" y="185" w="100" h="43">
           <style>
             <fillColor r="201" g="231" b="183" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
       <node identifier="id-4334" elementref="id-1101" x="500" y="280" w="80" h="40">
         <style>
           <fillColor r="201" g="231" b="183" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4338" elementref="id-1882" x="486" y="185" w="108" h="55">
         <style>
           <fillColor r="201" g="231" b="183" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4328" elementref="id-1399" x="50" y="30" w="120" h="60">
         <style>
           <fillColor r="181" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4329" elementref="id-1065" x="60" y="370" w="100" h="60">
         <style>
           <fillColor r="201" g="231" b="183" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4330" elementref="id-1089" x="70" y="280" w="80" h="40">
         <style>
           <fillColor r="201" g="231" b="183" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4332" elementref="id-1095" x="280" y="280" w="80" h="40">
         <style>
           <fillColor r="201" g="231" b="183" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4327" elementref="id-1813" x="480" y="30" w="120" h="60">
         <style>
           <fillColor r="181" g="255" b="255" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <node identifier="id-4331" elementref="id-998" x="170" y="270" w="80" h="60">
         <style>
           <fillColor r="255" g="128" b="128" />
+          <lineColor r="92" g="92" b="92" />
         </style>
       </node>
       <connection identifier="id-24573deb" relationshipref="id-3fb2a575" source="id-4333" target="id-4334">
@@ -3279,20 +3504,24 @@
         <label xml:lang="en">Products &amp; Services Goals</label>
         <style>
           <fillColor r="210" g="215" b="215" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-859942c2" elementref="id-f5674126" x="60" y="84" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-da42643d" elementref="id-3938617c" x="240" y="48" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-84fa8477" elementref="id-67316f1f" x="240" y="120" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -3300,20 +3529,24 @@
         <label xml:lang="en">Financial Goals</label>
         <style>
           <fillColor r="210" g="215" b="215" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-55a6859d" elementref="id-b56d54a6" x="60" y="300" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-6c34185b" elementref="id-3764dcef" x="240" y="264" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-316e19d2" elementref="id-712d4eec" x="240" y="336" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>
@@ -3321,20 +3554,24 @@
         <label xml:lang="en">ICT-Goals</label>
         <style>
           <fillColor r="210" g="215" b="215" />
+          <lineColor r="92" g="92" b="92" />
         </style>
         <node identifier="id-4c3db4dc" elementref="id-66a2171b" x="60" y="540" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-961adbd9" elementref="id-af0e8c76" x="240" y="504" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
         <node identifier="id-39407926" elementref="id-3db08b5c" x="240" y="576" w="140" h="55">
           <style>
             <fillColor r="204" g="204" b="255" />
+            <lineColor r="92" g="92" b="92" />
           </style>
         </node>
       </node>

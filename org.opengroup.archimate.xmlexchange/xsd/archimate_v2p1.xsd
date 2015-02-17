@@ -771,6 +771,7 @@ cover pages.
         </xs:annotation>
         <xs:sequence>
             <xs:element name="fillColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="lineColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
             <xs:element name="font" type="fontType" minOccurs="0" maxOccurs="1" />
             <xs:group ref="grp.any" />
         </xs:sequence>
