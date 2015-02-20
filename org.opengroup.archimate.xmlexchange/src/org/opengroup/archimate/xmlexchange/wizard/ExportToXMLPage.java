@@ -47,7 +47,7 @@ public class ExportToXMLPage extends WizardPage {
 
     private static String HELP_ID = "org.opengroup.archimate.xmlexchange.help.ExportToXMLPage"; //$NON-NLS-1$
     
-    private static final String PREFS_LAST_FILE = "ExportXMLExchangeLastFile"; //$NON-NLS-1$
+    private static final String PREFS_LAST_FILE_LOCATION = "ExportXMLExchangeLastFileLocation"; //$NON-NLS-1$
     private static final String PREFS_ORGANISATION = "ExportXMLExchangeOrganisation"; //$NON-NLS-1$
     private static final String PREFS_INCLUDE_XSD = "ExportXMLExchangeIncludeXSD"; //$NON-NLS-1$
     private static final String PREFS_LANGUAGE = "ExportXMLExchangeLanguage"; //$NON-NLS-1$
@@ -91,14 +91,17 @@ public class ExportToXMLPage extends WizardPage {
         fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        // Get last file name used
-        String lastFileName = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(PREFS_LAST_FILE);
-        if(StringUtils.isSet(lastFileName)) {
-            fFileTextField.setText(lastFileName);
+        String fileName = StringUtils.isSet(fModel.getName()) ? fModel.getName() + ".xml" : "exported.xml";
+        
+        // Get last folder used
+        String lastFolderName = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(PREFS_LAST_FILE_LOCATION);
+        File lastFolder = new File(lastFolderName);
+        
+        if(lastFolder.exists() && lastFolder.isDirectory()) {
+            fFileTextField.setText(new File(lastFolder, fileName).getPath());
         }
         else {
-            String name = StringUtils.isSet(fModel.getName()) ? fModel.getName() + ".xml" : "exported.xml";
-            fFileTextField.setText(new File(System.getProperty("user.home"), name).getPath());
+            fFileTextField.setText(new File(System.getProperty("user.home"), fileName).getPath());
         }
         
         // Single text control so strip CRLFs
@@ -137,7 +140,7 @@ public class ExportToXMLPage extends WizardPage {
         }
         
         label = new Label(optionsGroup, SWT.NULL);
-        label.setText("Copy XSD files to target location:");
+        label.setText("Copy XSD schema file to target location:");
         fIncludeXSDButton = new Button(optionsGroup, SWT.CHECK);
         
         boolean doIncludeXSD = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_INCLUDE_XSD);
@@ -222,7 +225,15 @@ public class ExportToXMLPage extends WizardPage {
 
     void storePreferences() {
         IPreferenceStore store = XMLExchangePlugin.INSTANCE.getPreferenceStore();
-        store.setValue(PREFS_LAST_FILE, getFileName());
+        
+        File file = new File(getFileName());
+        if(file.getParentFile().exists()) {
+            store.setValue(PREFS_LAST_FILE_LOCATION, file.getParentFile().getPath());
+        }
+        else {
+            store.setValue(PREFS_LAST_FILE_LOCATION, "");
+        }
+        
         store.setValue(PREFS_ORGANISATION, doSaveOrganisation());
         store.setValue(PREFS_INCLUDE_XSD, doIncludeXSD());
         store.setValue(PREFS_LANGUAGE, getLanguageCode());
