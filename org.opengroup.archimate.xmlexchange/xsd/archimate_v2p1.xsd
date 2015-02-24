@@ -15,8 +15,8 @@
             -------------------------
             Author:         The Open Group ArchiMate Exchange Team
             Start date:     2 May 2013
-            Revision date:  16 February 2015
-            XSD Version:    0.700
+            Revision date:  24 February 2015
+            XSD Version:    0.701
             Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
@@ -824,6 +824,7 @@ cover pages.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
+            <xs:element name="fillColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
             <xs:element name="lineColor" type="rgbColorType" minOccurs="0" maxOccurs="1" />
             <xs:element name="font" type="fontType" minOccurs="0" maxOccurs="1" />
             <xs:group ref="grp.any" />
