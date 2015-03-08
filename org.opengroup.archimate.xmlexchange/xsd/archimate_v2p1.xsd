@@ -15,8 +15,8 @@
             -------------------------
             Author:         The Open Group ArchiMate Exchange Team
             Start date:     2 May 2013
-            Revision date:  24 February 2015
-            XSD Version:    0.701
+            Revision date:  3 March 2015
+            XSD Version:    0.702
             Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
