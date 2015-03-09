@@ -176,13 +176,15 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 throw new XMLModelParserException("Element for type: " + type + " not found.");
             }
                     
-            fModel.getDefaultFolderForElement(element).getElements().add(element);
-            
+            // Identifier first
             String id = childElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
             if(id != null) {
                 element.setId(id);
             }
 
+            // Add to model
+            fModel.getDefaultFolderForElement(element).getElements().add(element);
+            
             String name = getChildElementText(childElement, ELEMENT_LABEL, true);
             if(name != null) {
                 element.setName(name);
@@ -218,6 +220,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 throw new IOException("Relation for type: " + type + " not found.");
             }
             
+            // Identifier first
+            String id = childElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
+            if(id != null) {
+                relation.setId(id);
+            }
+
             // Source and target
             String sourceID = childElement.getAttributeValue(ATTRIBUTE_SOURCE);
             String targetID = childElement.getAttributeValue(ATTRIBUTE_TARGET);
@@ -235,13 +243,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             relation.setSource((IArchimateElement)eObjectSrc);
             relation.setTarget((IArchimateElement)eObjectTgt);
             
+            // Add to model
             fModel.getDefaultFolderForElement(relation).getElements().add(relation);
             
-            String id = childElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
-            if(id != null) {
-                relation.setId(id);
-            }
-
             String name = getChildElementText(childElement, ELEMENT_LABEL, true);
             if(name != null) {
                 relation.setName(name);
@@ -303,6 +307,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
             fModel.getDefaultFolderForElement(dm).getElements().add(dm);
             
+            // Identifier first
             String id = viewElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
             if(id != null) {
                 dm.setId(id);
@@ -353,12 +358,13 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                     throw new XMLModelParserException("Element not found for id: " + elementRef);
                 }
                 
-                // Create new ArchiMate object
+                // Create new diagram node object
                 IArchimateElement element = (IArchimateElement)eObject;
                 dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
                 ((IDiagramModelArchimateObject)dmo).setArchimateElement(element);
             }
-            // Another node, let's make it a Group
+            // Another type of node, let's make it a Group
+            // TODO: It may be a Note. Perhaps if it doesn't have children?
             else {
                 IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
                 dmo = group;
@@ -378,7 +384,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             }
             
             if(dmo != null) {
-                // Identifier
+                // Add Identifier before adding to model
                 String identifier = nodeElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
                 dmo.setId(identifier);
                 
@@ -473,6 +479,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 // Create new ArchiMate connection
                 IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
                 connection.setRelationship((IRelationship)eObjectRelationship);
+                
+                // Add Identifier before adding to model
+                String identifier = connectionElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
+                connection.setId(identifier);
+                
+                // Connect
                 connection.connect((IDiagramModelObject)eObjectSourceNode, (IDiagramModelObject)eObjectTargetNode);
                 
                 // Bendpoints
@@ -539,6 +551,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         // Line Color
         connection.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE)));
+
+        // Font
+        addFont(connection, styleElement.getChild(ELEMENT_FONT, OPEN_GROUP_NAMESPACE));
     }
 
     // ========================================= Helpers ======================================
