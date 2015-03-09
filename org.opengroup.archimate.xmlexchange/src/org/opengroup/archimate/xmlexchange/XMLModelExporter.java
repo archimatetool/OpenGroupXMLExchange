@@ -826,6 +826,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Line color
         writeLineColor(connection, styleElement);
         
+        // Font
+        writeFont(connection, styleElement);
+
         return styleElement;
     }
 
