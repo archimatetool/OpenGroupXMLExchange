@@ -5,9 +5,11 @@
  */
 package org.opengroup.archimate.xmlexchange;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -62,5 +64,27 @@ public final class XMLExchangeUtils {
 
         return bounds;
     }
-
+    
+    /**
+     * Calculate the overall negative offset for a diagram.
+     * The exchange format diagram starts at origin 0,0 with no negative coordinates allowed.
+     * Archi diagram nodes can have negative coordinates, so this is the offset to apply to nodes and bendpoints.
+     * @param dm The diagram model
+     * @return The Point offset
+     */
+    public static final Point getNegativeOffsetForDiagram(IDiagramModel dm) {
+        Point pt = new Point();
+        
+        for(IDiagramModelObject dmo : dm.getChildren()) {
+            IBounds bounds = dmo.getBounds().getCopy();
+            if(bounds.getX() < pt.x) {
+                pt.x = bounds.getX();
+            }
+            if(bounds.getY() < pt.y) {
+                pt.y = bounds.getY();
+            }
+        }
+        
+        return pt;
+    }
 }

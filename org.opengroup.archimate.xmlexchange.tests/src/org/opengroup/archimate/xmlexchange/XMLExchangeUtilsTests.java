@@ -8,12 +8,14 @@ package org.opengroup.archimate.xmlexchange;
 import static org.junit.Assert.assertEquals;
 import junit.framework.JUnit4TestAdapter;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -85,4 +87,33 @@ public class XMLExchangeUtilsTests {
         assertEquals(15, bounds.getY());
         dmo3.setBounds(bounds);
     }
+    
+    @Test
+    public void testGetNegativeOffsetForDiagram() {
+        IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        
+        IDiagramModelObject dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo1.setBounds(10, 10, 100, 100);
+        dm.getChildren().add(dmo1);
+        
+        Point pt = XMLExchangeUtils.getNegativeOffsetForDiagram(dm);
+        assertEquals(0, pt.x);
+        assertEquals(0, pt.y);
+
+        IDiagramModelObject dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        dmo2.setBounds(0, 0, 100, 100);
+        dm.getChildren().add(dmo2);
+        
+        pt = XMLExchangeUtils.getNegativeOffsetForDiagram(dm);
+        assertEquals(0, pt.x);
+        assertEquals(0, pt.y);
+        
+        dmo1.setBounds(-10, -300, 100, 100);
+        dmo2.setBounds(-100, -200, 100, 100);
+        
+        pt = XMLExchangeUtils.getNegativeOffsetForDiagram(dm);
+        assertEquals(-100, pt.x);
+        assertEquals(-300, pt.y);
+    }
+
 }

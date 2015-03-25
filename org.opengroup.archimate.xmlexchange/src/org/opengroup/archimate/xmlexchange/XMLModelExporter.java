@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
@@ -517,6 +518,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     
     // ========================================= Views ======================================
     
+    /**
+     * The negative offset for the current diagram.
+     * The exchange format diagram starts at origin 0,0 with no negative coordinates allowed.
+     * Archi diagram nodes can have negative coordinates, so this is the offset to apply to nodes and bendpoints.
+     * We calculate it once for each diagram.
+     */
+    private Point fCurrentDiagramNegativeOffset;
+    
     Element writeViews(Element rootElement) {
         // Do we have any views?
         EList<IDiagramModel> views = fModel.getDiagramModels();
@@ -529,6 +538,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         for(IDiagramModel dm : views) {
             if(dm instanceof IArchimateDiagramModel) {
+                // Calculate negative offset for this diagram
+                fCurrentDiagramNegativeOffset = XMLExchangeUtils.getNegativeOffsetForDiagram(dm);
+                
                 writeView((IArchimateDiagramModel)dm, viewsElement);
             }
         }
@@ -803,8 +815,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             double endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();
             endY *= bpweight;
             
-            bendpointElement.setAttribute(ATTRIBUTE_X, Integer.toString((int)(startX + endX)));
-            bendpointElement.setAttribute(ATTRIBUTE_Y, Integer.toString((int)(startY + endY)));
+            int x = (int)(startX + endX) - fCurrentDiagramNegativeOffset.x; // compensate for negative space
+            int y = (int)(startY + endY) - fCurrentDiagramNegativeOffset.y; // compensate for negative space
+            
+            bendpointElement.setAttribute(ATTRIBUTE_X, Integer.toString(x));
+            bendpointElement.setAttribute(ATTRIBUTE_Y, Integer.toString(y));
             
             bpindex++;
         }
@@ -925,8 +940,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      */
     void writeAbsoluteBounds(IDiagramModelObject dmo, Element element) {
         IBounds bounds = XMLExchangeUtils.getAbsoluteBounds(dmo);
-        element.setAttribute(ATTRIBUTE_X, Integer.toString(bounds.getX()));
-        element.setAttribute(ATTRIBUTE_Y, Integer.toString(bounds.getY()));
+        
+        int x = bounds.getX() - fCurrentDiagramNegativeOffset.x; // compensate for negative space
+        int y = bounds.getY() - fCurrentDiagramNegativeOffset.y; // compensate for negative space
+        
+        element.setAttribute(ATTRIBUTE_X, Integer.toString(x));
+        element.setAttribute(ATTRIBUTE_Y, Integer.toString(y));
         element.setAttribute(ATTRIBUTE_WIDTH, Integer.toString(bounds.getWidth()));
         element.setAttribute(ATTRIBUTE_HEIGHT, Integer.toString(bounds.getHeight()));
     }
