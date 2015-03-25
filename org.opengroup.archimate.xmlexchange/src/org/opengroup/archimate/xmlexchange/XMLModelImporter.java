@@ -36,6 +36,7 @@ import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IProperties;
@@ -363,24 +364,41 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
                 ((IDiagramModelArchimateObject)dmo).setArchimateElement(element);
             }
-            // Another type of node, let's make it a Group
-            // TODO: It may be a Note. Perhaps if it doesn't have children?
+            // Another type of node, but what is it?
+            // TODO: For now we create a Group if it has children, else create a Note
             else {
-                IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
-                dmo = group;
+                boolean hasChildren = nodeElement.getChildren(ELEMENT_NODE, OPEN_GROUP_NAMESPACE).size() > 0;
                 
-                String name = getChildElementText(nodeElement, ELEMENT_LABEL, true);
-                if(name != null) {
-                    dmo.setName(name);
+                if(hasChildren) {
+                    IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+                    dmo = group;
+                    
+                    // Name
+                    String name = getChildElementText(nodeElement, ELEMENT_LABEL, true);
+                    if(name != null) {
+                        dmo.setName(name);
+                    }
+
+                    // Documentation
+                    String documentation = getChildElementText(nodeElement, ELEMENT_DOCUMENTATION, false);
+                    if(documentation != null) {
+                        group.setDocumentation(documentation);
+                    }
+                    
+                    // Properties
+                    addProperties(group, nodeElement);
                 }
-                
-                String documentation = getChildElementText(nodeElement, ELEMENT_DOCUMENTATION, false);
-                if(documentation != null) {
-                    group.setDocumentation(documentation);
+                else {
+                    IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+                    note.setBorderType(IDiagramModelNote.BORDER_RECTANGLE);
+                    dmo = note;
+                    
+                    // Text
+                    String text = getChildElementText(nodeElement, ELEMENT_LABEL, true);
+                    if(text != null) {
+                        note.setContent(text);
+                    }
                 }
-                
-                // Properties
-                addProperties(group, nodeElement);
             }
             
             if(dmo != null) {
@@ -453,33 +471,59 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     
     private void addConnections(Element viewElement) throws XMLModelParserException {
         for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, OPEN_GROUP_NAMESPACE)) {
+            
+            IDiagramModelConnection connection = null;
+            
+            // Get source node
+            String sourceRef = connectionElement.getAttributeValue(ATTRIBUTE_SOURCE);
+            EObject eObjectSourceNode = ArchimateModelUtils.getObjectByID(fModel, sourceRef);
+            if(eObjectSourceNode == null) {
+                throw new XMLModelParserException("Source node not found for id: " + sourceRef);
+            }
+            
+            // Get target node
+            String targetRef = connectionElement.getAttributeValue(ATTRIBUTE_TARGET);
+            EObject eObjectTargetNode = ArchimateModelUtils.getObjectByID(fModel, targetRef);
+            if(eObjectTargetNode == null) {
+                throw new XMLModelParserException("Target node not found for id: " + targetRef);
+            }
+            
             // An ArchiMate relationship connection
             String relationshipRef = connectionElement.getAttributeValue(ATTRIBUTE_RELATIONSHIPREF);
             if(hasValue(relationshipRef)) {
+                // Must be ArchiMate type source node
+                if(!(eObjectSourceNode instanceof IDiagramModelArchimateObject)) {
+                    throw new XMLModelParserException("Source node is not an ArchiMate node for id: " + sourceRef);
+                }
+
+                // Must be ArchiMate type target node
+                if(!(eObjectTargetNode instanceof IDiagramModelArchimateObject)) {
+                    throw new XMLModelParserException("Target node is not an ArchiMate node for id: " + targetRef);
+                }
+
                 // Get relationship
                 EObject eObjectRelationship = ArchimateModelUtils.getObjectByID(fModel, relationshipRef);
                 if(!(eObjectRelationship instanceof IRelationship)) {
                     throw new XMLModelParserException("Relationship not found for id: " + relationshipRef);
                 }
                 
-                // Get source node
-                String sourceRef = connectionElement.getAttributeValue(ATTRIBUTE_SOURCE);
-                EObject eObjectSourceNode = ArchimateModelUtils.getObjectByID(fModel, sourceRef);
-                if(!(eObjectSourceNode instanceof IDiagramModelArchimateObject)) {
-                    throw new XMLModelParserException("Source node not found for id: " + sourceRef);
+                // Create new ArchiMate connection with relationship
+                connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+                ((IDiagramModelArchimateConnection)connection).setRelationship((IRelationship)eObjectRelationship);
+            }
+            // Another connection type
+            else {
+                // Only connect notes and groups
+                if(eObjectTargetNode instanceof IDiagramModelArchimateObject || eObjectSourceNode instanceof IDiagramModelArchimateObject) {
+                    continue;
                 }
                 
-                // Get target node
-                String targetRef = connectionElement.getAttributeValue(ATTRIBUTE_TARGET);
-                EObject eObjectTargetNode = ArchimateModelUtils.getObjectByID(fModel, targetRef);
-                if(!(eObjectTargetNode instanceof IDiagramModelArchimateObject)) {
-                    throw new XMLModelParserException("Target node not found for id: " + targetRef);
-                }
                 
-                // Create new ArchiMate connection
-                IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-                connection.setRelationship((IRelationship)eObjectRelationship);
-                
+                // Create new ordinary connection
+                connection = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
+            }
+            
+            if(connection != null) {
                 // Add Identifier before adding to model
                 String identifier = connectionElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
                 connection.setId(identifier);
