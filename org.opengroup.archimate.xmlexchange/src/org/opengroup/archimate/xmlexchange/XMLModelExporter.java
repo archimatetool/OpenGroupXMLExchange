@@ -597,16 +597,17 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(dmo instanceof IDiagramModelArchimateObject) {
             writeArchimateNode((IDiagramModelArchimateObject)dmo, parentElement);
         }
+        // Group
         else if(dmo instanceof IDiagramModelGroup) {
             writeGroupNode((IDiagramModelGroup)dmo, parentElement);
         }
-        /// TODO Notes
+        // Note
         else if(dmo instanceof IDiagramModelNote) {
-            //writeNoteNode((IDiagramModelNote)component, parentElement);
+            writeNoteNode((IDiagramModelNote)dmo, parentElement);
         }
         // TODO Diagram Model Reference type
         else if(dmo instanceof IDiagramModelReference) {
-            //writeReferenceNode((IDiagramModelReference)component, parentElement);
+            //writeReferenceNode((IDiagramModelReference)dmo, parentElement);
         }
     }
     
@@ -672,6 +673,28 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     }
     
     /**
+     * Write a Note node
+     */
+    Element writeNoteNode(IDiagramModelNote note, Element parentElement) {
+        Element nodeElement = new Element(ELEMENT_NODE, OPEN_GROUP_NAMESPACE);
+        parentElement.addContent(nodeElement);
+        
+        // ID
+        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(note));
+
+        // Bounds
+        writeAbsoluteBounds(note, nodeElement);
+        
+        // Text
+        writeTextToElement(note.getContent(), nodeElement, ELEMENT_LABEL);
+        
+        // Style
+        writeNodeStyle(note, nodeElement);
+        
+        return nodeElement;
+    }
+
+    /**
      * Write a node style
      */
     Element writeNodeStyle(IDiagramModelObject dmo, Element nodeElement) {
@@ -729,12 +752,16 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      */
     void writeConnections(IDiagramModelObject dmo, Element parentElement) {
         for(IDiagramModelConnection connection : dmo.getSourceConnections()) {
+            // ArchiMate connection
             if(connection instanceof IDiagramModelArchimateConnection) {
-                IDiagramModelArchimateConnection conn = (IDiagramModelArchimateConnection)connection;
                 // If it's nested don't write a connection
-                if(!isNestedConnection(conn)) {
-                    writeArchiMateConnection(conn, parentElement);
+                if(!isNestedConnection((IDiagramModelArchimateConnection)connection)) {
+                    writeConnection(connection, parentElement);
                 }
+            }
+            // Other connection
+            else {
+                writeConnection(connection, parentElement);
             }
         }
         
@@ -759,17 +786,19 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     }
     
     /**
-     * Write an ArchiMate type connection
+     * Write a connection
      */
-    Element writeArchiMateConnection(IDiagramModelArchimateConnection connection, Element parentElement) {
+    Element writeConnection(IDiagramModelConnection connection, Element parentElement) {
         Element connectionElement = new Element(ELEMENT_CONNECTION, OPEN_GROUP_NAMESPACE);
         parentElement.addContent(connectionElement);
         
         // ID
         connectionElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(connection));
 
-        // Relationship ref
-        connectionElement.setAttribute(ATTRIBUTE_RELATIONSHIPREF, createID(connection.getRelationship()));
+        // ArchiMate connection has a Relationship ref
+        if(connection instanceof IDiagramModelArchimateConnection) {
+            connectionElement.setAttribute(ATTRIBUTE_RELATIONSHIPREF, createID(((IDiagramModelArchimateConnection)connection).getRelationship()));
+        }
         
         // Source node
         connectionElement.setAttribute(ATTRIBUTE_SOURCE, createID(connection.getSource()));
@@ -815,8 +844,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             double endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();
             endY *= bpweight;
             
-            int x = (int)(startX + endX) - fCurrentDiagramNegativeOffset.x; // compensate for negative space
-            int y = (int)(startY + endY) - fCurrentDiagramNegativeOffset.y; // compensate for negative space
+            int x = (int)(startX + endX);
+            x -= fCurrentDiagramNegativeOffset.x; // compensate for negative space
+            int y = (int)(startY + endY);
+            y -= fCurrentDiagramNegativeOffset.y; // compensate for negative space
             
             bendpointElement.setAttribute(ATTRIBUTE_X, Integer.toString(x));
             bendpointElement.setAttribute(ATTRIBUTE_Y, Integer.toString(y));

@@ -394,7 +394,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                     dmo = note;
                     
                     // Text
-                    String text = getChildElementText(nodeElement, ELEMENT_LABEL, true);
+                    String text = getChildElementText(nodeElement, ELEMENT_LABEL, false);
                     if(text != null) {
                         note.setContent(text);
                     }
@@ -514,7 +514,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // Another connection type
             else {
                 // Only connect notes and groups
-                if(eObjectTargetNode instanceof IDiagramModelArchimateObject || eObjectSourceNode instanceof IDiagramModelArchimateObject) {
+                if(eObjectTargetNode instanceof IDiagramModelArchimateObject && eObjectSourceNode instanceof IDiagramModelArchimateObject) {
                     continue;
                 }
                 
