@@ -549,7 +549,7 @@ cover pages.
     <xs:complexType name="propertyDefinitionType">
         <xs:annotation>
             <xs:documentation>
-                A Property definition type containg its unique identifier, name, and data type.
+                A Property definition type containing its unique identifier, name, and data type.
             </xs:documentation>
         </xs:annotation>
         <xs:simpleContent>
