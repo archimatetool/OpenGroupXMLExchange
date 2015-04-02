@@ -15,8 +15,8 @@
             -------------------------
             Author:         The Open Group ArchiMate Exchange Team
             Start date:     2 May 2013
-            Revision date:  16 March 2015
-            XSD Version:    0.704
+            Revision date:  02 April 2015
+            XSD Version:    0.705
             Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
@@ -737,12 +737,13 @@ cover pages.
     <xs:complexType name="nodeType">
         <xs:annotation>
             <xs:documentation>
-                Graphical node type. It can contain other node types.
-                If the 'elementref' attribute is present, it should reference an ArchiMate element.
+                Graphical node type. It can contain child node types.
                 
-                If the node is an ArchiMate element type, the label, documentation and properties will be determined from
-                the referenced ArchiMate element. If the node is some other type, for example a Group, then these
-                elements can be used.
+                If the 'elementref' attribute is present, it should reference an existing ArchiMate element.
+                
+                If the node is an ArchiMate element type, the node's label, documentation and properties may be determined
+                (i.e inherited) from those in the referenced ArchiMate element. Otherwise the node's label, documentation and properties
+                can be provided and will be additional to (or over-ride) those contained in the referenced ArchiMate element.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -769,11 +770,12 @@ cover pages.
         <xs:annotation>
             <xs:documentation>
                 Graphical connection type.
-                If the 'relationshipref' attribute is present, it should reference an ArchiMate relationship.
                 
-                If the connection is an ArchiMate relationship type, the label, documentation and properties will be determined from
-                the referenced ArchiMate relationship. If the connection is some other type, for example a plain connection, then these
-                elements can be used.
+                If the 'relationshipref' attribute is present, the connection should reference an existing ArchiMate relationship.
+                
+                If the connection is an ArchiMate relationship type, the connection's label, documentation and properties may be determined
+                (i.e inherited) from those in the referenced ArchiMate relationship. Otherwise the connection's label, documentation and properties
+                can be provided and will be additional to (or over-ride) those contained in the referenced ArchiMate relationship.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
