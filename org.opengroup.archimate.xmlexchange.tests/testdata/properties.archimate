@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="Properties Test" id="3c564b4d" version="3.1.1">
+  <folder name="Business" id="d4d3bf4b" type="business">
+    <element xsi:type="archimate:BusinessActor" id="28289e13" name="Business Actor">
+      <property key="String1" value="A different value of String1"/>
+      <property key="Business Actor Company" value="Acme Solutions"/>
+    </element>
+    <element xsi:type="archimate:BusinessRole" id="bb84608e" name="Business Role">
+      <property key="String2" value="A different value of String2"/>
+      <property key="Business Role Name" value="Something Else"/>
+    </element>
+  </folder>
+  <folder name="Application" id="3c3890bd" type="application"/>
+  <folder name="Technology" id="1432cc86" type="technology"/>
+  <folder name="Motivation" id="f6ec6580" type="motivation"/>
+  <folder name="Implementation &amp; Migration" id="9600bec3" type="implementation_migration"/>
+  <folder name="Connectors" id="b72b3f21" type="connectors"/>
+  <folder name="Relations" id="a38738f4" type="relations">
+    <element xsi:type="archimate:AssignmentRelationship" id="31b2d8f1" source="28289e13" target="bb84608e">
+      <property key="Assignment Property" value="Value set"/>
+    </element>
+  </folder>
+  <folder name="Views" id="864d7ad7" type="diagrams">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="5d9b7a85" name="Default View">
+      <child xsi:type="archimate:Group" id="e74b1270" name="Group">
+        <bounds x="12" y="36" width="376" height="133"/>
+        <child xsi:type="archimate:DiagramObject" id="5801f137" textAlignment="2" targetConnections="35fa4c1f" archimateElement="bb84608e">
+          <bounds x="228" y="48" width="120" height="55"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="15ddf69c" textAlignment="2" archimateElement="28289e13">
+          <bounds x="21" y="48" width="120" height="55"/>
+          <sourceConnection xsi:type="archimate:Connection" id="35fa4c1f" source="15ddf69c" target="5801f137" relationship="31b2d8f1"/>
+        </child>
+        <property key="Group Property" value="Value of Group Property"/>
+      </child>
+      <property key="Category" value="Overview"/>
+      <property key="Date Started" value="2015-05-12"/>
+    </element>
+  </folder>
+  <property key="String1" value="Value of String 1"/>
+  <property key="String2" value="Value of String 2"/>
+  <property key="Boolean1" value="true"/>
+  <property key="Currency1" value="£2000"/>
+  <property key="Date1" value="2015-05-14"/>
+  <property key="Time1" value="09:00:00"/>
+  <property key="Number1" value="34.67"/>
+  <purpose>Test of Properties</purpose>
+</archimate:model>
