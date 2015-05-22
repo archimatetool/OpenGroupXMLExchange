@@ -350,7 +350,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         for(Element nodeElement : parentElement.getChildren(ELEMENT_NODE, OPEN_GROUP_NAMESPACE)) {
             IDiagramModelObject dmo = null;
             
-            // An ArchiMate element node
+            // This has an element ref so it's an ArchiMate element node
             String elementRef = nodeElement.getAttributeValue(ATTRIBUTE_ELEMENTREF);
             if(hasValue(elementRef) ) {
                 EObject eObject = ArchimateModelUtils.getObjectByID(fModel, elementRef);
@@ -364,15 +364,20 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
                 ((IDiagramModelArchimateObject)dmo).setArchimateElement(element);
             }
-            // Another type of node, but what is it?
-            // TODO: For now we create a Group if it has children, else create a Note
+            
+            // No element ref so this is another type of node, but what is it?
             else {
+                boolean isGroup = NODE_TYPE_GROUP.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
+                //boolean isNote = NODE_TYPE_TEXT.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
+                
+                // Does the graphical node have children?
+                // Our notes cannot contain children, so if it does contain children it has to be a Group.
                 boolean hasChildren = nodeElement.getChildren(ELEMENT_NODE, OPEN_GROUP_NAMESPACE).size() > 0;
                 
-                if(hasChildren) {
+                if(isGroup || hasChildren) {
                     IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
                     dmo = group;
-                    
+
                     // Name
                     String name = getChildElementText(nodeElement, ELEMENT_LABEL, true);
                     if(name != null) {
@@ -388,6 +393,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                     // Properties
                     addProperties(group, nodeElement);
                 }
+                // A Note is our only other option
                 else {
                     IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
                     note.setBorderType(IDiagramModelNote.BORDER_RECTANGLE);

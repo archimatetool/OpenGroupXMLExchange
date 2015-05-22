@@ -15,8 +15,8 @@
             -------------------------
             Author:         The Open Group ArchiMate Exchange Team
             Start date:     2 May 2013
-            Revision date:  02 April 2015
-            XSD Version:    0.705
+            Revision date:  22 May 2015
+            XSD Version:    0.706
             Status:         Working Draft
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
@@ -760,6 +760,7 @@ cover pages.
         <xs:attribute name="y" use="required" type="xs:integer" />
         <xs:attribute name="w" use="required" type="xs:integer" />
         <xs:attribute name="h" use="required" type="xs:integer" />
+        <xs:attribute name="type" use="optional" type="xs:string" />
         <xs:anyAttribute namespace="##other" processContents="strict" />
     </xs:complexType>
 
