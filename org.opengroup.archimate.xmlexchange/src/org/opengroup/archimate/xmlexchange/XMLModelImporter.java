@@ -143,6 +143,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         if(propertiesElement != null) {
             for(Element propertyElement : propertiesElement.getChildren(ELEMENT_PROPERTY, OPEN_GROUP_NAMESPACE)) {
                 String idref = propertyElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
+                
+                // Ignore special junction types
+                if(PROPERTY_JUNCTION_ID.equals(idref)) {
+                    continue;
+                }
+                
                 if(idref != null) {
                     String propertyName = fPropertyDefinitionsList.get(idref);
                     if(propertyName != null) {
@@ -169,6 +175,11 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // If type is bogus ignore
             if(type == null) {
                 continue;
+            }
+            
+            // Junctions are a special case, so we look for a property
+            if("Junction".equals(type)) {
+                type = getJunctionType(childElement);
             }
             
             IArchimateElement element = (IArchimateElement)XMLTypeMapper.createArchimateComponent(type);
@@ -199,6 +210,32 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // Properties
             addProperties(element, childElement);
         }
+    }
+    
+    /**
+     * Get the actual Junction type based on a property
+     */
+    private String getJunctionType(Element element) {
+        String junctionType = "Junction";
+        
+        Element propertiesElement = element.getChild(ELEMENT_PROPERTIES, OPEN_GROUP_NAMESPACE);
+        if(propertiesElement != null) {
+            for(Element propertyElement : propertiesElement.getChildren(ELEMENT_PROPERTY, OPEN_GROUP_NAMESPACE)) {
+                String idref = propertyElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
+                if(PROPERTY_JUNCTION_ID.equals(idref)) {
+                    String propertyValue = getChildElementText(propertyElement, ELEMENT_VALUE, true);
+                    if(PROPERTY_JUNCTION_AND.equals(propertyValue)) {
+                        junctionType = "AndJunction";
+                    }
+                    else if(PROPERTY_JUNCTION_OR.equals(propertyValue)) {
+                        junctionType = "OrJunction";
+                    }
+                    break;
+                }
+            }
+        }
+        
+        return junctionType;
     }
     
     // ========================================= Relations ======================================

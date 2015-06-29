@@ -30,6 +30,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -48,6 +49,7 @@ import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ILineObject;
+import com.archimatetool.model.IOrJunction;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRelationship;
@@ -62,6 +64,7 @@ import com.archimatetool.model.IRelationship;
 @SuppressWarnings("nls")
 public class XMLModelExporter implements IXMLExchangeGlobals {
     
+    // ArchiMate model
     private IArchimateModel fModel;
     
     // Properties
@@ -479,6 +482,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             }
         }
         
+        // Add a special property definition for Junctions so we can declare junction types
+        list.put(PROPERTY_JUNCTION_TYPE, PROPERTY_JUNCTION_ID);
+        
         return list;
     }
     
@@ -489,31 +495,46 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * @return The Element or null
      */
     Element writeProperties(IProperties properties, Element parentElement) {
-        if(properties.getProperties().isEmpty()) {
-            return null;
-        }
-        
         Element propertiesElement = new Element(ELEMENT_PROPERTIES, OPEN_GROUP_NAMESPACE);
-        parentElement.addContent(propertiesElement);
         
+        // If this element is an AND or OR Junction, add a property for its type
+        if(properties instanceof IAndJunction || properties instanceof IOrJunction) {
+            String value = (properties instanceof IAndJunction) ? PROPERTY_JUNCTION_AND : PROPERTY_JUNCTION_OR;
+            writePropertyValue(propertiesElement, PROPERTY_JUNCTION_ID, value);
+        }
+
+        // Other properties
         for(IProperty property : properties.getProperties()) {
             String name = property.getKey();
             String value = property.getValue();
             if(hasSomeText(name)) {
                 String propertyRefID = fPropertyDefsList.get(name);
                 if(propertyRefID != null) {
-                    Element propertyElement = new Element(ELEMENT_PROPERTY, OPEN_GROUP_NAMESPACE);
-                    propertiesElement.addContent(propertyElement);
-                    propertyElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, propertyRefID);
-                    
-                    Element valueElement = new Element(ELEMENT_VALUE, OPEN_GROUP_NAMESPACE);
-                    propertyElement.addContent(valueElement);
-                    writeElementTextWithLanguageCode(valueElement, value);
+                    writePropertyValue(propertiesElement, propertyRefID, value);
                 }
             }
         }
         
+        if(propertiesElement.getChildren().size() > 0) {
+            parentElement.addContent(propertiesElement);
+        }
+        
         return propertiesElement;
+    }
+    
+    /**
+     * Write a Property value referencing a property ref id
+     */
+    Element writePropertyValue(Element propertiesElement, String propertyRefID, String propertyValue) {
+        Element propertyElement = new Element(ELEMENT_PROPERTY, OPEN_GROUP_NAMESPACE);
+        propertiesElement.addContent(propertyElement);
+        propertyElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, propertyRefID);
+        
+        Element valueElement = new Element(ELEMENT_VALUE, OPEN_GROUP_NAMESPACE);
+        propertyElement.addContent(valueElement);
+        writeElementTextWithLanguageCode(valueElement, propertyValue);
+
+        return propertyElement;
     }
     
     // ========================================= Views ======================================

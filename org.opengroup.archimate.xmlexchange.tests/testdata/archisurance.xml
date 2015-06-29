@@ -1027,6 +1027,7 @@
     </item>
   </organization>
   <propertydefs>
+    <propertydef identifier="propid-junctionType" name="JunctionType" type="string" />
     <propertydef identifier="propid-1" name="Property1" type="string" />
     <propertydef identifier="propid-2" name="Property2" type="string" />
     <propertydef identifier="propid-3" name="Property3" type="string" />

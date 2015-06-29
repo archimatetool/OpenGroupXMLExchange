@@ -89,18 +89,12 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         ElementsMapping.put("InfluenceRelationship", IArchimatePackage.eINSTANCE.getInfluenceRelationship());
         
         // Junctions
-        //ElementsMapping.put("Junction", IArchimatePackage.eINSTANCE.getJunction());
-        //ElementsMapping.put("AndJunction", IArchimatePackage.eINSTANCE.getAndJunction());
-        //ElementsMapping.put("OrJunction", IArchimatePackage.eINSTANCE.getOrJunction());
+        ElementsMapping.put("Junction", IArchimatePackage.eINSTANCE.getJunction());
+        ElementsMapping.put("AndJunction", IArchimatePackage.eINSTANCE.getAndJunction());
+        ElementsMapping.put("OrJunction", IArchimatePackage.eINSTANCE.getOrJunction());
     }
 
     public static IArchimateComponent createArchimateComponent(String type) {
-        // Junction is a special case
-        if("Junction".equals(type)) {
-            // TODO: ascertain from Property if AND/OR
-            return IArchimateFactory.eINSTANCE.createJunction();
-        }
-
         EClass eClass = ElementsMapping.get(type);
         return (IArchimateComponent)(eClass == null ? null : IArchimateFactory.eINSTANCE.create(eClass));
     }

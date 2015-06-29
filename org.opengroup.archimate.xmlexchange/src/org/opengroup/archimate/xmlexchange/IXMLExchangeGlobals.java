@@ -87,4 +87,9 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_LINEWIDTH = "lineWidth";
     
     String NODE_TYPE_GROUP = "group";
+    
+    String PROPERTY_JUNCTION_ID = "propid-junctionType";
+    String PROPERTY_JUNCTION_TYPE = "JunctionType";
+    String PROPERTY_JUNCTION_AND = "AND";
+    String PROPERTY_JUNCTION_OR = "OR";
 }
