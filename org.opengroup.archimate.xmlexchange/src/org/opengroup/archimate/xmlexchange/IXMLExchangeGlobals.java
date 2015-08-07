@@ -24,8 +24,8 @@ public interface IXMLExchangeGlobals {
     Namespace OPEN_GROUP_NAMESPACE = Namespace.getNamespace("http://www.opengroup.org/xsd/archimate");
     Namespace OPEN_GROUP_NAMESPACE_EMBEDDED = Namespace.getNamespace(OPEN_GROUP_NAMESPACE_PREFIX, OPEN_GROUP_NAMESPACE.getURI());
     
-    //String OPEN_GROUP_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate_v2p1.xsd";
-    String OPEN_GROUP_SCHEMA_LOCATION = "archimate_v2p1.xsd";
+    String OPEN_GROUP_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate/archimate_v2p1.xsd";
+    //String OPEN_GROUP_SCHEMA_LOCATION = "archimate_v2p1.xsd";
     
     Namespace XSI_NAMESPACE = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
     
