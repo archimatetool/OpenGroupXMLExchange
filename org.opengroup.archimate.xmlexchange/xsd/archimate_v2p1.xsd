@@ -15,9 +15,9 @@
             -------------------------
             Author:         The Open Group ArchiMate Exchange Team
             Start date:     2 May 2013
-            Revision date:  22 May 2015
-            XSD Version:    0.706
-            Status:         Working Draft
+            Revision date:  3 August 2015
+            XSD Version:    1.0
+            Status:         Final
             Description:    The Open Group ArchiMate Open Exchange Format
         </xs:documentation>
         
@@ -26,52 +26,13 @@
 Notes and rationale
 -------------------
 
-This is a Snapshot of the ArchiMate Model Exchange File Format.
-
-Snapshots are draft documents, which provide a mechanism
-for The Open Group to disseminate information on its
-current direction and thinking to an interested audience,
-in advance of formal publication, with a view to
-soliciting feedback and comment.
-
-A Snapshot represents the interim results of a technical
-activity.  Although at the time of publication The Open
-Group intends to progress the activity towards publication
-of a Preliminary Standard or Open Group Standard, The
-Open Group is a consensus organization, and makes no
-commitment regarding publication. Similarly, a Snapshot
-does not represent any commitment by any member of The
-Open Group to make any specific products available.
-
-The ArchiMate Model Exchange File Format is being
-implemented in two phases. This Snapshot is for Phase
-2 and includes the detailed visual layout.
-
-It is a starting point and therefore open to debate and improvement!
-            
-Proposal of different levels of information:
-            
-Level 1 - A flat list of ArchiMate elements and relationships
-with their associated information data (name, documentation, id, idref).
-This equates to a repository of elements and relationships.
-            
-Level 2 - Properties.
-            
-Level 3 - Structural Organisation.
-            
-Level 4 - Diagram information referencing the ArchiMate elements and relationships enumerated at Level 1.  
-            
-
-This documentation is automatically generated from the XSD that has
-been developed. The master XSD file can be obtained with the Snapshot
-draft standard from http://www.opengroup.org/bookstore/catalog/ .
+This is the XSD for the ArchiMate Model Exchange File Format.
 
 A number of example models in the exchange file format are available
 for interoperability testing. For details of how to obtain those
-files, see the cover pages.
-
-For information on how to provide feedback on this snapshot see the
-cover pages.
+files and for further information, see the entry for the ArchiMate
+Model Exchange File Format Standard in The Open Group publications
+catalog at http://www.opengroup.org/bookstore/catalog/ .
 
     </xs:documentation>
     </xs:annotation>
