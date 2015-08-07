@@ -659,7 +659,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         String fontSize = fontElement.getAttributeValue(ATTRIBUTE_FONTSIZE);
         if(hasValue(fontSize)) {
-            newFontData.setHeight(Integer.valueOf(fontSize));
+            int val = Double.valueOf(fontSize).intValue();
+            newFontData.setHeight(val);
         }
         
         String fontStyle = fontElement.getAttributeValue(ATTRIBUTE_FONTSTYLE);
