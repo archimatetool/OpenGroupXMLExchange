@@ -296,6 +296,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write the elements from an Archi folder
      */
     private void writeModelElementsFolder(IFolder folder, Element elementsElement) {
+        if(folder == null) {
+            return;
+        }
+
         List<EObject> list = new ArrayList<EObject>();
         getElements(folder, list);
         for(EObject eObject : list) {
@@ -334,6 +338,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Return all elements in an Archi folder and its sub-folders
      */
     private void getElements(IFolder folder, List<EObject> list) {
+        if(folder == null) {
+            return;
+        }
+        
         for(EObject object : folder.getElements()) {
             list.add(object);
         }
@@ -352,6 +360,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         Element relationshipsElement = new Element(ELEMENT_RELATIONSHIPS, OPEN_GROUP_NAMESPACE);
         rootElement.addContent(relationshipsElement);
         writeModelRelationshipsFolder(fModel.getFolder(FolderType.RELATIONS), relationshipsElement);
+        writeModelRelationshipsFolder(fModel.getFolder(FolderType.DERIVED), relationshipsElement);
         return relationshipsElement;
     }
     
@@ -359,6 +368,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write the relationships from an Archi folder
      */
     private void writeModelRelationshipsFolder(IFolder folder, Element relationshipsElement) {
+        if(folder == null) {
+            return;
+        }
+
         List<EObject> list = new ArrayList<EObject>();
         getElements(folder, list);
         for(EObject eObject : list) {
