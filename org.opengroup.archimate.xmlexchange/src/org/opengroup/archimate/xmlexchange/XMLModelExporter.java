@@ -445,6 +445,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         for(EObject eObject : folder.getElements()) {
             if(eObject instanceof IIdentifier) {
+                // Don't write Sketch or Canvas Views
+                if(eObject instanceof IDiagramModel && !(eObject instanceof IArchimateDiagramModel)) {
+                    continue;
+                }
+                
                 IIdentifier component = (IIdentifier)eObject;
                 Element itemChildElement = new Element(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE);
                 itemElement.addContent(itemChildElement);
