@@ -30,7 +30,7 @@ import org.opengroup.archimate.xmlexchange.IXMLExchangeGlobals;
 import org.opengroup.archimate.xmlexchange.XMLExchangePlugin;
 
 import com.archimatetool.editor.diagram.wizard.Messages;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
@@ -69,7 +69,7 @@ public class ExportToXMLPage extends WizardPage {
         
         setTitle("Export model");
         setDescription("Export model to Open Exchange XML file");
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     }
 
     @Override

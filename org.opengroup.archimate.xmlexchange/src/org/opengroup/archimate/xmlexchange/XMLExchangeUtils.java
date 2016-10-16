@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -19,6 +21,25 @@ import com.archimatetool.model.IDiagramModelObject;
  * @author Phillip Beauvoir
  */
 public final class XMLExchangeUtils {
+    
+    /**
+     * 
+     * TODO for connections
+     * @param dmc
+     * @return
+     */
+    public static final IBounds getAbsoluteBounds(IDiagramModelComponent dmc) {
+        if(dmc instanceof IDiagramModelObject) {
+            return getAbsoluteBounds((IDiagramModelObject)dmc);
+        }
+        
+        // TODO
+        else if(dmc instanceof IDiagramModelConnection) {
+            
+        }
+        
+        return null;
+    }
 
     /**
      * Return the absolute bounds of a diagram model object

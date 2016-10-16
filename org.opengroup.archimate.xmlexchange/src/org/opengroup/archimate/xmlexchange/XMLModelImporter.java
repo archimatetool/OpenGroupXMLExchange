@@ -24,11 +24,12 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -41,7 +42,6 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -182,7 +182,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 type = getJunctionType(childElement);
             }
             
-            IArchimateElement element = (IArchimateElement)XMLTypeMapper.createArchimateComponent(type);
+            IArchimateElement element = (IArchimateElement)XMLTypeMapper.createArchimateConcept(type);
             // If element is null throw exception
             if(element == null) {
                 throw new XMLModelParserException("Element for type: " + type + " not found.");
@@ -195,7 +195,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             }
 
             // Add to model
-            fModel.getDefaultFolderForElement(element).getElements().add(element);
+            fModel.getDefaultFolderForObject(element).getElements().add(element);
             
             String name = getChildElementText(childElement, ELEMENT_LABEL, true);
             if(name != null) {
@@ -252,7 +252,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 continue;
             }
             
-            IRelationship relation = (IRelationship)XMLTypeMapper.createArchimateComponent(type);
+            IArchimateRelationship relation = (IArchimateRelationship)XMLTypeMapper.createArchimateConcept(type);
             // If relation is null throw exception
             if(relation == null) {
                 throw new IOException("Relation for type: " + type + " not found.");
@@ -282,7 +282,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             relation.setTarget((IArchimateElement)eObjectTgt);
             
             // Add to model
-            fModel.getDefaultFolderForElement(relation).getElements().add(relation);
+            fModel.getDefaultFolderForObject(relation).getElements().add(relation);
             
             String name = getChildElementText(childElement, ELEMENT_LABEL, true);
             if(name != null) {
@@ -320,7 +320,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         if(idref != null) {
             EObject eObject = ArchimateModelUtils.getObjectByID(fModel, idref);
-            if(eObject instanceof IArchimateComponent) {
+            if(eObject instanceof IArchimateConcept) {
                 
             }
         }
@@ -343,7 +343,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         for(Element viewElement : viewsElement.getChildren(ELEMENT_VIEW, OPEN_GROUP_NAMESPACE)) {
             IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-            fModel.getDefaultFolderForElement(dm).getElements().add(dm);
+            fModel.getDefaultFolderForObject(dm).getElements().add(dm);
             
             // Identifier first
             String id = viewElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
@@ -354,7 +354,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // Viewpoint
             String viewPointName = viewElement.getAttributeValue(ATTRIBUTE_VIEWPOINT);
             if(viewPointName != null) {
-                int viewPointID = XMLTypeMapper.getViewpointID(viewPointName);
+                String viewPointID = XMLTypeMapper.getViewpointID(viewPointName);
                 dm.setViewpoint(viewPointID);
             }
 
@@ -546,13 +546,13 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
 
                 // Get relationship
                 EObject eObjectRelationship = ArchimateModelUtils.getObjectByID(fModel, relationshipRef);
-                if(!(eObjectRelationship instanceof IRelationship)) {
+                if(!(eObjectRelationship instanceof IArchimateRelationship)) {
                     throw new XMLModelParserException("Relationship not found for id: " + relationshipRef);
                 }
                 
                 // Create new ArchiMate connection with relationship
                 connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-                ((IDiagramModelArchimateConnection)connection).setRelationship((IRelationship)eObjectRelationship);
+                ((IDiagramModelArchimateConnection)connection).setArchimateRelationship((IArchimateRelationship)eObjectRelationship);
             }
             // Another connection type
             else {

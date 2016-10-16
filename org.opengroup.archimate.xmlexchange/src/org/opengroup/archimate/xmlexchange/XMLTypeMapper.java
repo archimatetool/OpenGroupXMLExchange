@@ -11,8 +11,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -53,11 +52,11 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         
         // Technology Elements
         ElementsMapping.put("Artifact", IArchimatePackage.eINSTANCE.getArtifact());
-        ElementsMapping.put("CommunicationPath", IArchimatePackage.eINSTANCE.getCommunicationPath());
-        ElementsMapping.put("Network", IArchimatePackage.eINSTANCE.getNetwork());
-        ElementsMapping.put("InfrastructureInterface", IArchimatePackage.eINSTANCE.getInfrastructureInterface());
-        ElementsMapping.put("InfrastructureFunction", IArchimatePackage.eINSTANCE.getInfrastructureFunction());
-        ElementsMapping.put("InfrastructureService", IArchimatePackage.eINSTANCE.getInfrastructureService());
+        ElementsMapping.put("Path", IArchimatePackage.eINSTANCE.getPath());
+        ElementsMapping.put("CommunicationNetwork", IArchimatePackage.eINSTANCE.getCommunicationNetwork());
+        ElementsMapping.put("TechnologyInterface", IArchimatePackage.eINSTANCE.getTechnologyInterface());
+        ElementsMapping.put("TechnologyFunction", IArchimatePackage.eINSTANCE.getTechnologyFunction());
+        ElementsMapping.put("TechnologyService", IArchimatePackage.eINSTANCE.getTechnologyService());
         ElementsMapping.put("Node", IArchimatePackage.eINSTANCE.getNode());
         ElementsMapping.put("SystemSoftware", IArchimatePackage.eINSTANCE.getSystemSoftware());
         ElementsMapping.put("Device", IArchimatePackage.eINSTANCE.getDevice());
@@ -81,31 +80,23 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         ElementsMapping.put("AssociationRelationship", IArchimatePackage.eINSTANCE.getAssociationRelationship());
         ElementsMapping.put("CompositionRelationship", IArchimatePackage.eINSTANCE.getCompositionRelationship());
         ElementsMapping.put("AggregationRelationship", IArchimatePackage.eINSTANCE.getAggregationRelationship());
-        ElementsMapping.put("UsedByRelationship", IArchimatePackage.eINSTANCE.getUsedByRelationship());
+        ElementsMapping.put("ServingRelationship", IArchimatePackage.eINSTANCE.getServingRelationship());
         ElementsMapping.put("TriggeringRelationship", IArchimatePackage.eINSTANCE.getTriggeringRelationship());
         ElementsMapping.put("FlowRelationship", IArchimatePackage.eINSTANCE.getFlowRelationship());
-        ElementsMapping.put("RealisationRelationship", IArchimatePackage.eINSTANCE.getRealisationRelationship());
-        ElementsMapping.put("SpecialisationRelationship", IArchimatePackage.eINSTANCE.getSpecialisationRelationship());
+        ElementsMapping.put("RealizationRelationship", IArchimatePackage.eINSTANCE.getRealizationRelationship());
+        ElementsMapping.put("SpecializationRelationship", IArchimatePackage.eINSTANCE.getSpecializationRelationship());
         ElementsMapping.put("InfluenceRelationship", IArchimatePackage.eINSTANCE.getInfluenceRelationship());
         
         // Junctions
         ElementsMapping.put("Junction", IArchimatePackage.eINSTANCE.getJunction());
-        ElementsMapping.put("AndJunction", IArchimatePackage.eINSTANCE.getAndJunction());
-        ElementsMapping.put("OrJunction", IArchimatePackage.eINSTANCE.getOrJunction());
     }
 
-    public static IArchimateComponent createArchimateComponent(String type) {
+    public static IArchimateConcept createArchimateConcept(String type) {
         EClass eClass = ElementsMapping.get(type);
-        return (IArchimateComponent)(eClass == null ? null : IArchimateFactory.eINSTANCE.create(eClass));
+        return (IArchimateConcept)(eClass == null ? null : IArchimateFactory.eINSTANCE.create(eClass));
     }
     
-    public static String getArchimateComponentName(IArchimateComponent archimateComponent) {
-        // Junctions are a special case
-        if(archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getJunction() || archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getAndJunction()
-                || archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getOrJunction()) {
-            return "Junction";
-        }
-
+    public static String getArchimateComponentName(IArchimateConcept archimateComponent) {
         for(Entry<String, EClass> entry : ElementsMapping.entrySet()) {
             if(entry.getValue().equals(archimateComponent.eClass())) {
                 return entry.getKey();
@@ -116,49 +107,26 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
     }
     
     // Mapping of Viewpoint Names
-    private static Map<Integer, String> ViewPointsMapping = new Hashtable<Integer, String>();
+    private static Map<String, String> ViewPointsMapping = new Hashtable<String, String>();
     
     static {
-        ViewPointsMapping.put(IViewpoint.TOTAL_VIEWPOINT, ""); // This means no Viewpoint
-        ViewPointsMapping.put(IViewpoint.ACTOR_COOPERATION_VIEWPOINT, "Actor Co-operation");
-        ViewPointsMapping.put(IViewpoint.APPLICATION_BEHAVIOUR_VIEWPOINT, "Application Behavior");
-        ViewPointsMapping.put(IViewpoint.APPLICATION_COOPERATION_VIEWPOINT, "Application Co-operation");
-        ViewPointsMapping.put(IViewpoint.APPLICATION_STRUCTURE_VIEWPOINT, "Application Structure");
-        ViewPointsMapping.put(IViewpoint.APPLICATION_USAGE_VIEWPOINT, "Application Usage");
-        ViewPointsMapping.put(IViewpoint.BUSINESS_FUNCTION_VIEWPOINT, "Business Function");
-        ViewPointsMapping.put(IViewpoint.BUSINESS_PROCESS_COOPERATION_VIEWPOINT, "Business Process Co-operation");
-        ViewPointsMapping.put(IViewpoint.BUSINESS_PROCESS_VIEWPOINT, "Business Process");
-        ViewPointsMapping.put(IViewpoint.BUSINESS_PRODUCT_VIEWPOINT, "Product");
-        ViewPointsMapping.put(IViewpoint.IMPLEMENTATION_DEPLOYMENT_VIEWPOINT, "Implementation and Deployment");
-        ViewPointsMapping.put(IViewpoint.INFORMATION_STRUCTURE_VIEWPOINT, "Information Structure");
-        ViewPointsMapping.put(IViewpoint.INFRASTRUCTURE_USAGE_VIEWPOINT, "Infrastructure Usage");
-        ViewPointsMapping.put(IViewpoint.INFRASTRUCTURE_VIEWPOINT, "Infrastructure");
-        ViewPointsMapping.put(IViewpoint.LAYERED_VIEWPOINT, "Layered");
-        ViewPointsMapping.put(IViewpoint.ORGANISATION_VIEWPOINT, "Organization");
-        ViewPointsMapping.put(IViewpoint.SERVICE_REALISATION_VIEWPOINT, "Service Realization");
-        ViewPointsMapping.put(IViewpoint.STAKEHOLDER_VIEWPOINT, "Stakeholder");
-        ViewPointsMapping.put(IViewpoint.GOAL_REALISATION_VIEWPOINT, "Goal Realization");
-        ViewPointsMapping.put(IViewpoint.GOAL_CONTRIBUTION_VIEWPOINT, "Goal Contribution");
-        ViewPointsMapping.put(IViewpoint.PRINCIPLES_VIEWPOINT, "Principles");
-        ViewPointsMapping.put(IViewpoint.REQUIREMENTS_REALISATION_VIEWPOINT, "Requirements Realization");
-        ViewPointsMapping.put(IViewpoint.MOTIVATION_VIEWPOINT, "Motivation");
-        ViewPointsMapping.put(IViewpoint.PROJECT_VIEWPOINT, "Project");
-        ViewPointsMapping.put(IViewpoint.MIGRATION_VIEWPOINT, "Migration");
-        ViewPointsMapping.put(IViewpoint.IMPLEMENTATION_MIGRATION_VIEWPOINT, "Implementation and Migration");
+        ViewPointsMapping.put("", ""); // This means no Viewpoint
+        ViewPointsMapping.put("organization", "Actor Co-operation");
+        // TODO Rest of them
     }
 
-    public static String getViewpointName(int viewPointID) {
+    public static String getViewpointName(String viewPointID) {
         return ViewPointsMapping.get(viewPointID);
     }
     
-    public static int getViewpointID(String viewPointName) {
-        for(Entry<Integer, String> entry : ViewPointsMapping.entrySet()) {
+    public static String getViewpointID(String viewPointName) {
+        for(Entry<String, String> entry : ViewPointsMapping.entrySet()) {
             if(entry.getValue().equals(viewPointName)) {
                 return entry.getKey();
             }
         }
         
-        return 0;
+        return "";
     }
 
 }

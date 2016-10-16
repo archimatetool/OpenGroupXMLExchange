@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.opengroup.archimate.xmlexchange.XMLExchangePlugin;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -99,7 +99,7 @@ public class ExportToXMLPageMetadata extends WizardPage {
         
         setTitle("Export model");
         setDescription("Add Metadata to describe the model");
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
         
         fNames = new LinkedHashMap<String, String>();
         fData = new LinkedHashMap<String, String>();

@@ -30,10 +30,10 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -48,11 +48,10 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILineObject;
-import com.archimatetool.model.IOrJunction;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -282,12 +281,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         Element elementsElement = new Element(ELEMENT_ELEMENTS, OPEN_GROUP_NAMESPACE);
         rootElement.addContent(elementsElement);
         
+        writeModelElementsFolder(fModel.getFolder(FolderType.STRATEGY), elementsElement);
         writeModelElementsFolder(fModel.getFolder(FolderType.BUSINESS), elementsElement);
         writeModelElementsFolder(fModel.getFolder(FolderType.APPLICATION), elementsElement);
         writeModelElementsFolder(fModel.getFolder(FolderType.TECHNOLOGY), elementsElement);
         writeModelElementsFolder(fModel.getFolder(FolderType.MOTIVATION), elementsElement);
         writeModelElementsFolder(fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION), elementsElement);
-        writeModelElementsFolder(fModel.getFolder(FolderType.CONNECTORS), elementsElement);
+        writeModelElementsFolder(fModel.getFolder(FolderType.OTHER), elementsElement);
         
         return elementsElement;
     }
@@ -360,7 +360,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         Element relationshipsElement = new Element(ELEMENT_RELATIONSHIPS, OPEN_GROUP_NAMESPACE);
         rootElement.addContent(relationshipsElement);
         writeModelRelationshipsFolder(fModel.getFolder(FolderType.RELATIONS), relationshipsElement);
-        writeModelRelationshipsFolder(fModel.getFolder(FolderType.DERIVED), relationshipsElement);
         return relationshipsElement;
     }
     
@@ -375,8 +374,8 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         List<EObject> list = new ArrayList<EObject>();
         getElements(folder, list);
         for(EObject eObject : list) {
-            if(eObject instanceof IRelationship) {
-                writeModelRelationship((IRelationship)eObject, relationshipsElement);
+            if(eObject instanceof IArchimateRelationship) {
+                writeModelRelationship((IArchimateRelationship)eObject, relationshipsElement);
              }
         }
     }
@@ -384,7 +383,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write a relationship
      */
-    Element writeModelRelationship(IRelationship relationship, Element relationshipsElement) { 
+    Element writeModelRelationship(IArchimateRelationship relationship, Element relationshipsElement) { 
         Element relationshipElement = new Element(ELEMENT_RELATIONSHIP, OPEN_GROUP_NAMESPACE);
         relationshipsElement.addContent(relationshipElement);
         
@@ -515,10 +514,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     Element writeProperties(IProperties properties, Element parentElement) {
         Element propertiesElement = new Element(ELEMENT_PROPERTIES, OPEN_GROUP_NAMESPACE);
         
-        // If this element is an AND or OR Junction, add a property for its type
-        if(properties instanceof IAndJunction || properties instanceof IOrJunction) {
-            String value = (properties instanceof IAndJunction) ? PROPERTY_JUNCTION_AND : PROPERTY_JUNCTION_OR;
-            writePropertyValue(propertiesElement, PROPERTY_JUNCTION_ID, value);
+        // TODO: If this element is a Junction write Junction type?
+        if(properties instanceof IJunction) {
+            String type = ((IJunction)properties).getType();
+            writePropertyValue(propertiesElement, PROPERTY_JUNCTION_ID, type);
         }
 
         // Other properties
@@ -822,7 +821,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(connection.getSource() instanceof IDiagramModelArchimateObject && connection.getTarget() instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject src = (IDiagramModelArchimateObject)connection.getSource();
             IDiagramModelArchimateObject tgt = (IDiagramModelArchimateObject)connection.getTarget();
-            return src.getChildren().contains(tgt) && DiagramModelUtils.isNestedConnectionTypeRelationship(connection.getRelationship());
+            return src.getChildren().contains(tgt) && DiagramModelUtils.isNestedConnectionTypeRelationship(connection.getArchimateRelationship());
         }
         return false;
     }
@@ -839,7 +838,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
 
         // ArchiMate connection has a Relationship ref
         if(connection instanceof IDiagramModelArchimateConnection) {
-            connectionElement.setAttribute(ATTRIBUTE_RELATIONSHIPREF, createID(((IDiagramModelArchimateConnection)connection).getRelationship()));
+            connectionElement.setAttribute(ATTRIBUTE_RELATIONSHIPREF, createID(((IDiagramModelArchimateConnection)connection).getArchimateRelationship()));
         }
         
         // Source node
@@ -859,6 +858,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     
     /**
      * Write connection bendpoints
+     * TODO: Doesn't work for connection->connection
      */
     void writeConnectionBendpoints(IDiagramModelConnection connection, Element connectionElement) {
         double bpindex = 1; // index count + 1
