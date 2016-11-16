@@ -71,19 +71,19 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         Element rootElement = doc.getRootElement();
         
         // Parse Property Definitions first
-        parsePropertyDefinitions(rootElement.getChild(ELEMENT_PROPERTYDEFS, OPEN_GROUP_NAMESPACE));
+        parsePropertyDefinitions(rootElement.getChild(ELEMENT_PROPERTYDEFS, ARCHIMATE3_NAMESPACE));
         
         // Parse Root Element
         parseRootElement(rootElement);
         
         // Parse ArchiMate Elements
-        parseArchiMateElements(rootElement.getChild(ELEMENT_ELEMENTS, OPEN_GROUP_NAMESPACE));
+        parseArchiMateElements(rootElement.getChild(ELEMENT_ELEMENTS, ARCHIMATE3_NAMESPACE));
         
         // Parse ArchiMate Relations
-        parseArchiMateRelations(rootElement.getChild(ELEMENT_RELATIONSHIPS, OPEN_GROUP_NAMESPACE));
+        parseArchiMateRelations(rootElement.getChild(ELEMENT_RELATIONSHIPS, ARCHIMATE3_NAMESPACE));
         
         // Parse Views
-        parseViews(rootElement.getChild(ELEMENT_VIEWS, OPEN_GROUP_NAMESPACE));
+        parseViews(rootElement.getChild(ELEMENT_VIEWS, ARCHIMATE3_NAMESPACE));
         
         // TODO Parse Organization - not implemented as yet.
         // parseOrganization(rootElement.getChild(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE));
@@ -102,7 +102,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         fPropertyDefinitionsList = new HashMap<String, String>();
         
         // Archi only supports String types so we can ignore the data type
-        for(Element propertyDefElement : propertydefsElement.getChildren(ELEMENT_PROPERTYDEF, OPEN_GROUP_NAMESPACE)) {
+        for(Element propertyDefElement : propertydefsElement.getChildren(ELEMENT_PROPERTYDEF, ARCHIMATE3_NAMESPACE)) {
             String identifier = propertyDefElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
             String name = propertyDefElement.getAttributeValue(ATTRIBUTE_NAME);
             if(identifier != null && name != null) {
@@ -139,9 +139,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     // ========================================= Properties ======================================
 
     private void addProperties(IProperties propertiesModel, Element parentElement) {
-        Element propertiesElement = parentElement.getChild(ELEMENT_PROPERTIES, OPEN_GROUP_NAMESPACE);
+        Element propertiesElement = parentElement.getChild(ELEMENT_PROPERTIES, ARCHIMATE3_NAMESPACE);
         if(propertiesElement != null) {
-            for(Element propertyElement : propertiesElement.getChildren(ELEMENT_PROPERTY, OPEN_GROUP_NAMESPACE)) {
+            for(Element propertyElement : propertiesElement.getChildren(ELEMENT_PROPERTY, ARCHIMATE3_NAMESPACE)) {
                 String idref = propertyElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
                 
                 // Ignore special junction types
@@ -170,7 +170,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             throw new XMLModelParserException("No Elements found");
         }
         
-        for(Element childElement : elementsElement.getChildren(ELEMENT_ELEMENT, OPEN_GROUP_NAMESPACE)) {
+        for(Element childElement : elementsElement.getChildren(ELEMENT_ELEMENT, ARCHIMATE3_NAMESPACE)) {
             String type = childElement.getAttributeValue(ATTRIBUTE_TYPE, XSI_NAMESPACE);
             // If type is bogus ignore
             if(type == null) {
@@ -218,9 +218,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     private String getJunctionType(Element element) {
         String junctionType = "Junction";
         
-        Element propertiesElement = element.getChild(ELEMENT_PROPERTIES, OPEN_GROUP_NAMESPACE);
+        Element propertiesElement = element.getChild(ELEMENT_PROPERTIES, ARCHIMATE3_NAMESPACE);
         if(propertiesElement != null) {
-            for(Element propertyElement : propertiesElement.getChildren(ELEMENT_PROPERTY, OPEN_GROUP_NAMESPACE)) {
+            for(Element propertyElement : propertiesElement.getChildren(ELEMENT_PROPERTY, ARCHIMATE3_NAMESPACE)) {
                 String idref = propertyElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
                 if(PROPERTY_JUNCTION_ID.equals(idref)) {
                     String propertyValue = getChildElementText(propertyElement, ELEMENT_VALUE, true);
@@ -245,7 +245,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             return;
         }
         
-        for(Element childElement : relationsElement.getChildren(ELEMENT_RELATIONSHIP, OPEN_GROUP_NAMESPACE)) {
+        for(Element childElement : relationsElement.getChildren(ELEMENT_RELATIONSHIP, ARCHIMATE3_NAMESPACE)) {
             String type = childElement.getAttributeValue(ATTRIBUTE_TYPE, XSI_NAMESPACE);
             // If type is bogus ignore
             if(type == null) {
@@ -307,7 +307,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             return;
         }
 
-        for(Element childElement : organizationElement.getChildren(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE)) {
+        for(Element childElement : organizationElement.getChildren(ELEMENT_ITEM, ARCHIMATE3_NAMESPACE)) {
             parseItem(childElement);
         }
     }
@@ -329,7 +329,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             
         }
 
-        for(Element childElement : itemElement.getChildren(ELEMENT_ITEM, OPEN_GROUP_NAMESPACE)) {
+        for(Element childElement : itemElement.getChildren(ELEMENT_ITEM, ARCHIMATE3_NAMESPACE)) {
             parseItem(childElement);
         }
     }
@@ -341,7 +341,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             return;
         }
         
-        for(Element viewElement : viewsElement.getChildren(ELEMENT_VIEW, OPEN_GROUP_NAMESPACE)) {
+        for(Element viewElement : viewsElement.getChildren(ELEMENT_VIEW, ARCHIMATE3_NAMESPACE)) {
             IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
             fModel.getDefaultFolderForObject(dm).getElements().add(dm);
             
@@ -384,7 +384,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     // ========================================= Nodes ======================================
 
     private void addNodes(IDiagramModelContainer parentContainer, Element parentElement) throws XMLModelParserException {
-        for(Element nodeElement : parentElement.getChildren(ELEMENT_NODE, OPEN_GROUP_NAMESPACE)) {
+        for(Element nodeElement : parentElement.getChildren(ELEMENT_NODE, ARCHIMATE3_NAMESPACE)) {
             IDiagramModelObject dmo = null;
             
             // This has an element ref so it's an ArchiMate element node
@@ -409,7 +409,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 
                 // Does the graphical node have children?
                 // Our notes cannot contain children, so if it does contain children it has to be a Group.
-                boolean hasChildren = nodeElement.getChildren(ELEMENT_NODE, OPEN_GROUP_NAMESPACE).size() > 0;
+                boolean hasChildren = nodeElement.getChildren(ELEMENT_NODE, ARCHIMATE3_NAMESPACE).size() > 0;
                 
                 if(isGroup || hasChildren) {
                     IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
@@ -460,7 +460,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 dmo.setBounds(relativeBounds);
                 
                 // Style
-                addNodeStyle(dmo, nodeElement.getChild(ELEMENT_STYLE, OPEN_GROUP_NAMESPACE));
+                addNodeStyle(dmo, nodeElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
 
                 // Child nodes
                 if(dmo instanceof IDiagramModelContainer) {
@@ -501,19 +501,19 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
 
         // Fill Color
-        dmo.setFillColor(getRGBColorString(styleElement.getChild(ELEMENT_FILLCOLOR, OPEN_GROUP_NAMESPACE)));
+        dmo.setFillColor(getRGBColorString(styleElement.getChild(ELEMENT_FILLCOLOR, ARCHIMATE3_NAMESPACE)));
         
         // Line Color
-        dmo.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE)));
+        dmo.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, ARCHIMATE3_NAMESPACE)));
 
         // Font
-        addFont(dmo, styleElement.getChild(ELEMENT_FONT, OPEN_GROUP_NAMESPACE));
+        addFont(dmo, styleElement.getChild(ELEMENT_FONT, ARCHIMATE3_NAMESPACE));
     }
     
     // ======================================= Connections ====================================
     
     private void addConnections(Element viewElement) throws XMLModelParserException {
-        for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, OPEN_GROUP_NAMESPACE)) {
+        for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, ARCHIMATE3_NAMESPACE)) {
             
             IDiagramModelConnection connection = null;
             
@@ -578,7 +578,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 addBendpoints(connection, connectionElement);
                 
                 // Style
-                addConnectionStyle(connection, connectionElement.getChild(ELEMENT_STYLE, OPEN_GROUP_NAMESPACE));
+                addConnectionStyle(connection, connectionElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
             }
         }
     }
@@ -587,7 +587,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
      * Add bendpoints
      */
     private void addBendpoints(IDiagramModelConnection connection, Element connectionElement) throws XMLModelParserException {
-        for(Element bendpointElement : connectionElement.getChildren(ELEMENT_BENDPOINT, OPEN_GROUP_NAMESPACE)) {
+        for(Element bendpointElement : connectionElement.getChildren(ELEMENT_BENDPOINT, ARCHIMATE3_NAMESPACE)) {
             String xString = bendpointElement.getAttributeValue(ATTRIBUTE_X);
             String yString = bendpointElement.getAttributeValue(ATTRIBUTE_Y);
             if(!hasValue(xString) || !hasValue(yString)) {
@@ -637,10 +637,10 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
         
         // Line Color
-        connection.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, OPEN_GROUP_NAMESPACE)));
+        connection.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, ARCHIMATE3_NAMESPACE)));
 
         // Font
-        addFont(connection, styleElement.getChild(ELEMENT_FONT, OPEN_GROUP_NAMESPACE));
+        addFont(connection, styleElement.getChild(ELEMENT_FONT, ARCHIMATE3_NAMESPACE));
     }
 
     // ========================================= Helpers ======================================
@@ -678,7 +678,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         fontObject.setFont(newFontData.toString());
         
         // Font color
-        fontObject.setFontColor(getRGBColorString(fontElement.getChild(ELEMENT_FONTCOLOR, OPEN_GROUP_NAMESPACE)));
+        fontObject.setFontColor(getRGBColorString(fontElement.getChild(ELEMENT_FONTCOLOR, ARCHIMATE3_NAMESPACE)));
     }
     
     /**
@@ -713,7 +713,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             code = "en";
         }
         
-        for(Element childElement : parentElement.getChildren(childElementName, OPEN_GROUP_NAMESPACE)) {
+        for(Element childElement : parentElement.getChildren(childElementName, ARCHIMATE3_NAMESPACE)) {
             String lang = childElement.getAttributeValue(ATTRIBUTE_LANG, Namespace.XML_NAMESPACE);
             if(code.equals(lang)) {
                 return normalise ? childElement.getTextNormalize() : childElement.getText();
@@ -721,7 +721,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
         
         // Default to first element found
-        Element element = parentElement.getChild(childElementName, OPEN_GROUP_NAMESPACE);
+        Element element = parentElement.getChild(childElementName, ARCHIMATE3_NAMESPACE);
         return element == null ? null : normalise ? element.getTextNormalize() : element.getText();
     }
     

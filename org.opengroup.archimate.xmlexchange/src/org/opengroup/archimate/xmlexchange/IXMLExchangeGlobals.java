@@ -19,13 +19,13 @@ public interface IXMLExchangeGlobals {
     String FILE_EXTENSION = ".xml";
     String FILE_EXTENSION_WILDCARD = "*.xml";
     
-    String OPEN_GROUP_NAMESPACE_PREFIX = "archimate";
+    String ARCHIMATE_NAMESPACE_PREFIX = "archimate";
     
-    Namespace OPEN_GROUP_NAMESPACE = Namespace.getNamespace("http://www.opengroup.org/xsd/archimate");
-    Namespace OPEN_GROUP_NAMESPACE_EMBEDDED = Namespace.getNamespace(OPEN_GROUP_NAMESPACE_PREFIX, OPEN_GROUP_NAMESPACE.getURI());
+    Namespace ARCHIMATE3_NAMESPACE = Namespace.getNamespace("http://www.opengroup.org/xsd/archimate/3.0/");
+    Namespace ARCHIMATE3_NAMESPACE_EMBEDDED = Namespace.getNamespace(ARCHIMATE_NAMESPACE_PREFIX, ARCHIMATE3_NAMESPACE.getURI());
     
-    String OPEN_GROUP_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate/archimate_v2p1.xsd";
-    //String OPEN_GROUP_SCHEMA_LOCATION = "archimate_v2p1.xsd";
+    //String ARCHIMATE3_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate/archimate3_Diagram.xsd";
+    String ARCHIMATE3_SCHEMA_LOCATION = "archimate3_Diagram.xsd"; // For local testing
     
     Namespace XSI_NAMESPACE = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
     

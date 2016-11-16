@@ -38,7 +38,9 @@ public final class XMLValidator {
         
         // Local XSDs
         Schema schema = factory.newSchema(new Source[]{
-                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE_XSD)),
+                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_MODEL_XSD)),
+                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_VIEW_XSD)),
+                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD)),
                 new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.DUBLINCORE_XSD))
         });
 

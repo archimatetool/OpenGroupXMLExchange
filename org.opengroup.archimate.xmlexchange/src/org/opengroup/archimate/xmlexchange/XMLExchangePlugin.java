@@ -21,7 +21,9 @@ public class XMLExchangePlugin extends AbstractUIPlugin {
     public static final String PLUGIN_ID = "org.opengroup.archimate.xmlexchange";
     
     public static final String XSD_FOLDER = "xsd/";
-    public static final String ARCHIMATE_XSD = "archimate_v2p1.xsd";
+    public static final String ARCHIMATE3_DIAGRAM_XSD = "archimate3_Diagram.xsd";
+    public static final String ARCHIMATE3_MODEL_XSD = "archimate3_Model.xsd";
+    public static final String ARCHIMATE3_VIEW_XSD = "archimate3_View.xsd";
     public static final String DUBLINCORE_XSD = "dc.xsd";
     public static final String XML_XSD = "xml.xsd";
 
