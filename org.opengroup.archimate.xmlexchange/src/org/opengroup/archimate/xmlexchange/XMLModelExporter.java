@@ -30,9 +30,11 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
@@ -48,6 +50,7 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
@@ -417,6 +420,37 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
 
         // Type
         relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(relationship), JDOMUtils.XSI_Namespace);
+        
+        // Influence Strength
+        if(relationship.eClass() == IArchimatePackage.eINSTANCE.getInfluenceRelationship()) {
+            String strength = ((IInfluenceRelationship)relationship).getStrength();
+            if(hasSomeText(strength)) {
+                relationshipElement.setAttribute(ATTRIBUTE_STRENGTH, strength);
+            }
+        }
+        
+        // Access direction
+        if(relationship.eClass() == IArchimatePackage.eINSTANCE.getAccessRelationship()) {
+            int accessType = ((IAccessRelationship)relationship).getAccessType();
+            switch(accessType) {
+                case IAccessRelationship.READ_ACCESS:
+                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_DIRECTION, "Read");
+                    break;
+
+                case IAccessRelationship.READ_WRITE_ACCESS:
+                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_DIRECTION, "ReadWrite");
+                    break;
+
+                case IAccessRelationship.UNSPECIFIED_ACCESS:
+                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_DIRECTION, "Access");
+                    break;
+
+                default:
+                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_DIRECTION, "Write");
+                    break;
+            }
+        }
+        
 
         // Name
         writeTextToElement(relationship.getName(), relationshipElement, ELEMENT_NAME);
