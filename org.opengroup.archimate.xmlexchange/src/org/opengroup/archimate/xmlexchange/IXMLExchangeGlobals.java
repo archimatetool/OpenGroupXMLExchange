@@ -46,7 +46,7 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_PROPERTIES = "properties";
     String ELEMENT_PROPERTY = "property";
     String ELEMENT_VALUE = "value";
-    String ELEMENT_ORGANIZATION = "organization";
+    String ELEMENT_ORGANIZATIONS = "organizations";
     String ELEMENT_ITEM = "item";
     String ELEMENT_VIEWS = "views";
     String ELEMENT_VIEW = "view";

@@ -233,9 +233,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Relationships
         writeModelRelationships(rootElement);
         
-        // Organization
+        // Organizations
         if(fDoSaveOrganisation) {
-            writeOrganization(rootElement);
+            writeOrganizations(rootElement);
         }
         
         // Properties Definitions
@@ -430,17 +430,23 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return relationshipElement;
     }
     
-    // ========================================= Organization ======================================
+    // ========================================= Organizations ======================================
 
-    Element writeOrganization(Element rootElement) {
-        Element organizationElement = new Element(ELEMENT_ORGANIZATION, ARCHIMATE3_NAMESPACE);
-        rootElement.addContent(organizationElement);
+    Element writeOrganizations(Element rootElement) {
+        Element organizationsElement = new Element(ELEMENT_ORGANIZATIONS, ARCHIMATE3_NAMESPACE);
         
         for(IFolder folder : fModel.getFolders()) {
-            writeFolder(folder, organizationElement);
+            writeFolder(folder, organizationsElement);
         }
         
-        return organizationElement;
+        // If there are children
+        if(!organizationsElement.getChildren().isEmpty()) {
+            rootElement.addContent(organizationsElement);
+            return organizationsElement;
+        }
+        
+        // No children, so return null
+        return null;
     }
     
     Element writeFolder(IFolder folder, Element parentElement) {

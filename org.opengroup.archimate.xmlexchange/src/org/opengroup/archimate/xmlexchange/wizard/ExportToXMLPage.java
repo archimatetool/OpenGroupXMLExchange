@@ -140,7 +140,7 @@ public class ExportToXMLPage extends WizardPage {
         }
         
         label = new Label(optionsGroup, SWT.NULL);
-        label.setText("Copy XSD schema file to target location:");
+        label.setText("Copy XSD schema files to target location:");
         fIncludeXSDButton = new Button(optionsGroup, SWT.CHECK);
         
         boolean doIncludeXSD = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_INCLUDE_XSD);
