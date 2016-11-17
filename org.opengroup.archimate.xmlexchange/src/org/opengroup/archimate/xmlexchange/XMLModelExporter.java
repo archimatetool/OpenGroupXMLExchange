@@ -48,7 +48,6 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
@@ -216,9 +215,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Gather all properties now
         fPropertyDefsList = getAllUniquePropertyKeysForModel();
         
-        // Metadata
-        writeMetadata(rootElement);
-        
         // Name
         writeTextToElement(fModel.getName(), rootElement, ELEMENT_NAME);
         
@@ -227,6 +223,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
 
         // Model Properties
         writeProperties(fModel, rootElement);
+        
+        // Metadata
+        writeMetadata(rootElement);
         
         // Model Elements
         writeModelElements(rootElement);
@@ -285,7 +284,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      */
     Element writeModelElements(Element rootElement) {
         Element elementsElement = new Element(ELEMENT_ELEMENTS, ARCHIMATE3_NAMESPACE);
-        rootElement.addContent(elementsElement);
         
         writeModelElementsFolder(fModel.getFolder(FolderType.STRATEGY), elementsElement);
         writeModelElementsFolder(fModel.getFolder(FolderType.BUSINESS), elementsElement);
@@ -295,7 +293,14 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeModelElementsFolder(fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION), elementsElement);
         writeModelElementsFolder(fModel.getFolder(FolderType.OTHER), elementsElement);
         
-        return elementsElement;
+        // If there are elements
+        if(!elementsElement.getChildren().isEmpty()) {
+            rootElement.addContent(elementsElement);
+            return elementsElement;
+        }
+        
+        // No children, so return null
+        return null;
     }
     
     /**
@@ -326,10 +331,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         elementElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(element));
         
         // Type
-        elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateComponentName(element), JDOMUtils.XSI_Namespace);
+        elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(element), JDOMUtils.XSI_Namespace);
         
         // Name
-        writeTextToElement(element.getName(), elementElement, ELEMENT_LABEL);
+        writeTextToElement(element.getName(), elementElement, ELEMENT_NAME);
         
         // Documentation
         writeTextToElement(element.getDocumentation(), elementElement, ELEMENT_DOCUMENTATION);
@@ -364,9 +369,17 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      */
     Element writeModelRelationships(Element rootElement) {
         Element relationshipsElement = new Element(ELEMENT_RELATIONSHIPS, ARCHIMATE3_NAMESPACE);
-        rootElement.addContent(relationshipsElement);
+        
         writeModelRelationshipsFolder(fModel.getFolder(FolderType.RELATIONS), relationshipsElement);
-        return relationshipsElement;
+        
+        // If there are relationships
+        if(!relationshipsElement.getChildren().isEmpty()) {
+            rootElement.addContent(relationshipsElement);
+            return relationshipsElement;
+        }
+        
+        // No children, so return null
+        return null;
     }
     
     /**
@@ -403,10 +416,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         relationshipElement.setAttribute(ATTRIBUTE_TARGET, createID(relationship.getTarget()));
 
         // Type
-        relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateComponentName(relationship), JDOMUtils.XSI_Namespace);
+        relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(relationship), JDOMUtils.XSI_Namespace);
 
         // Name
-        writeTextToElement(relationship.getName(), relationshipElement, ELEMENT_LABEL);
+        writeTextToElement(relationship.getName(), relationshipElement, ELEMENT_NAME);
         
         // Documentation
         writeTextToElement(relationship.getDocumentation(), relationshipElement, ELEMENT_DOCUMENTATION);
@@ -472,15 +485,19 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             return null;
         }
         
-        Element propertiesDefinitionsElement = new Element(ELEMENT_PROPERTYDEFS, ARCHIMATE3_NAMESPACE);
+        Element propertiesDefinitionsElement = new Element(ELEMENT_PROPERTYDEFINITIONS, ARCHIMATE3_NAMESPACE);
         rootElement.addContent(propertiesDefinitionsElement);
 
         for(Entry<String, String> entry : fPropertyDefsList.entrySet()) {
-            Element propertyDefElement = new Element(ELEMENT_PROPERTYDEF, ARCHIMATE3_NAMESPACE);
+            Element propertyDefElement = new Element(ELEMENT_PROPERTYDEFINITION, ARCHIMATE3_NAMESPACE);
             propertiesDefinitionsElement.addContent(propertyDefElement);
+            
             propertyDefElement.setAttribute(ATTRIBUTE_IDENTIFIER, entry.getValue());
-            propertyDefElement.setAttribute(ATTRIBUTE_NAME, entry.getKey());
             propertyDefElement.setAttribute(ATTRIBUTE_TYPE, "string"); //$NON-NLS-1$
+            
+            Element propertyNameElement = new Element(ELEMENT_NAME, ARCHIMATE3_NAMESPACE);
+            propertyNameElement.setText(entry.getKey());
+            propertyDefElement.addContent(propertyNameElement);
         }
         
         return propertiesDefinitionsElement;
@@ -505,9 +522,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             }
         }
         
-        // Add a special property definition for Junctions so we can declare junction types
-        list.put(PROPERTY_JUNCTION_TYPE, PROPERTY_JUNCTION_ID);
-        
         return list;
     }
     
@@ -520,13 +534,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     Element writeProperties(IProperties properties, Element parentElement) {
         Element propertiesElement = new Element(ELEMENT_PROPERTIES, ARCHIMATE3_NAMESPACE);
         
-        // TODO: If this element is a Junction write Junction type?
-        if(properties instanceof IJunction) {
-            String type = ((IJunction)properties).getType();
-            writePropertyValue(propertiesElement, PROPERTY_JUNCTION_ID, type);
-        }
-
-        // Other properties
         for(IProperty property : properties.getProperties()) {
             String name = property.getKey();
             String value = property.getValue();
@@ -551,7 +558,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     Element writePropertyValue(Element propertiesElement, String propertyRefID, String propertyValue) {
         Element propertyElement = new Element(ELEMENT_PROPERTY, ARCHIMATE3_NAMESPACE);
         propertiesElement.addContent(propertyElement);
-        propertyElement.setAttribute(ATTRIBUTE_IDENTIFIERREF, propertyRefID);
+        propertyElement.setAttribute(ATTRIBUTE_PROPERTY_IDENTIFIERREF, propertyRefID);
         
         Element valueElement = new Element(ELEMENT_VALUE, ARCHIMATE3_NAMESPACE);
         propertyElement.addContent(valueElement);
@@ -606,7 +613,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
 
         // Name
-        writeTextToElement(dm.getName(), viewElement, ELEMENT_LABEL);
+        writeTextToElement(dm.getName(), viewElement, ELEMENT_NAME);
         
         // Documentation
         writeTextToElement(dm.getDocumentation(), viewElement, ELEMENT_DOCUMENTATION);
@@ -700,7 +707,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         nodeElement.setAttribute(ATTRIBUTE_TYPE, NODE_TYPE_GROUP);
         
         // Name
-        writeTextToElement(group.getName(), nodeElement, ELEMENT_LABEL);
+        writeTextToElement(group.getName(), nodeElement, ELEMENT_NAME);
         
         // Documentation
         writeTextToElement(group.getDocumentation(), nodeElement, ELEMENT_DOCUMENTATION);
@@ -733,7 +740,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeAbsoluteBounds(note, nodeElement);
         
         // Text
-        writeTextToElement(note.getContent(), nodeElement, ELEMENT_LABEL);
+        writeTextToElement(note.getContent(), nodeElement, ELEMENT_NAME);
         
         // Style
         writeNodeStyle(note, nodeElement);

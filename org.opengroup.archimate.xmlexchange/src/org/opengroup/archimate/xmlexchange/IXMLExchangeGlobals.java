@@ -41,8 +41,8 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_ELEMENTS = "elements";
     String ELEMENT_RELATIONSHIPS = "relationships";
     String ELEMENT_RELATIONSHIP = "relationship";
-    String ELEMENT_PROPERTYDEFS = "propertydefs";
-    String ELEMENT_PROPERTYDEF = "propertydef";
+    String ELEMENT_PROPERTYDEFINITIONS = "propertyDefinitions";
+    String ELEMENT_PROPERTYDEFINITION = "propertyDefinition";
     String ELEMENT_PROPERTIES = "properties";
     String ELEMENT_PROPERTY = "property";
     String ELEMENT_VALUE = "value";
@@ -66,7 +66,8 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_LABEL = "label";
     String ATTRIBUTE_NAME = "name";
     String ATTRIBUTE_IDENTIFIER = "identifier";
-    String ATTRIBUTE_IDENTIFIERREF = "identifierref";
+    String ATTRIBUTE_IDENTIFIERREF = "identifierRef";
+    String ATTRIBUTE_PROPERTY_IDENTIFIERREF = "propertyDefinitionRef";
     String ATTRIBUTE_TYPE = "type";
     String ATTRIBUTE_SOURCE = "source";
     String ATTRIBUTE_TARGET = "target";
@@ -74,6 +75,7 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_VIEWPOINT = "viewpoint";
     String ATTRIBUTE_ELEMENTREF = "elementref";
     String ATTRIBUTE_RELATIONSHIPREF = "relationshipref";
+    
     String ATTRIBUTE_X = "x";
     String ATTRIBUTE_Y = "y";
     String ATTRIBUTE_WIDTH = "w";
@@ -87,9 +89,4 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_LINEWIDTH = "lineWidth";
     
     String NODE_TYPE_GROUP = "group";
-    
-    String PROPERTY_JUNCTION_ID = "propid-junctionType";
-    String PROPERTY_JUNCTION_TYPE = "JunctionType";
-    String PROPERTY_JUNCTION_AND = "AND";
-    String PROPERTY_JUNCTION_OR = "OR";
 }
