@@ -1192,7 +1192,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:complexType name="InfluenceRelationship">
+  <xs:complexType name="Influence">
     <xs:complexContent>
       <xs:extension base="RelationshipType">
 
@@ -1332,7 +1332,7 @@
       <xs:enumeration value="Gap"/>
       <xs:enumeration value="Grouping"/>
       <xs:enumeration value="Location"/>
-      <xs:enumeration value="Junction"/>
+      <xs:enumeration value="AndJunction"/>
       <xs:enumeration value="OrJunction"/>
     </xs:restriction>
   </xs:simpleType>
