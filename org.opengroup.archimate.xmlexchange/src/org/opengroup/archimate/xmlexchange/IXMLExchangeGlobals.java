@@ -50,6 +50,8 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_ITEM = "item";
     String ELEMENT_VIEWS = "views";
     String ELEMENT_VIEW = "view";
+    String ELEMENT_DIAGRAMS = "diagrams";
+    String ELEMENT_DIAGRAM = "diagram";
     String ELEMENT_STYLE = "style";
     String ELEMENT_NODE = "node";
     String ELEMENT_CONNECTION = "connection";
@@ -75,8 +77,13 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_ACCESS_DIRECTION = "accessDirection";
     String ATTRIBUTE_LANG = "lang";
     String ATTRIBUTE_VIEWPOINT = "viewpoint";
-    String ATTRIBUTE_ELEMENTREF = "elementref";
-    String ATTRIBUTE_RELATIONSHIPREF = "relationshipref";
+    String ATTRIBUTE_ELEMENTREF = "elementRef";
+    String ATTRIBUTE_RELATIONSHIPREF = "relationshipRef";
+    String ATTRIBUTE_ELEMENT_TYPE = "Element";
+    String ATTRIBUTE_RELATIONSHIP_TYPE = "Relationship";
+    String ATTRIBUTE_LABEL_TYPE = "Label";
+    String ATTRIBUTE_LINE_TYPE = "Line";
+    String ATTRIBUTE_CONTAINER_TYPE = "Container";
     
     String ATTRIBUTE_X = "x";
     String ATTRIBUTE_Y = "y";
@@ -89,6 +96,4 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_FONTSIZE = "size";
     String ATTRIBUTE_FONTSTYLE = "style";
     String ATTRIBUTE_LINEWIDTH = "lineWidth";
-    
-    String NODE_TYPE_GROUP = "group";
 }

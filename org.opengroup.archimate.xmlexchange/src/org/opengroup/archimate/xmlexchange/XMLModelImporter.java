@@ -368,7 +368,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             
             // No element ref so this is another type of node, but what is it?
             else {
-                boolean isGroup = NODE_TYPE_GROUP.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
+                boolean isGroup = ATTRIBUTE_CONTAINER_TYPE.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
                 //boolean isNote = NODE_TYPE_TEXT.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
                 
                 // Does the graphical node have children?

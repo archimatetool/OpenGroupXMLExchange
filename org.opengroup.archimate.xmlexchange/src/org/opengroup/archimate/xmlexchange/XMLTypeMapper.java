@@ -161,8 +161,30 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
     
     static {
         ViewPointsMapping.put("", ""); // This means no Viewpoint
-        ViewPointsMapping.put("organization", "Actor Co-operation");
-        // TODO Rest of them
+        ViewPointsMapping.put("organization", "Organization");
+//        ViewPointsMapping.put("", "Application Platform");
+//        ViewPointsMapping.put("", "Information Structure");
+//        ViewPointsMapping.put("", "Technology");
+//        ViewPointsMapping.put("", "Layered");
+//        ViewPointsMapping.put("", "Physical");
+//        ViewPointsMapping.put("", "Product");
+//        ViewPointsMapping.put("", "Application Usage");
+//        ViewPointsMapping.put("", "Technology Usage");
+//        ViewPointsMapping.put("", "Business Process Cooperation");
+//        ViewPointsMapping.put("", "Application Cooperation");
+//        ViewPointsMapping.put("", "Service Realization");
+//        ViewPointsMapping.put("", "Implementation and Deployment");
+//        ViewPointsMapping.put("", "Goal Realization");
+//        ViewPointsMapping.put("", "Goal Contribution");
+//        ViewPointsMapping.put("", "Principles");
+//        ViewPointsMapping.put("", "Requirements Realization");
+//        ViewPointsMapping.put("", "Motivation");
+//        ViewPointsMapping.put("", "Capability Map");
+//        ViewPointsMapping.put("", "Outcome Realization");
+//        ViewPointsMapping.put("", "Resource Map");
+//        ViewPointsMapping.put("", "Project");
+//        ViewPointsMapping.put("", "Migration");
+//        ViewPointsMapping.put("", "Implementation and Migration");
     }
 
     public static String getViewpointName(String viewPointID) {

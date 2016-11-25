@@ -334,7 +334,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         elementElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(element));
         
         // Type
-        elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(element), JDOMUtils.XSI_Namespace);
+        elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(element), XSI_NAMESPACE);
         
         // Name
         writeTextToElement(element.getName(), elementElement, ELEMENT_NAME);
@@ -627,12 +627,15 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         Element viewsElement = new Element(ELEMENT_VIEWS, ARCHIMATE3_NAMESPACE);
         rootElement.addContent(viewsElement);
         
+        Element diagramsElement = new Element(ELEMENT_DIAGRAMS, ARCHIMATE3_NAMESPACE);
+        viewsElement.addContent(diagramsElement);
+        
         for(IDiagramModel dm : views) {
             if(dm instanceof IArchimateDiagramModel) {
                 // Calculate negative offset for this diagram
                 fCurrentDiagramNegativeOffset = XMLExchangeUtils.getNegativeOffsetForDiagram(dm);
                 
-                writeView((IArchimateDiagramModel)dm, viewsElement);
+                writeView((IArchimateDiagramModel)dm, diagramsElement);
             }
         }
         
@@ -716,6 +719,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         IArchimateElement element = dmo.getArchimateElement();
         nodeElement.setAttribute(ATTRIBUTE_ELEMENTREF, createID(element));
         
+        // Type
+        nodeElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_ELEMENT_TYPE, XSI_NAMESPACE);
+        
         // Bounds
         writeAbsoluteBounds(dmo, nodeElement);
         
@@ -744,10 +750,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeAbsoluteBounds(group, nodeElement);
         
         // Type
-        nodeElement.setAttribute(ATTRIBUTE_TYPE, NODE_TYPE_GROUP);
+        nodeElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_CONTAINER_TYPE, XSI_NAMESPACE);
         
-        // Name
-        writeTextToElement(group.getName(), nodeElement, ELEMENT_NAME);
+        // Label
+        writeTextToElement(group.getName(), nodeElement, ELEMENT_LABEL);
         
         // Documentation
         writeTextToElement(group.getDocumentation(), nodeElement, ELEMENT_DOCUMENTATION);
@@ -775,12 +781,15 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         
         // ID
         nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(note));
+        
+        // Type
+        nodeElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_LABEL_TYPE, XSI_NAMESPACE);
 
         // Bounds
         writeAbsoluteBounds(note, nodeElement);
         
         // Text
-        writeTextToElement(note.getContent(), nodeElement, ELEMENT_NAME);
+        writeTextToElement(note.getContent(), nodeElement, ELEMENT_LABEL);
         
         // Style
         writeNodeStyle(note, nodeElement);
@@ -892,6 +901,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // ArchiMate connection has a Relationship ref
         if(connection instanceof IDiagramModelArchimateConnection) {
             connectionElement.setAttribute(ATTRIBUTE_RELATIONSHIPREF, createID(((IDiagramModelArchimateConnection)connection).getArchimateRelationship()));
+            // Type
+            connectionElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_RELATIONSHIP_TYPE, XSI_NAMESPACE);
+        }
+        else {
+            // Type
+            connectionElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_LINE_TYPE, XSI_NAMESPACE);
         }
         
         // Source node
@@ -977,7 +992,6 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     
     /**
      * Write line colour of a diagram object
-     * TODO: Should we export connection line color if it is the default black?
      */
     Element writeLineColor(ILineObject lineObject, Element parentElement) {
         Element lineColorElement = null;
@@ -1021,7 +1035,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
                 }
                 if((style & SWT.ITALIC) == SWT.ITALIC) {
                     if(StringUtils.isSet(styleString)) {
-                        styleString += "|";
+                        styleString += " ";
                     }
                     styleString += "italic";
                 }

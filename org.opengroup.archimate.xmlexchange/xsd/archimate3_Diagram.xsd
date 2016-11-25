@@ -457,11 +457,11 @@
         It is a container for style properties such as color, font.
       </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:all>
       <xs:element name="lineColor" type="RGBColorType" minOccurs="0" maxOccurs="1" />
       <xs:element name="fillColor" type="RGBColorType" minOccurs="0" maxOccurs="1" />
       <xs:element name="font" type="FontType" minOccurs="0" maxOccurs="1" />
-    </xs:sequence>
+    </xs:all>
     <xs:attribute name="lineWidth" type="xs:positiveInteger" use="optional">
       <xs:annotation>
         <xs:documentation>
