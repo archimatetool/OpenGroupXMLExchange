@@ -42,7 +42,6 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
@@ -848,33 +847,18 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write all connections
      */
     void writeConnections(IDiagramModel dm, Element parentElement) {
-        for(IDiagramModelObject child : dm.getChildren()) {
-            writeConnections(child, parentElement);
-        }
-    }
-    
-    /**
-     * Write connections from a diagram model object
-     */
-    void writeConnections(IDiagramModelObject dmo, Element parentElement) {
-        for(IDiagramModelConnection connection : dmo.getSourceConnections()) {
+        for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
             // ArchiMate connection
-            if(connection instanceof IDiagramModelArchimateConnection) {
+            if(eObject instanceof IDiagramModelArchimateConnection) {
                 // If it's nested don't write a connection
-                if(!isNestedConnection((IDiagramModelArchimateConnection)connection)) {
-                    writeConnection(connection, parentElement);
+                if(!isNestedConnection((IDiagramModelArchimateConnection)eObject)) {
+                    writeConnection((IDiagramModelConnection)eObject, parentElement);
                 }
             }
             // Other connection
-            else {
-                writeConnection(connection, parentElement);
-            }
-        }
-        
-        // Children
-        if(dmo instanceof IDiagramModelContainer) {
-            for(IDiagramModelObject child : ((IDiagramModelContainer)dmo).getChildren()) {
-                writeConnections(child, parentElement);
+            else if(eObject instanceof IDiagramModelConnection) {
+                writeConnection((IDiagramModelConnection)eObject, parentElement);
             }
         }
     }
@@ -912,10 +896,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             connectionElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_LINE_TYPE, XSI_NAMESPACE);
         }
         
-        // Source node
+        // Source
         connectionElement.setAttribute(ATTRIBUTE_SOURCE, createID(connection.getSource()));
         
-        // Target node
+        // Target
         connectionElement.setAttribute(ATTRIBUTE_TARGET, createID(connection.getTarget()));
         
         // Style
@@ -929,9 +913,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     
     /**
      * Write connection bendpoints
-     * TODO: Doesn't work for connection->connection
      */
     void writeConnectionBendpoints(IDiagramModelConnection connection, Element connectionElement) {
+        // TODO: Doesn't work for connection->connection
+        if(connection.getSource() instanceof IDiagramModelConnection || connection.getTarget() instanceof IDiagramModelConnection) {
+            return;
+        }
+        
         double bpindex = 1; // index count + 1
     	double bpcount = connection.getBendpoints().size() + 1; // number of bendpoints + 1
     	
