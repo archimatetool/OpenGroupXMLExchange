@@ -163,28 +163,30 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
         ViewPointsMapping.put("", ""); // This means no Viewpoint
         ViewPointsMapping.put("organization", "Organization");
 //        ViewPointsMapping.put("", "Application Platform");
-//        ViewPointsMapping.put("", "Information Structure");
-//        ViewPointsMapping.put("", "Technology");
-//        ViewPointsMapping.put("", "Layered");
-//        ViewPointsMapping.put("", "Physical");
-//        ViewPointsMapping.put("", "Product");
-//        ViewPointsMapping.put("", "Application Usage");
-//        ViewPointsMapping.put("", "Technology Usage");
-//        ViewPointsMapping.put("", "Business Process Cooperation");
-//        ViewPointsMapping.put("", "Application Cooperation");
-//        ViewPointsMapping.put("", "Service Realization");
-//        ViewPointsMapping.put("", "Implementation and Deployment");
-//        ViewPointsMapping.put("", "Goal Realization");
+        ViewPointsMapping.put("information_structure", "Information Structure");
+        ViewPointsMapping.put("technology", "Technology");
+        ViewPointsMapping.put("layered", "Layered");
+        ViewPointsMapping.put("physical", "Physical");
+        ViewPointsMapping.put("product", "Product");
+        ViewPointsMapping.put("application_usage", "Application Usage");
+        ViewPointsMapping.put("technology_usage", "Technology Usage");
+        ViewPointsMapping.put("business_process_cooperation", "Business Process Cooperation");
+        ViewPointsMapping.put("application_cooperation", "Application Cooperation");
+        ViewPointsMapping.put("service_realization", "Service Realization");
+        ViewPointsMapping.put("implementation_deployment", "Implementation and Deployment");
+        ViewPointsMapping.put("goal_realization", "Goal Realization");
 //        ViewPointsMapping.put("", "Goal Contribution");
 //        ViewPointsMapping.put("", "Principles");
-//        ViewPointsMapping.put("", "Requirements Realization");
-//        ViewPointsMapping.put("", "Motivation");
-//        ViewPointsMapping.put("", "Capability Map");
-//        ViewPointsMapping.put("", "Outcome Realization");
-//        ViewPointsMapping.put("", "Resource Map");
-//        ViewPointsMapping.put("", "Project");
-//        ViewPointsMapping.put("", "Migration");
-//        ViewPointsMapping.put("", "Implementation and Migration");
+        ViewPointsMapping.put("requirements_realization", "Requirements Realization");
+        ViewPointsMapping.put("motivation", "Motivation");
+        ViewPointsMapping.put("strategy", "Strategy");
+        ViewPointsMapping.put("capability", "Capability Map");
+        ViewPointsMapping.put("outcome_realization", "Outcome Realization");
+        ViewPointsMapping.put("resource", "Resource Map");
+        ViewPointsMapping.put("project", "Project");
+        ViewPointsMapping.put("migration", "Migration");
+        ViewPointsMapping.put("implementation_migration", "Implementation and Migration");
+        ViewPointsMapping.put("stakeholder", "Stakeholder");
     }
 
     public static String getViewpointName(String viewPointID) {

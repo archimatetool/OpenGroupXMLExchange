@@ -311,6 +311,7 @@
       <xs:enumeration value="Motivation"/>
 
       <!-- Strategy Viewpoints -->
+      <xs:enumeration value="Strategy"/>
       <xs:enumeration value="Capability Map"/>
       <xs:enumeration value="Outcome Realization"/>
       <xs:enumeration value="Resource Map"/>
@@ -319,7 +320,10 @@
       <xs:enumeration value="Project"/>
       <xs:enumeration value="Migration"/>
       <xs:enumeration value="Implementation and Migration"/>
-
+      
+      <!-- Other Viewpoints -->
+      <xs:enumeration value="Stakeholder"/>
+    
     </xs:restriction>
   </xs:simpleType>
 

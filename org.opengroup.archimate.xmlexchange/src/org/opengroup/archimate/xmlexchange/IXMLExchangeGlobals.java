@@ -84,6 +84,7 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_LABEL_TYPE = "Label";
     String ATTRIBUTE_LINE_TYPE = "Line";
     String ATTRIBUTE_CONTAINER_TYPE = "Container";
+    String ATTRIBUTE_DIAGRAM_TYPE = "Diagram";
     
     String ATTRIBUTE_X = "x";
     String ATTRIBUTE_Y = "y";

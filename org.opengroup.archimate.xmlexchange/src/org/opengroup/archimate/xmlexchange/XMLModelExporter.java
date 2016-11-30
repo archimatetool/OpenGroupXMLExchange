@@ -648,6 +648,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
 
         // Identifier
         viewElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(dm));
+        
+        // Type
+        viewElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_DIAGRAM_TYPE, XSI_NAMESPACE);
 
         // Viewpoint
         String viewPointName = XMLTypeMapper.getViewpointName(dm.getViewpoint());
@@ -915,12 +918,12 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Target node
         connectionElement.setAttribute(ATTRIBUTE_TARGET, createID(connection.getTarget()));
         
-        // Bendpoints
-        writeConnectionBendpoints(connection, connectionElement);
-        
         // Style
         writeConnectionStyle(connection, connectionElement);
 
+        // Bendpoints
+        writeConnectionBendpoints(connection, connectionElement);
+        
         return connectionElement;
     }
     

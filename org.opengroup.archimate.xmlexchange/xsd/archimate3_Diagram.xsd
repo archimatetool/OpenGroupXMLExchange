@@ -63,12 +63,12 @@
       <xs:element name="view" type="Diagram" minOccurs="1" maxOccurs="unbounded">
         
         <xs:key name="NodeKey">
-          <xs:selector xpath="./archimate:node"/>
+          <xs:selector xpath=".//archimate:node"/>
           <xs:field xpath="@identifier"/>
         </xs:key>
 
         <xs:key name="ConnectionKey">
-          <xs:selector xpath="./archimate:connection"/>
+          <xs:selector xpath=".//archimate:connection"/>
           <xs:field xpath="@identifier"/>
         </xs:key>
         
@@ -95,7 +95,7 @@
         <!-- ViewConcept -->
         
         <xs:key name="ViewConceptKey">
-          <xs:selector xpath="./archimate:node | ./archimate:connection" />
+          <xs:selector xpath=".//archimate:node | .//archimate:connection" />
           <xs:field xpath="@identifier"/>
         </xs:key>
         
@@ -110,12 +110,12 @@
         </xs:keyref>
         
         <xs:keyref name="ConnectionSourceRef" refer="ViewConceptKey">
-          <xs:selector xpath="./archimate:connection" />
+          <xs:selector xpath=".//archimate:connection" />
           <xs:field xpath="@source" />
         </xs:keyref>
         
         <xs:keyref name="ConnectionTargetRef" refer="ViewConceptKey">
-          <xs:selector xpath="./archimate:connection" />
+          <xs:selector xpath=".//archimate:connection" />
           <xs:field xpath="@target" />
         </xs:keyref>
         
@@ -247,7 +247,7 @@
     <xs:complexContent>
       <xs:restriction base="ViewNodeType">
         <xs:sequence>
-          <xs:group ref="LabelGroup" minOccurs="1" maxOccurs="unbounded" />
+          <xs:group ref="LabelGroup" minOccurs="0" maxOccurs="unbounded" />
           <xs:group ref="DocumentationGroup" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="style" type="StyleType" minOccurs="0" maxOccurs="1" />
           <xs:element name="viewRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
@@ -268,11 +268,11 @@
       </xs:documentation>  
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="ViewNodeType">
+      <xs:extension base="Label">
         
         <xs:sequence>
           
-          <xs:element name="nodeRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="node" type="ViewNodeType" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:documentation>
                 This is to support Nested Nodes on the Diagram
