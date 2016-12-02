@@ -38,8 +38,6 @@ public final class XMLValidator {
         
         // Local XSDs
         Schema schema = factory.newSchema(new Source[]{
-                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_MODEL_XSD)),
-                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_VIEW_XSD)),
                 new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD)),
                 new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.DUBLINCORE_XSD))
         });
@@ -62,6 +60,17 @@ public final class XMLValidator {
                 }
             }
             
+            // Resolve included XSDs
+            if(XMLExchangePlugin.ARCHIMATE3_VIEW_XSD.equals(systemId) || XMLExchangePlugin.ARCHIMATE3_MODEL_XSD.equals(systemId)) {
+                try {
+                    InputStream is = XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + systemId);
+                    return new Input(publicId, systemId, is);
+                }
+                catch(IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             return null;
         }
     }

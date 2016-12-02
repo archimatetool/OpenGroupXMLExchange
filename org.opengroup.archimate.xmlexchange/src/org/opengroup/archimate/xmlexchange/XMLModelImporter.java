@@ -7,7 +7,9 @@ package org.opengroup.archimate.xmlexchange;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -31,6 +33,8 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IConnectable;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelBendpoint;
@@ -40,8 +44,10 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -83,7 +89,10 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         parseArchiMateRelations(rootElement.getChild(ELEMENT_RELATIONSHIPS, ARCHIMATE3_NAMESPACE));
         
         // Parse Views
-        parseViews(rootElement.getChild(ELEMENT_VIEWS, ARCHIMATE3_NAMESPACE));
+        Element viewsElement = rootElement.getChild(ELEMENT_VIEWS, ARCHIMATE3_NAMESPACE);
+        if(viewsElement != null) {
+            parseViews(viewsElement.getChild(ELEMENT_DIAGRAMS, ARCHIMATE3_NAMESPACE));
+        }
         
         // TODO Parse Organization - not implemented as yet.
         // parseOrganization(rootElement.getChild(ELEMENT_ORGANIZATION, OPEN_GROUP_NAMESPACE));
@@ -104,7 +113,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Archi only supports String types so we can ignore the data type
         for(Element propertyDefElement : propertydefsElement.getChildren(ELEMENT_PROPERTYDEFINITION, ARCHIMATE3_NAMESPACE)) {
             String identifier = propertyDefElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
-            String name = propertyDefElement.getAttributeValue(ATTRIBUTE_NAME);
+            String name = getChildElementText(propertyDefElement, ELEMENT_NAME, false);
             if(identifier != null && name != null) {
                 fPropertyDefinitionsList.put(identifier, name);
             }
@@ -142,7 +151,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         Element propertiesElement = parentElement.getChild(ELEMENT_PROPERTIES, ARCHIMATE3_NAMESPACE);
         if(propertiesElement != null) {
             for(Element propertyElement : propertiesElement.getChildren(ELEMENT_PROPERTY, ARCHIMATE3_NAMESPACE)) {
-                String idref = propertyElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
+                String idref = propertyElement.getAttributeValue(ATTRIBUTE_PROPERTY_IDENTIFIERREF);
                 
                 if(idref != null) {
                     String propertyName = fPropertyDefinitionsList.get(idref);
@@ -209,6 +218,14 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             return;
         }
         
+        class RelationInfo {
+            IArchimateRelationship relation;
+            String sourceID;
+            String targetID;
+        }
+        
+        List<RelationInfo> lookupTable = new ArrayList<RelationInfo>();
+        
         for(Element childElement : relationsElement.getChildren(ELEMENT_RELATIONSHIP, ARCHIMATE3_NAMESPACE)) {
             String type = childElement.getAttributeValue(ATTRIBUTE_TYPE, XSI_NAMESPACE);
             // If type is bogus ignore
@@ -228,23 +245,6 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 relation.setId(id);
             }
 
-            // Source and target
-            String sourceID = childElement.getAttributeValue(ATTRIBUTE_SOURCE);
-            String targetID = childElement.getAttributeValue(ATTRIBUTE_TARGET);
-            
-            EObject eObjectSrc = ArchimateModelUtils.getObjectByID(fModel, sourceID);
-            if(!(eObjectSrc instanceof IArchimateElement)) {
-                throw new IOException("Source Element not found for id: " + sourceID);
-            }
-            
-            EObject eObjectTgt = ArchimateModelUtils.getObjectByID(fModel, targetID);
-            if(!(eObjectTgt instanceof IArchimateElement)) {
-                throw new IOException("Target Element not found for id: " + targetID);
-            }
-            
-            relation.setSource((IArchimateElement)eObjectSrc);
-            relation.setTarget((IArchimateElement)eObjectTgt);
-            
             // Add to model
             fModel.getDefaultFolderForObject(relation).getElements().add(relation);
             
@@ -260,6 +260,33 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             
             // Properties
             addProperties(relation, childElement);
+            
+            // Source and target
+            String sourceID = childElement.getAttributeValue(ATTRIBUTE_SOURCE);
+            String targetID = childElement.getAttributeValue(ATTRIBUTE_TARGET);
+            
+            // Add to lookup table for 2nd pass
+            RelationInfo r = new RelationInfo();
+            r.relation = relation;
+            r.sourceID = sourceID;
+            r.targetID = targetID;
+            lookupTable.add(r);
+        }
+        
+        // 2nd pass, add source and targets
+        for(RelationInfo r : lookupTable) {
+            EObject eObjectSrc = ArchimateModelUtils.getObjectByID(fModel, r.sourceID);
+            if(!(eObjectSrc instanceof IArchimateConcept)) {
+                throw new IOException("Source Concept not found for id: " + r.sourceID);
+            }
+
+            EObject eObjectTgt = ArchimateModelUtils.getObjectByID(fModel, r.targetID);
+            if(!(eObjectTgt instanceof IArchimateConcept)) {
+                throw new IOException("Target Concept not found for id: " + r.targetID);
+            }
+
+            r.relation.setSource((IArchimateConcept)eObjectSrc);
+            r.relation.setTarget((IArchimateConcept)eObjectTgt);
         }
     }
     
@@ -369,7 +396,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // No element ref so this is another type of node, but what is it?
             else {
                 boolean isGroup = ATTRIBUTE_CONTAINER_TYPE.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
-                //boolean isNote = NODE_TYPE_TEXT.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
+                //boolean isNote = ATTRIBUTE_LABEL_TYPE.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
                 
                 // Does the graphical node have children?
                 // Our notes cannot contain children, so if it does contain children it has to be a Group.
@@ -379,8 +406,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                     IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
                     dmo = group;
 
-                    // Name
-                    String name = getChildElementText(nodeElement, ELEMENT_NAME, true);
+                    // Label
+                    String name = getChildElementText(nodeElement, ELEMENT_LABEL, true);
                     if(name != null) {
                         dmo.setName(name);
                     }
@@ -397,11 +424,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 // A Note is our only other option
                 else {
                     IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
-                    note.setBorderType(IDiagramModelNote.BORDER_RECTANGLE);
+                    note.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
+                    
                     dmo = note;
                     
                     // Text
-                    String text = getChildElementText(nodeElement, ELEMENT_NAME, false);
+                    String text = getChildElementText(nodeElement, ELEMENT_LABEL, false);
                     if(text != null) {
                         note.setContent(text);
                     }
@@ -477,37 +505,15 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     // ======================================= Connections ====================================
     
     private void addConnections(Element viewElement) throws XMLModelParserException {
+        List<IDiagramModelConnection> connections = new ArrayList<IDiagramModelConnection>();
+
+        // 1st pass - Create connections
         for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, ARCHIMATE3_NAMESPACE)) {
-            
             IDiagramModelConnection connection = null;
-            
-            // Get source node
-            String sourceRef = connectionElement.getAttributeValue(ATTRIBUTE_SOURCE);
-            EObject eObjectSourceNode = ArchimateModelUtils.getObjectByID(fModel, sourceRef);
-            if(eObjectSourceNode == null) {
-                throw new XMLModelParserException("Source node not found for id: " + sourceRef);
-            }
-            
-            // Get target node
-            String targetRef = connectionElement.getAttributeValue(ATTRIBUTE_TARGET);
-            EObject eObjectTargetNode = ArchimateModelUtils.getObjectByID(fModel, targetRef);
-            if(eObjectTargetNode == null) {
-                throw new XMLModelParserException("Target node not found for id: " + targetRef);
-            }
-            
+        
             // An ArchiMate relationship connection
             String relationshipRef = connectionElement.getAttributeValue(ATTRIBUTE_RELATIONSHIPREF);
             if(hasValue(relationshipRef)) {
-                // Must be ArchiMate type source node
-                if(!(eObjectSourceNode instanceof IDiagramModelArchimateObject)) {
-                    throw new XMLModelParserException("Source node is not an ArchiMate node for id: " + sourceRef);
-                }
-
-                // Must be ArchiMate type target node
-                if(!(eObjectTargetNode instanceof IDiagramModelArchimateObject)) {
-                    throw new XMLModelParserException("Target node is not an ArchiMate node for id: " + targetRef);
-                }
-
                 // Get relationship
                 EObject eObjectRelationship = ArchimateModelUtils.getObjectByID(fModel, relationshipRef);
                 if(!(eObjectRelationship instanceof IArchimateRelationship)) {
@@ -518,39 +524,109 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
                 ((IDiagramModelArchimateConnection)connection).setArchimateRelationship((IArchimateRelationship)eObjectRelationship);
             }
-            // Another connection type
+            // Create new ordinary connection
             else {
-                // Only connect notes and groups
-                if(eObjectTargetNode instanceof IDiagramModelArchimateObject && eObjectSourceNode instanceof IDiagramModelArchimateObject) {
-                    continue;
-                }
-                
-                
-                // Create new ordinary connection
                 connection = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
             }
             
+            // Add id and add to lookup table
             if(connection != null) {
                 // Add Identifier before adding to model
                 String identifier = connectionElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
                 connection.setId(identifier);
-                
-                // Connect
-                connection.connect((IDiagramModelObject)eObjectSourceNode, (IDiagramModelObject)eObjectTargetNode);
-                
-                // Bendpoints
-                addBendpoints(connection, connectionElement);
-                
-                // Style
-                addConnectionStyle(connection, connectionElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
+                connections.add(connection);
             }
         }
+        
+        // 2nd pass
+        for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, ARCHIMATE3_NAMESPACE)) {
+            // Get Connection
+            String identifier = connectionElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
+            
+            EObject eObject = findObject(identifier, connections);
+            if(!(eObject instanceof IDiagramModelConnection)) {
+                throw new XMLModelParserException("Connection not found for id: " + identifier);
+            }
+            
+            IDiagramModelConnection connection = (IDiagramModelConnection)eObject;
+            
+            // Get source
+            String sourceRef = connectionElement.getAttributeValue(ATTRIBUTE_SOURCE);
+            EObject eObjectSource = findObject(sourceRef, connections);
+            if(eObjectSource == null) {
+                throw new XMLModelParserException("Source concept not found for id: " + sourceRef);
+            }
+            
+            // Get target
+            String targetRef = connectionElement.getAttributeValue(ATTRIBUTE_TARGET);
+            EObject eObjectTarget = findObject(targetRef, connections);
+            if(eObjectTarget == null) {
+                throw new XMLModelParserException("Target concept not found for id: " + targetRef);
+            }
+            
+            // If an ArchiMate connection, source and target must be also
+            if(connection instanceof IDiagramModelArchimateConnection) {
+                // Must be ArchiMate type source
+                if(!(eObjectSource instanceof IDiagramModelArchimateComponent)) {
+                    throw new XMLModelParserException("Source is not an ArchiMate component for id: " + sourceRef);
+                }
+
+                // Must be ArchiMate type target
+                if(!(eObjectTarget instanceof IDiagramModelArchimateComponent)) {
+                    throw new XMLModelParserException("Target is not an ArchiMate component for id: " + targetRef);
+                }
+            }
+            // Another connection type
+            else {
+                // Only connect notes and groups
+                if(eObjectSource instanceof IDiagramModelArchimateComponent && eObjectTarget instanceof IDiagramModelArchimateComponent) {
+                    continue;
+                }
+            }
+            
+            // Connect
+            connection.connect((IConnectable)eObjectSource, (IConnectable)eObjectTarget);
+                
+            // Bendpoints
+            addBendpoints(connection, connectionElement);
+                
+            // Style
+            addConnectionStyle(connection, connectionElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
+        }
+    }
+        
+    /*
+     * Find an object either in the model or in the lookup list
+     */
+    private EObject findObject(String id, List<? extends IIdentifier> list) {
+        if(id == null) {
+            return null;
+        }
+        
+        // Look in model
+        EObject eObject = ArchimateModelUtils.getObjectByID(fModel, id);
+        
+        // Look in list
+        if(eObject == null) {
+            for(IIdentifier i : list) {
+                if(id.equals(i.getId())) {
+                    return i;
+                }
+            }
+        }
+        
+        return eObject;
     }
     
     /**
      * Add bendpoints
      */
     private void addBendpoints(IDiagramModelConnection connection, Element connectionElement) throws XMLModelParserException {
+        // TODO: Doesn't work for connection->connection
+        if(connection.getSource() instanceof IDiagramModelConnection || connection.getTarget() instanceof IDiagramModelConnection) {
+            return;
+        }
+
         for(Element bendpointElement : connectionElement.getChildren(ELEMENT_BENDPOINT, ARCHIMATE3_NAMESPACE)) {
             String xString = bendpointElement.getAttributeValue(ATTRIBUTE_X);
             String yString = bendpointElement.getAttributeValue(ATTRIBUTE_Y);
