@@ -60,6 +60,7 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_LINECOLOR = "lineColor";
     String ELEMENT_FONT = "font";
     String ELEMENT_FONTCOLOR = "color";
+    String ELEMENT_VIEWREF = "viewRef";
     
     String ELEMENT_METADATA = "metadata";
     String ELEMENT_SCHEMA = "schema";
@@ -79,6 +80,7 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_VIEWPOINT = "viewpoint";
     String ATTRIBUTE_ELEMENTREF = "elementRef";
     String ATTRIBUTE_RELATIONSHIPREF = "relationshipRef";
+    String ATTRIBUTE_REF = "ref";
     String ATTRIBUTE_ELEMENT_TYPE = "Element";
     String ATTRIBUTE_RELATIONSHIP_TYPE = "Relationship";
     String ATTRIBUTE_LABEL_TYPE = "Label";

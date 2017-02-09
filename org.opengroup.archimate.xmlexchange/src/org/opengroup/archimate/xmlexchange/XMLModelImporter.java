@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -43,6 +45,7 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProperties;
@@ -332,6 +335,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             return;
         }
         
+        Map<String, IArchimateDiagramModel> diagramModels = new Hashtable<String, IArchimateDiagramModel>();
+        
+        // Add the views first because there may be child node view references
         for(Element viewElement : viewsElement.getChildren(ELEMENT_VIEW, ARCHIMATE3_NAMESPACE)) {
             IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
             fModel.getDefaultFolderForObject(dm).getElements().add(dm);
@@ -340,6 +346,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             String id = viewElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
             if(id != null) {
                 dm.setId(id);
+
+                // Store it
+                diagramModels.put(id, dm);
             }
             
             // Viewpoint
@@ -370,6 +379,19 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // Connections
             addConnections(viewElement);
         }
+        
+        // Now add any pending view diagram references
+        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IDiagramModelReference) {
+                IDiagramModelReference dmRef = (IDiagramModelReference)eObject;
+                String refID = (String)dmRef.getAdapter(ATTRIBUTE_REF);
+                if(refID != null) {
+                    IArchimateDiagramModel dm = diagramModels.get(refID);
+                    dmRef.setReferencedModel(dm);
+                }
+            }
+        }
     }
     
     // ========================================= Nodes ======================================
@@ -396,11 +418,14 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // No element ref so this is another type of node, but what is it?
             else {
                 boolean isGroup = ATTRIBUTE_CONTAINER_TYPE.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
-                //boolean isNote = ATTRIBUTE_LABEL_TYPE.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE));
+                boolean isLabel = ATTRIBUTE_LABEL_TYPE.equals(nodeElement.getAttributeValue(ATTRIBUTE_TYPE, XSI_NAMESPACE));
                 
                 // Does the graphical node have children?
                 // Our notes cannot contain children, so if it does contain children it has to be a Group.
                 boolean hasChildren = nodeElement.getChildren(ELEMENT_NODE, ARCHIMATE3_NAMESPACE).size() > 0;
+                
+                // Is it a label with view ref?
+                boolean isViewRef = isLabel && nodeElement.getChild(ELEMENT_VIEWREF, ARCHIMATE3_NAMESPACE) != null;
                 
                 if(isGroup || hasChildren) {
                     IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
@@ -420,6 +445,18 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                     
                     // Properties
                     addProperties(group, nodeElement);
+                }
+                // View Ref
+                else if(isViewRef) {
+                    IDiagramModelReference ref = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+                    dmo = ref;
+                    
+                    // View reference
+                    Element viewRefElement = nodeElement.getChild(ELEMENT_VIEWREF, ARCHIMATE3_NAMESPACE);
+                    String viewRefID = viewRefElement.getAttributeValue(ATTRIBUTE_REF);
+                    // Note - the referenced diagram model will have to be set afterwards since we may not have created it yet
+                    // so we use this a temp store
+                    ref.setAdapter(ATTRIBUTE_REF, viewRefID);
                 }
                 // A Note is our only other option
                 else {

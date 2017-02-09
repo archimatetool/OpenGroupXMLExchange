@@ -701,9 +701,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         else if(dmo instanceof IDiagramModelNote) {
             writeNoteNode((IDiagramModelNote)dmo, parentElement);
         }
-        // TODO Diagram Model Reference type
+        // View Reference type
         else if(dmo instanceof IDiagramModelReference) {
-            //writeReferenceNode((IDiagramModelReference)dmo, parentElement);
+            writeViewReferenceNode((IDiagramModelReference)dmo, parentElement);
         }
     }
     
@@ -799,6 +799,36 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         return nodeElement;
     }
 
+    /**
+     * Write a View Reference node
+     */
+    Element writeViewReferenceNode(IDiagramModelReference ref, Element parentElement) {
+        Element nodeElement = new Element(ELEMENT_NODE, ARCHIMATE3_NAMESPACE);
+        parentElement.addContent(nodeElement);
+        
+        // ID
+        nodeElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(ref));
+        
+        // Type
+        nodeElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_LABEL_TYPE, XSI_NAMESPACE);
+
+        // Bounds
+        writeAbsoluteBounds(ref, nodeElement);
+        
+        // Text
+        writeTextToElement(ref.getName(), nodeElement, ELEMENT_LABEL);
+        
+        // Style
+        writeNodeStyle(ref, nodeElement);
+        
+        // View Ref
+        Element viewRefElement = new Element(ELEMENT_VIEWREF, ARCHIMATE3_NAMESPACE);
+        viewRefElement.setAttribute(ATTRIBUTE_REF, createID(ref.getReferencedModel()));
+        nodeElement.addContent(viewRefElement);
+        
+        return nodeElement;
+    }
+    
     /**
      * Write a node style
      */
