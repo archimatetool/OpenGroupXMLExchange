@@ -43,7 +43,17 @@ public final class XMLValidator {
         });
 
         Validator validator = schema.newValidator();
-        validator.validate(new StreamSource(xmlInstance));
+        
+        
+        try {
+            validator.validate(new StreamSource(xmlInstance));
+        }
+        catch(SAXException ex) {
+            // Ignore error where an XSD declaration is one that we do not have locally (for example for additional metadata)
+            if(!ex.getMessage().contains("The matching wildcard is strict, but no declaration can be found")) { //$NON-NLS-1$
+                throw ex;
+            }
+        }
     }
 
     static class ResourceResolver implements LSResourceResolver {
