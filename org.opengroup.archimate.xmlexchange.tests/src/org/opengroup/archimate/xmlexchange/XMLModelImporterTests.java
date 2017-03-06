@@ -8,7 +8,6 @@ package org.opengroup.archimate.xmlexchange;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +16,10 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
+
+import junit.framework.JUnit4TestAdapter;
 
 /**
  * XML Model Importer Tests
@@ -68,7 +69,7 @@ public class XMLModelImporterTests {
         assertEquals(IArchimatePackage.eINSTANCE.getBusinessRole(), element1.eClass());
         assertEquals(IArchimatePackage.eINSTANCE.getBusinessProcess(), element2.eClass());
         
-        IRelationship relation = (IRelationship)relationsFolder.getElements().get(0);
+        IArchimateRelationship relation = (IArchimateRelationship)relationsFolder.getElements().get(0);
         assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), relation.eClass());
         assertEquals(element1, relation.getSource());
         assertEquals(element2, relation.getTarget());

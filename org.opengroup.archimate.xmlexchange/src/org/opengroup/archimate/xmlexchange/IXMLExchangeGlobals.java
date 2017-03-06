@@ -19,13 +19,13 @@ public interface IXMLExchangeGlobals {
     String FILE_EXTENSION = ".xml";
     String FILE_EXTENSION_WILDCARD = "*.xml";
     
-    String OPEN_GROUP_NAMESPACE_PREFIX = "archimate";
+    String ARCHIMATE_NAMESPACE_PREFIX = "archimate";
     
-    Namespace OPEN_GROUP_NAMESPACE = Namespace.getNamespace("http://www.opengroup.org/xsd/archimate");
-    Namespace OPEN_GROUP_NAMESPACE_EMBEDDED = Namespace.getNamespace(OPEN_GROUP_NAMESPACE_PREFIX, OPEN_GROUP_NAMESPACE.getURI());
+    Namespace ARCHIMATE3_NAMESPACE = Namespace.getNamespace("http://www.opengroup.org/xsd/archimate/3.0/");
+    Namespace ARCHIMATE3_NAMESPACE_EMBEDDED = Namespace.getNamespace(ARCHIMATE_NAMESPACE_PREFIX, ARCHIMATE3_NAMESPACE.getURI());
     
-    String OPEN_GROUP_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate/archimate_v2p1.xsd";
-    //String OPEN_GROUP_SCHEMA_LOCATION = "archimate_v2p1.xsd";
+    String ARCHIMATE3_SCHEMA_LOCATION = "http://www.opengroup.org/xsd/archimate/3.0/archimate3_Diagram.xsd";
+    //String ARCHIMATE3_SCHEMA_LOCATION = "archimate3_Diagram.xsd"; // For local testing
     
     Namespace XSI_NAMESPACE = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
     
@@ -41,15 +41,17 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_ELEMENTS = "elements";
     String ELEMENT_RELATIONSHIPS = "relationships";
     String ELEMENT_RELATIONSHIP = "relationship";
-    String ELEMENT_PROPERTYDEFS = "propertydefs";
-    String ELEMENT_PROPERTYDEF = "propertydef";
+    String ELEMENT_PROPERTYDEFINITIONS = "propertyDefinitions";
+    String ELEMENT_PROPERTYDEFINITION = "propertyDefinition";
     String ELEMENT_PROPERTIES = "properties";
     String ELEMENT_PROPERTY = "property";
     String ELEMENT_VALUE = "value";
-    String ELEMENT_ORGANIZATION = "organization";
+    String ELEMENT_ORGANIZATIONS = "organizations";
     String ELEMENT_ITEM = "item";
     String ELEMENT_VIEWS = "views";
     String ELEMENT_VIEW = "view";
+    String ELEMENT_DIAGRAMS = "diagrams";
+    String ELEMENT_DIAGRAM = "diagram";
     String ELEMENT_STYLE = "style";
     String ELEMENT_NODE = "node";
     String ELEMENT_CONNECTION = "connection";
@@ -58,6 +60,7 @@ public interface IXMLExchangeGlobals {
     String ELEMENT_LINECOLOR = "lineColor";
     String ELEMENT_FONT = "font";
     String ELEMENT_FONTCOLOR = "color";
+    String ELEMENT_VIEWREF = "viewRef";
     
     String ELEMENT_METADATA = "metadata";
     String ELEMENT_SCHEMA = "schema";
@@ -66,14 +69,25 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_LABEL = "label";
     String ATTRIBUTE_NAME = "name";
     String ATTRIBUTE_IDENTIFIER = "identifier";
-    String ATTRIBUTE_IDENTIFIERREF = "identifierref";
+    String ATTRIBUTE_IDENTIFIERREF = "identifierRef";
+    String ATTRIBUTE_PROPERTY_IDENTIFIERREF = "propertyDefinitionRef";
     String ATTRIBUTE_TYPE = "type";
     String ATTRIBUTE_SOURCE = "source";
     String ATTRIBUTE_TARGET = "target";
+    String ATTRIBUTE_STRENGTH = "strength";
+    String ATTRIBUTE_ACCESS_DIRECTION = "accessDirection";
     String ATTRIBUTE_LANG = "lang";
     String ATTRIBUTE_VIEWPOINT = "viewpoint";
-    String ATTRIBUTE_ELEMENTREF = "elementref";
-    String ATTRIBUTE_RELATIONSHIPREF = "relationshipref";
+    String ATTRIBUTE_ELEMENTREF = "elementRef";
+    String ATTRIBUTE_RELATIONSHIPREF = "relationshipRef";
+    String ATTRIBUTE_REF = "ref";
+    String ATTRIBUTE_ELEMENT_TYPE = "Element";
+    String ATTRIBUTE_RELATIONSHIP_TYPE = "Relationship";
+    String ATTRIBUTE_LABEL_TYPE = "Label";
+    String ATTRIBUTE_LINE_TYPE = "Line";
+    String ATTRIBUTE_CONTAINER_TYPE = "Container";
+    String ATTRIBUTE_DIAGRAM_TYPE = "Diagram";
+    
     String ATTRIBUTE_X = "x";
     String ATTRIBUTE_Y = "y";
     String ATTRIBUTE_WIDTH = "w";
@@ -85,11 +99,4 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_FONTSIZE = "size";
     String ATTRIBUTE_FONTSTYLE = "style";
     String ATTRIBUTE_LINEWIDTH = "lineWidth";
-    
-    String NODE_TYPE_GROUP = "group";
-    
-    String PROPERTY_JUNCTION_ID = "propid-junctionType";
-    String PROPERTY_JUNCTION_TYPE = "JunctionType";
-    String PROPERTY_JUNCTION_AND = "AND";
-    String PROPERTY_JUNCTION_OR = "OR";
 }

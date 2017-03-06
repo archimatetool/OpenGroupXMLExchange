@@ -11,10 +11,10 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IJunction;
 
 
 @SuppressWarnings("nls")
@@ -24,90 +24,131 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
     private static Map<String, EClass> ElementsMapping = new Hashtable<String, EClass>();
     
     static {
+        // Strategy Elements
+        ElementsMapping.put("Capability", IArchimatePackage.eINSTANCE.getCapability());
+        ElementsMapping.put("CourseOfAction", IArchimatePackage.eINSTANCE.getCourseOfAction());
+        ElementsMapping.put("Resource", IArchimatePackage.eINSTANCE.getResource());
+        
         // Business Elements
         ElementsMapping.put("BusinessActor", IArchimatePackage.eINSTANCE.getBusinessActor());
-        ElementsMapping.put("BusinessRole", IArchimatePackage.eINSTANCE.getBusinessRole());
         ElementsMapping.put("BusinessCollaboration", IArchimatePackage.eINSTANCE.getBusinessCollaboration());
-        ElementsMapping.put("BusinessInterface", IArchimatePackage.eINSTANCE.getBusinessInterface());
-        ElementsMapping.put("BusinessFunction", IArchimatePackage.eINSTANCE.getBusinessFunction());
-        ElementsMapping.put("BusinessProcess", IArchimatePackage.eINSTANCE.getBusinessProcess());
         ElementsMapping.put("BusinessEvent", IArchimatePackage.eINSTANCE.getBusinessEvent());
+        ElementsMapping.put("BusinessFunction", IArchimatePackage.eINSTANCE.getBusinessFunction());
         ElementsMapping.put("BusinessInteraction", IArchimatePackage.eINSTANCE.getBusinessInteraction());
-        ElementsMapping.put("Product", IArchimatePackage.eINSTANCE.getProduct());
-        ElementsMapping.put("Contract", IArchimatePackage.eINSTANCE.getContract());
-        ElementsMapping.put("BusinessService", IArchimatePackage.eINSTANCE.getBusinessService());
-        ElementsMapping.put("Value", IArchimatePackage.eINSTANCE.getValue());
-        ElementsMapping.put("Meaning", IArchimatePackage.eINSTANCE.getMeaning());
-        ElementsMapping.put("Representation", IArchimatePackage.eINSTANCE.getRepresentation());
+        ElementsMapping.put("BusinessInterface", IArchimatePackage.eINSTANCE.getBusinessInterface());
         ElementsMapping.put("BusinessObject", IArchimatePackage.eINSTANCE.getBusinessObject());
-        ElementsMapping.put("Location", IArchimatePackage.eINSTANCE.getLocation());
+        ElementsMapping.put("BusinessProcess", IArchimatePackage.eINSTANCE.getBusinessProcess());
+        ElementsMapping.put("BusinessRole", IArchimatePackage.eINSTANCE.getBusinessRole());
+        ElementsMapping.put("BusinessService", IArchimatePackage.eINSTANCE.getBusinessService());
+        ElementsMapping.put("Contract", IArchimatePackage.eINSTANCE.getContract());
+        ElementsMapping.put("Product", IArchimatePackage.eINSTANCE.getProduct());
+        ElementsMapping.put("Representation", IArchimatePackage.eINSTANCE.getRepresentation());
         
         // Application Elements
-        ElementsMapping.put("ApplicationComponent", IArchimatePackage.eINSTANCE.getApplicationComponent());
         ElementsMapping.put("ApplicationCollaboration", IArchimatePackage.eINSTANCE.getApplicationCollaboration());
-        ElementsMapping.put("ApplicationInterface", IArchimatePackage.eINSTANCE.getApplicationInterface());
-        ElementsMapping.put("ApplicationService", IArchimatePackage.eINSTANCE.getApplicationService());
+        ElementsMapping.put("ApplicationComponent", IArchimatePackage.eINSTANCE.getApplicationComponent());
+        ElementsMapping.put("ApplicationEvent", IArchimatePackage.eINSTANCE.getApplicationEvent());
         ElementsMapping.put("ApplicationFunction", IArchimatePackage.eINSTANCE.getApplicationFunction());
         ElementsMapping.put("ApplicationInteraction", IArchimatePackage.eINSTANCE.getApplicationInteraction());
+        ElementsMapping.put("ApplicationInterface", IArchimatePackage.eINSTANCE.getApplicationInterface());
+        ElementsMapping.put("ApplicationProcess", IArchimatePackage.eINSTANCE.getApplicationProcess());
+        ElementsMapping.put("ApplicationService", IArchimatePackage.eINSTANCE.getApplicationService());
         ElementsMapping.put("DataObject", IArchimatePackage.eINSTANCE.getDataObject());
         
         // Technology Elements
         ElementsMapping.put("Artifact", IArchimatePackage.eINSTANCE.getArtifact());
-        ElementsMapping.put("CommunicationPath", IArchimatePackage.eINSTANCE.getCommunicationPath());
-        ElementsMapping.put("Network", IArchimatePackage.eINSTANCE.getNetwork());
-        ElementsMapping.put("InfrastructureInterface", IArchimatePackage.eINSTANCE.getInfrastructureInterface());
-        ElementsMapping.put("InfrastructureFunction", IArchimatePackage.eINSTANCE.getInfrastructureFunction());
-        ElementsMapping.put("InfrastructureService", IArchimatePackage.eINSTANCE.getInfrastructureService());
-        ElementsMapping.put("Node", IArchimatePackage.eINSTANCE.getNode());
-        ElementsMapping.put("SystemSoftware", IArchimatePackage.eINSTANCE.getSystemSoftware());
+        ElementsMapping.put("CommunicationNetwork", IArchimatePackage.eINSTANCE.getCommunicationNetwork());
         ElementsMapping.put("Device", IArchimatePackage.eINSTANCE.getDevice());
+        ElementsMapping.put("Node", IArchimatePackage.eINSTANCE.getNode());
+        ElementsMapping.put("Path", IArchimatePackage.eINSTANCE.getPath());
+        ElementsMapping.put("SystemSoftware", IArchimatePackage.eINSTANCE.getSystemSoftware());
+        ElementsMapping.put("TechnologyCollaboration", IArchimatePackage.eINSTANCE.getTechnologyCollaboration());
+        ElementsMapping.put("TechnologyInteraction", IArchimatePackage.eINSTANCE.getTechnologyInteraction());
+        ElementsMapping.put("TechnologyInterface", IArchimatePackage.eINSTANCE.getTechnologyInterface());
+        ElementsMapping.put("TechnologyEvent", IArchimatePackage.eINSTANCE.getTechnologyEvent());
+        ElementsMapping.put("TechnologyFunction", IArchimatePackage.eINSTANCE.getTechnologyFunction());
+        ElementsMapping.put("TechnologyProcess", IArchimatePackage.eINSTANCE.getTechnologyProcess());
+        ElementsMapping.put("TechnologyService", IArchimatePackage.eINSTANCE.getTechnologyService());
+        
+        // Physical Elements
+        ElementsMapping.put("DistributionNetwork", IArchimatePackage.eINSTANCE.getDistributionNetwork());
+        ElementsMapping.put("Equipment", IArchimatePackage.eINSTANCE.getEquipment());
+        ElementsMapping.put("Facility", IArchimatePackage.eINSTANCE.getFacility());
+        ElementsMapping.put("Material", IArchimatePackage.eINSTANCE.getMaterial());
 
-        // Extensions
-        ElementsMapping.put("Stakeholder", IArchimatePackage.eINSTANCE.getStakeholder());
-        ElementsMapping.put("Driver", IArchimatePackage.eINSTANCE.getDriver());
+        // Motivation
         ElementsMapping.put("Assessment", IArchimatePackage.eINSTANCE.getAssessment());
+        ElementsMapping.put("Constraint", IArchimatePackage.eINSTANCE.getConstraint());
+        ElementsMapping.put("Driver", IArchimatePackage.eINSTANCE.getDriver());
         ElementsMapping.put("Goal", IArchimatePackage.eINSTANCE.getGoal());
+        ElementsMapping.put("Outcome", IArchimatePackage.eINSTANCE.getOutcome());
+        ElementsMapping.put("Meaning", IArchimatePackage.eINSTANCE.getMeaning());
         ElementsMapping.put("Principle", IArchimatePackage.eINSTANCE.getPrinciple());
         ElementsMapping.put("Requirement", IArchimatePackage.eINSTANCE.getRequirement());
-        ElementsMapping.put("Constraint", IArchimatePackage.eINSTANCE.getConstraint());
-        ElementsMapping.put("WorkPackage", IArchimatePackage.eINSTANCE.getWorkPackage());
+        ElementsMapping.put("Stakeholder", IArchimatePackage.eINSTANCE.getStakeholder());
+        ElementsMapping.put("Value", IArchimatePackage.eINSTANCE.getValue());
+
+        // Impl/Migration
         ElementsMapping.put("Deliverable", IArchimatePackage.eINSTANCE.getDeliverable());
-        ElementsMapping.put("Plateau", IArchimatePackage.eINSTANCE.getPlateau());
         ElementsMapping.put("Gap", IArchimatePackage.eINSTANCE.getGap());
+        ElementsMapping.put("ImplementationEvent", IArchimatePackage.eINSTANCE.getImplementationEvent());
+        ElementsMapping.put("Plateau", IArchimatePackage.eINSTANCE.getPlateau());
+        ElementsMapping.put("WorkPackage", IArchimatePackage.eINSTANCE.getWorkPackage());
+
+        // Other
+        ElementsMapping.put("Grouping", IArchimatePackage.eINSTANCE.getGrouping());
+        ElementsMapping.put("Location", IArchimatePackage.eINSTANCE.getLocation());
         
         // Relations
-        ElementsMapping.put("AssignmentRelationship", IArchimatePackage.eINSTANCE.getAssignmentRelationship());
-        ElementsMapping.put("AccessRelationship", IArchimatePackage.eINSTANCE.getAccessRelationship());
-        ElementsMapping.put("AssociationRelationship", IArchimatePackage.eINSTANCE.getAssociationRelationship());
-        ElementsMapping.put("CompositionRelationship", IArchimatePackage.eINSTANCE.getCompositionRelationship());
-        ElementsMapping.put("AggregationRelationship", IArchimatePackage.eINSTANCE.getAggregationRelationship());
-        ElementsMapping.put("UsedByRelationship", IArchimatePackage.eINSTANCE.getUsedByRelationship());
-        ElementsMapping.put("TriggeringRelationship", IArchimatePackage.eINSTANCE.getTriggeringRelationship());
-        ElementsMapping.put("FlowRelationship", IArchimatePackage.eINSTANCE.getFlowRelationship());
-        ElementsMapping.put("RealisationRelationship", IArchimatePackage.eINSTANCE.getRealisationRelationship());
-        ElementsMapping.put("SpecialisationRelationship", IArchimatePackage.eINSTANCE.getSpecialisationRelationship());
-        ElementsMapping.put("InfluenceRelationship", IArchimatePackage.eINSTANCE.getInfluenceRelationship());
+        ElementsMapping.put("Assignment", IArchimatePackage.eINSTANCE.getAssignmentRelationship());
+        ElementsMapping.put("Access", IArchimatePackage.eINSTANCE.getAccessRelationship());
+        ElementsMapping.put("Association", IArchimatePackage.eINSTANCE.getAssociationRelationship());
+        ElementsMapping.put("Composition", IArchimatePackage.eINSTANCE.getCompositionRelationship());
+        ElementsMapping.put("Aggregation", IArchimatePackage.eINSTANCE.getAggregationRelationship());
+        ElementsMapping.put("Serving", IArchimatePackage.eINSTANCE.getServingRelationship());
+        ElementsMapping.put("Triggering", IArchimatePackage.eINSTANCE.getTriggeringRelationship());
+        ElementsMapping.put("Flow", IArchimatePackage.eINSTANCE.getFlowRelationship());
+        ElementsMapping.put("Realization", IArchimatePackage.eINSTANCE.getRealizationRelationship());
+        ElementsMapping.put("Specialization", IArchimatePackage.eINSTANCE.getSpecializationRelationship());
+        ElementsMapping.put("Influence", IArchimatePackage.eINSTANCE.getInfluenceRelationship());
         
         // Junctions
-        ElementsMapping.put("Junction", IArchimatePackage.eINSTANCE.getJunction());
-        ElementsMapping.put("AndJunction", IArchimatePackage.eINSTANCE.getAndJunction());
-        ElementsMapping.put("OrJunction", IArchimatePackage.eINSTANCE.getOrJunction());
+        ElementsMapping.put("AndJunction", IArchimatePackage.eINSTANCE.getJunction());
+        ElementsMapping.put("OrJunction", IArchimatePackage.eINSTANCE.getJunction());
     }
 
-    public static IArchimateComponent createArchimateComponent(String type) {
+    public static IArchimateConcept createArchimateConcept(String type) {
         EClass eClass = ElementsMapping.get(type);
-        return (IArchimateComponent)(eClass == null ? null : IArchimateFactory.eINSTANCE.create(eClass));
-    }
-    
-    public static String getArchimateComponentName(IArchimateComponent archimateComponent) {
-        // Junctions are a special case
-        if(archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getJunction() || archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getAndJunction()
-                || archimateComponent.eClass() == IArchimatePackage.eINSTANCE.getOrJunction()) {
-            return "Junction";
+        
+        if(eClass == null) {
+            System.err.println("Concept was null for: " + type);
+            return null;
+        }
+        
+        IArchimateConcept archimateConcept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(eClass);
+        
+        // Junction is a special case
+        if(eClass == IArchimatePackage.eINSTANCE.getJunction()) {
+            if("OrJunction".equals(type)) {
+                ((IJunction)archimateConcept).setType(IJunction.OR_JUNCTION_TYPE);
+            }
         }
 
+        return archimateConcept;
+    }
+    
+    public static String getArchimateConceptName(IArchimateConcept archimateConcept) {
+        // Junction is a special case
+        if(archimateConcept.eClass() == IArchimatePackage.eINSTANCE.getJunction()) {
+            String type = ((IJunction)archimateConcept).getType();
+            if(IJunction.OR_JUNCTION_TYPE.equals(type)) {
+                return "OrJunction";
+            }
+            return "AndJunction";
+        }
+        
         for(Entry<String, EClass> entry : ElementsMapping.entrySet()) {
-            if(entry.getValue().equals(archimateComponent.eClass())) {
+            if(entry.getValue().equals(archimateConcept.eClass())) {
                 return entry.getKey();
             }
         }
@@ -116,49 +157,50 @@ public class XMLTypeMapper implements IXMLExchangeGlobals {
     }
     
     // Mapping of Viewpoint Names
-    private static Map<Integer, String> ViewPointsMapping = new Hashtable<Integer, String>();
+    private static Map<String, String> ViewPointsMapping = new Hashtable<String, String>();
     
     static {
-        ViewPointsMapping.put(IViewpoint.TOTAL_VIEWPOINT, ""); // This means no Viewpoint
-        ViewPointsMapping.put(IViewpoint.ACTOR_COOPERATION_VIEWPOINT, "Actor Co-operation");
-        ViewPointsMapping.put(IViewpoint.APPLICATION_BEHAVIOUR_VIEWPOINT, "Application Behavior");
-        ViewPointsMapping.put(IViewpoint.APPLICATION_COOPERATION_VIEWPOINT, "Application Co-operation");
-        ViewPointsMapping.put(IViewpoint.APPLICATION_STRUCTURE_VIEWPOINT, "Application Structure");
-        ViewPointsMapping.put(IViewpoint.APPLICATION_USAGE_VIEWPOINT, "Application Usage");
-        ViewPointsMapping.put(IViewpoint.BUSINESS_FUNCTION_VIEWPOINT, "Business Function");
-        ViewPointsMapping.put(IViewpoint.BUSINESS_PROCESS_COOPERATION_VIEWPOINT, "Business Process Co-operation");
-        ViewPointsMapping.put(IViewpoint.BUSINESS_PROCESS_VIEWPOINT, "Business Process");
-        ViewPointsMapping.put(IViewpoint.BUSINESS_PRODUCT_VIEWPOINT, "Product");
-        ViewPointsMapping.put(IViewpoint.IMPLEMENTATION_DEPLOYMENT_VIEWPOINT, "Implementation and Deployment");
-        ViewPointsMapping.put(IViewpoint.INFORMATION_STRUCTURE_VIEWPOINT, "Information Structure");
-        ViewPointsMapping.put(IViewpoint.INFRASTRUCTURE_USAGE_VIEWPOINT, "Infrastructure Usage");
-        ViewPointsMapping.put(IViewpoint.INFRASTRUCTURE_VIEWPOINT, "Infrastructure");
-        ViewPointsMapping.put(IViewpoint.LAYERED_VIEWPOINT, "Layered");
-        ViewPointsMapping.put(IViewpoint.ORGANISATION_VIEWPOINT, "Organization");
-        ViewPointsMapping.put(IViewpoint.SERVICE_REALISATION_VIEWPOINT, "Service Realization");
-        ViewPointsMapping.put(IViewpoint.STAKEHOLDER_VIEWPOINT, "Stakeholder");
-        ViewPointsMapping.put(IViewpoint.GOAL_REALISATION_VIEWPOINT, "Goal Realization");
-        ViewPointsMapping.put(IViewpoint.GOAL_CONTRIBUTION_VIEWPOINT, "Goal Contribution");
-        ViewPointsMapping.put(IViewpoint.PRINCIPLES_VIEWPOINT, "Principles");
-        ViewPointsMapping.put(IViewpoint.REQUIREMENTS_REALISATION_VIEWPOINT, "Requirements Realization");
-        ViewPointsMapping.put(IViewpoint.MOTIVATION_VIEWPOINT, "Motivation");
-        ViewPointsMapping.put(IViewpoint.PROJECT_VIEWPOINT, "Project");
-        ViewPointsMapping.put(IViewpoint.MIGRATION_VIEWPOINT, "Migration");
-        ViewPointsMapping.put(IViewpoint.IMPLEMENTATION_MIGRATION_VIEWPOINT, "Implementation and Migration");
+        ViewPointsMapping.put("", ""); // This means no Viewpoint
+        ViewPointsMapping.put("organization", "Organization");
+//        ViewPointsMapping.put("", "Application Platform");
+        ViewPointsMapping.put("information_structure", "Information Structure");
+        ViewPointsMapping.put("technology", "Technology");
+        ViewPointsMapping.put("layered", "Layered");
+        ViewPointsMapping.put("physical", "Physical");
+        ViewPointsMapping.put("product", "Product");
+        ViewPointsMapping.put("application_usage", "Application Usage");
+        ViewPointsMapping.put("technology_usage", "Technology Usage");
+        ViewPointsMapping.put("business_process_cooperation", "Business Process Cooperation");
+        ViewPointsMapping.put("application_cooperation", "Application Cooperation");
+        ViewPointsMapping.put("service_realization", "Service Realization");
+        ViewPointsMapping.put("implementation_deployment", "Implementation and Deployment");
+        ViewPointsMapping.put("goal_realization", "Goal Realization");
+//        ViewPointsMapping.put("", "Goal Contribution");
+//        ViewPointsMapping.put("", "Principles");
+        ViewPointsMapping.put("requirements_realization", "Requirements Realization");
+        ViewPointsMapping.put("motivation", "Motivation");
+        ViewPointsMapping.put("strategy", "Strategy");
+        ViewPointsMapping.put("capability", "Capability Map");
+        ViewPointsMapping.put("outcome_realization", "Outcome Realization");
+        ViewPointsMapping.put("resource", "Resource Map");
+        ViewPointsMapping.put("project", "Project");
+        ViewPointsMapping.put("migration", "Migration");
+        ViewPointsMapping.put("implementation_migration", "Implementation and Migration");
+        ViewPointsMapping.put("stakeholder", "Stakeholder");
     }
 
-    public static String getViewpointName(int viewPointID) {
+    public static String getViewpointName(String viewPointID) {
         return ViewPointsMapping.get(viewPointID);
     }
     
-    public static int getViewpointID(String viewPointName) {
-        for(Entry<Integer, String> entry : ViewPointsMapping.entrySet()) {
+    public static String getViewpointID(String viewPointName) {
+        for(Entry<String, String> entry : ViewPointsMapping.entrySet()) {
             if(entry.getValue().equals(viewPointName)) {
                 return entry.getKey();
             }
         }
         
-        return 0;
+        return "";
     }
 
 }

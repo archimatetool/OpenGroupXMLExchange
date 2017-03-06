@@ -38,12 +38,22 @@ public final class XMLValidator {
         
         // Local XSDs
         Schema schema = factory.newSchema(new Source[]{
-                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE_XSD)),
+                new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.ARCHIMATE3_DIAGRAM_XSD)),
                 new StreamSource(XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + XMLExchangePlugin.DUBLINCORE_XSD))
         });
 
         Validator validator = schema.newValidator();
-        validator.validate(new StreamSource(xmlInstance));
+        
+        
+        try {
+            validator.validate(new StreamSource(xmlInstance));
+        }
+        catch(SAXException ex) {
+            // Ignore error where an XSD declaration is one that we do not have locally (for example for additional metadata)
+            if(!ex.getMessage().contains("The matching wildcard is strict, but no declaration can be found")) { //$NON-NLS-1$
+                throw ex;
+            }
+        }
     }
 
     static class ResourceResolver implements LSResourceResolver {
@@ -60,6 +70,17 @@ public final class XMLValidator {
                 }
             }
             
+            // Resolve included XSDs
+            if(XMLExchangePlugin.ARCHIMATE3_VIEW_XSD.equals(systemId) || XMLExchangePlugin.ARCHIMATE3_MODEL_XSD.equals(systemId)) {
+                try {
+                    InputStream is = XMLExchangePlugin.INSTANCE.getBundleInputStream(XMLExchangePlugin.XSD_FOLDER + systemId);
+                    return new Input(publicId, systemId, is);
+                }
+                catch(IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             return null;
         }
     }
