@@ -28,6 +28,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
@@ -48,6 +49,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ITextAlignment;
@@ -251,11 +253,13 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // Add to model
             fModel.getDefaultFolderForObject(relation).getElements().add(relation);
             
+            // Name
             String name = getChildElementText(childElement, ELEMENT_NAME, true);
             if(name != null) {
                 relation.setName(name);
             }
             
+            // Documentation
             String documentation = getChildElementText(childElement, ELEMENT_DOCUMENTATION, false);
             if(documentation != null) {
                 relation.setDocumentation(documentation);
@@ -267,6 +271,40 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // Source and target
             String sourceID = childElement.getAttributeValue(ATTRIBUTE_SOURCE);
             String targetID = childElement.getAttributeValue(ATTRIBUTE_TARGET);
+            
+            // Access type
+            if(relation instanceof IAccessRelationship) {
+                String accessType = childElement.getAttributeValue(ATTRIBUTE_ACCESS_TYPE);
+                if(accessType != null) {
+                    IAccessRelationship accessRelationship = (IAccessRelationship)relation;
+                    
+                    switch(accessType) {
+                        case ACCESS_TYPE_ACCESS:
+                            accessRelationship.setAccessType(IAccessRelationship.UNSPECIFIED_ACCESS);
+                            break;
+
+                        case ACCESS_TYPE_READ:
+                            accessRelationship.setAccessType(IAccessRelationship.READ_ACCESS);
+                            break;
+
+                        case ACCESS_TYPE_READ_WRITE:
+                            accessRelationship.setAccessType(IAccessRelationship.READ_WRITE_ACCESS);
+                            break;
+
+                        default:
+                            accessRelationship.setAccessType(IAccessRelationship.WRITE_ACCESS);
+                            break;
+                    }
+                }
+            }
+            
+            // Influence type
+            if(relation instanceof IInfluenceRelationship) {
+                String influenceStrength = childElement.getAttributeValue(ATTRIBUTE_INFLUENCE_QUALIFIER);
+                if(influenceStrength != null) {
+                    ((IInfluenceRelationship)relation).setStrength(influenceStrength);
+                }
+            }
             
             // Add to lookup table for 2nd pass
             RelationInfo r = new RelationInfo();

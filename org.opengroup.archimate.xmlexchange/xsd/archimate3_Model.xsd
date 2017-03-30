@@ -1115,12 +1115,12 @@
     <xs:complexType name="Access">
         <xs:complexContent>
             <xs:extension base="RelationshipType">
-                <xs:attribute name="accessDirection" type="AccessDirectionEnum" default="Access" use="optional" />
+                <xs:attribute name="accessType" type="AccessTypeEnum" default="Access" use="optional" />
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:simpleType name="AccessDirectionEnum">
+    <xs:simpleType name="AccessTypeEnum">
         <xs:annotation>
             <xs:documentation>
                 Enumeration of Element types.
@@ -1138,7 +1138,7 @@
         <xs:complexContent>
             <xs:extension base="RelationshipType">
 
-                <xs:attribute name="strength" type="InfluenceStrengthType" use="optional">
+                <xs:attribute name="influenceQualifier" type="InfluenceQualifierType" use="optional">
                     <xs:annotation>
                         <xs:documentation>
                             This Attribute is only meaningful for Influence RelationshipType. This is optional for the Influence
@@ -1179,7 +1179,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="InfluenceStrengthType">
+    <xs:simpleType name="InfluenceQualifierType">
         <xs:union memberTypes="InfluenceStrengthEnum xs:string" />
     </xs:simpleType>
 

@@ -420,11 +420,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Type
         relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(relationship), JDOMUtils.XSI_Namespace);
         
-        // Influence Strength
+        // Influence Qualifier
         if(relationship.eClass() == IArchimatePackage.eINSTANCE.getInfluenceRelationship()) {
             String strength = ((IInfluenceRelationship)relationship).getStrength();
             if(hasSomeText(strength)) {
-                relationshipElement.setAttribute(ATTRIBUTE_STRENGTH, strength);
+                relationshipElement.setAttribute(ATTRIBUTE_INFLUENCE_QUALIFIER, strength);
             }
         }
         
@@ -433,19 +433,19 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             int accessType = ((IAccessRelationship)relationship).getAccessType();
             switch(accessType) {
                 case IAccessRelationship.READ_ACCESS:
-                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_DIRECTION, "Read");
+                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_TYPE, ACCESS_TYPE_READ);
                     break;
 
                 case IAccessRelationship.READ_WRITE_ACCESS:
-                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_DIRECTION, "ReadWrite");
+                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_TYPE, ACCESS_TYPE_READ_WRITE);
                     break;
 
                 case IAccessRelationship.UNSPECIFIED_ACCESS:
-                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_DIRECTION, "Access");
+                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_TYPE, ACCESS_TYPE_ACCESS);
                     break;
 
                 default:
-                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_DIRECTION, "Write");
+                    relationshipElement.setAttribute(ATTRIBUTE_ACCESS_TYPE, ACCESS_TYPE_WRITE);
                     break;
             }
         }

@@ -74,8 +74,8 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_TYPE = "type";
     String ATTRIBUTE_SOURCE = "source";
     String ATTRIBUTE_TARGET = "target";
-    String ATTRIBUTE_STRENGTH = "strength";
-    String ATTRIBUTE_ACCESS_DIRECTION = "accessDirection";
+    String ATTRIBUTE_INFLUENCE_QUALIFIER = "influenceQualifier";
+    String ATTRIBUTE_ACCESS_TYPE = "accessType";
     String ATTRIBUTE_LANG = "lang";
     String ATTRIBUTE_VIEWPOINT = "viewpoint";
     String ATTRIBUTE_ELEMENTREF = "elementRef";
@@ -99,4 +99,9 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_FONTSIZE = "size";
     String ATTRIBUTE_FONTSTYLE = "style";
     String ATTRIBUTE_LINEWIDTH = "lineWidth";
+    
+    String ACCESS_TYPE_ACCESS = "Access";
+    String ACCESS_TYPE_WRITE = "Write";
+    String ACCESS_TYPE_READ = "Read";
+    String ACCESS_TYPE_READ_WRITE = "ReadWrite";
 }
