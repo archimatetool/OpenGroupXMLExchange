@@ -15,7 +15,7 @@
       -------------------------
       Author: The Open Group ArchiMate Exchange Team
       Start date: 04 Oct 2016
-      Revision date: 06 Dec 2016
+      Revision date: 06 Apr 2017
       XSD Version: 3.0
       Status: Draft
       Description: The Open Group ArchiMate 3.0 Open Exchange Format
@@ -371,9 +371,9 @@
       <xs:extension base="ViewConceptType">
 
         <xs:sequence>
-          <xs:element name="sourceAttachment" type="xs:positiveInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="sourceAttachment" type="LocationType" minOccurs="0" maxOccurs="1" />
           <xs:element name="bendpoint" type="LocationType" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="targetAttachment" type="xs:positiveInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="targetAttachment" type="LocationType" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
 
         <xs:attribute name="source" type="xs:IDREF" use="optional" />
@@ -408,9 +408,9 @@
           <xs:element name="style" type="StyleType" minOccurs="0" maxOccurs="1" />
           <xs:element name="viewRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
           
-          <xs:element name="sourceAttachment" type="xs:positiveInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="sourceAttachment" type="LocationType" minOccurs="0" maxOccurs="1" />
           <xs:element name="bendpoint" type="LocationType" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="targetAttachment" type="xs:positiveInteger" minOccurs="0" maxOccurs="1" />
+          <xs:element name="targetAttachment" type="LocationType" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
         <xs:attributeGroup ref="IdentifierGroup" />
         <xs:attribute name="source" type="xs:IDREF" use="required" />
