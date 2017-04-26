@@ -24,6 +24,7 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 
+import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
@@ -39,7 +40,6 @@ import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -448,9 +448,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 }
                 
                 // Create new diagram node object
-                IArchimateElement element = (IArchimateElement)eObject;
-                dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-                ((IDiagramModelArchimateObject)dmo).setArchimateElement(element);
+                dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject((IArchimateElement)eObject);
             }
             
             // No element ref so this is another type of node, but what is it?
@@ -596,8 +594,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 }
                 
                 // Create new ArchiMate connection with relationship
-                connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-                ((IDiagramModelArchimateConnection)connection).setArchimateRelationship((IArchimateRelationship)eObjectRelationship);
+                connection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection((IArchimateRelationship)eObjectRelationship);
             }
             // Create new ordinary connection
             else {
