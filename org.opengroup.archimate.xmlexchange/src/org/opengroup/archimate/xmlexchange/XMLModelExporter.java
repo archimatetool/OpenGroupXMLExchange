@@ -420,11 +420,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         // Type
         relationshipElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(relationship), JDOMUtils.XSI_Namespace);
         
-        // Influence Qualifier
+        // Influence Modifier/Strength
         if(relationship.eClass() == IArchimatePackage.eINSTANCE.getInfluenceRelationship()) {
             String strength = ((IInfluenceRelationship)relationship).getStrength();
             if(hasSomeText(strength)) {
-                relationshipElement.setAttribute(ATTRIBUTE_INFLUENCE_QUALIFIER, strength);
+                relationshipElement.setAttribute(ATTRIBUTE_INFLUENCE_MODIFIER, strength);
             }
         }
         

@@ -74,7 +74,7 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_TYPE = "type";
     String ATTRIBUTE_SOURCE = "source";
     String ATTRIBUTE_TARGET = "target";
-    String ATTRIBUTE_INFLUENCE_QUALIFIER = "influenceQualifier";
+    String ATTRIBUTE_INFLUENCE_MODIFIER = "modifier";
     String ATTRIBUTE_ACCESS_TYPE = "accessType";
     String ATTRIBUTE_LANG = "lang";
     String ATTRIBUTE_VIEWPOINT = "viewpoint";

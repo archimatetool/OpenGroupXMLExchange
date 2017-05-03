@@ -300,7 +300,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             
             // Influence type
             if(relation instanceof IInfluenceRelationship) {
-                String influenceStrength = childElement.getAttributeValue(ATTRIBUTE_INFLUENCE_QUALIFIER);
+                String influenceStrength = childElement.getAttributeValue(ATTRIBUTE_INFLUENCE_MODIFIER);
                 if(influenceStrength != null) {
                     ((IInfluenceRelationship)relation).setStrength(influenceStrength);
                 }

@@ -16,7 +16,7 @@
             -------------------------
             Author: The Open Group ArchiMate Exchange Team
             Start date: 04 Oct 2016
-            Revision date: 21 Mar 2017
+            Revision date: 03 May 2017
             XSD Version: 3.0
             Status: Draft
             Description: The Open Group ArchiMate 3.0 Open Exchange Format
@@ -1138,7 +1138,7 @@
         <xs:complexContent>
             <xs:extension base="RelationshipType">
 
-                <xs:attribute name="influenceQualifier" type="InfluenceQualifierType" use="optional">
+                <xs:attribute name="modifier" type="InfluenceModifierType" use="optional">
                     <xs:annotation>
                         <xs:documentation>
                             This Attribute is only meaningful for Influence RelationshipType. This is optional for the Influence
@@ -1162,7 +1162,7 @@
             <xs:enumeration value="+" />
             <xs:enumeration value="++" />
             <xs:enumeration value="-" />
-            <xs:enumeration value="\-\-" />
+            <xs:enumeration value="--" />
 
             <xs:enumeration value="0" />
             <xs:enumeration value="1" />
@@ -1179,7 +1179,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="InfluenceQualifierType">
+    <xs:simpleType name="InfluenceModifierType">
         <xs:union memberTypes="InfluenceStrengthEnum xs:string" />
     </xs:simpleType>
 
