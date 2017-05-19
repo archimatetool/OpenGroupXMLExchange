@@ -16,9 +16,9 @@
             -------------------------
             Author: The Open Group ArchiMate Exchange Team
             Start date: 04 Oct 2016
-            Revision date: 03 May 2017
+            Revision date: 18 May 2017
             XSD Version: 3.0
-            Status: Draft
+            Status: Final
             Description: The Open Group ArchiMate 3.0 Open Exchange Format
         </xs:documentation>
 
@@ -26,7 +26,6 @@
             Notes and rationale
             -------------------
             This is the XSD for the ArchiMate 3.0 Model Exchange File Format.
-            This is a working draft.
 
             A number of example models in the exchange file format are available
             for interoperability testing. For details of how to obtain those
@@ -176,7 +175,7 @@
             <xs:field xpath="@identifier" />
         </xs:unique>
 
-        <!-- Because eventually Property Definitions can also reside in Profiles and Stereotypes the key range must be over the whole model -->
+        <!-- Because Property Definitions can also reside in Profiles and Stereotypes the key range must be over the whole model -->
 
         <xs:keyref name="PropertyDefinitionRef" refer="PropertyDefinitionKey">
             <xs:selector xpath=".//archimate:propertyDefinitionRef" />
@@ -447,7 +446,7 @@
     <xs:complexType name="PropertyDefinitionsType">
         <xs:annotation>
             <xs:documentation>
-                This is a container for the propertie definitions in the model.
+                This is a container for the Property definitions in the model.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -688,8 +687,7 @@
         <xs:attribute name="identifierRef" type="xs:IDREF" use="optional">
             <xs:annotation>
                 <xs:documentation>
-                    identifierRef could refer to anything that has an identifier in the model, including
-                    another item.
+                    identifierRef could refer to anything that has an identifier in the model.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

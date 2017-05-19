@@ -15,9 +15,9 @@
             -------------------------
             Author: The Open Group ArchiMate Exchange Team
             Start date: 04 Oct 2016
-            Revision date: 06 Dec 2016
+            Revision date: 18 May 2017
             XSD Version: 3.0
-            Status: Draft
+            Status: Final
             Description: The Open Group ArchiMate 3.0 Open Exchange Format
         </xs:documentation>
 
@@ -25,7 +25,6 @@
             Notes and rationale
             -------------------
             This is the XSD for the ArchiMate 3.0 Model Exchange File Format.
-            This is a working draft.
 
             A number of example models in the exchange file format are available
             for interoperability testing. For details of how to obtain those
