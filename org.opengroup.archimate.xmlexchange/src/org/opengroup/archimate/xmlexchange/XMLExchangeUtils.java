@@ -5,11 +5,16 @@
  */
 package org.opengroup.archimate.xmlexchange;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
@@ -87,6 +92,47 @@ public final class XMLExchangeUtils {
     }
     
     /**
+     * For exporting get the actual bendpoint positions
+     * @param connection
+     * @return
+     */
+    public static List<Point> getActualBendpointPositions(IDiagramModelConnection connection) {
+        List<Point> points = new ArrayList<Point>();
+        
+        double bpindex = 1; // index count + 1
+        double bpcount = connection.getBendpoints().size() + 1; // number of bendpoints + 1
+        
+        for(IDiagramModelBendpoint bendpoint : connection.getBendpoints()) {
+            // The weight of this Bendpoint should use to calculate its location.
+            // The weight should be between 0.0 and 1.0. A weight of 0.0 will
+            // cause the Bendpoint to follow the start point, while a weight
+            // of 1.0 will cause the Bendpoint to follow the end point
+            double bpweight = bpindex / bpcount;
+            
+            IBounds srcBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getSource()); // get bounds of source node
+            double startX = (srcBounds.getX() + (srcBounds.getWidth() / 2)) + bendpoint.getStartX();
+            startX *= (1.0 - bpweight);
+            double startY = (srcBounds.getY() + (srcBounds.getHeight() / 2)) + bendpoint.getStartY();
+            startY *= (1.0 - bpweight);
+            
+            IBounds tgtBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getTarget()); // get bounds of target node
+            double endX = (tgtBounds.getX() + (tgtBounds.getWidth() / 2)) + bendpoint.getEndX();
+            endX *= bpweight;
+            double endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();
+            endY *= bpweight;
+            
+            int x = (int)(startX + endX);
+            int y = (int)(startY + endY);
+            
+            points.add(new Point(x, y));
+            
+            bpindex++;
+        }
+        
+        return points;
+    }
+    
+    /**
      * Calculate the overall negative offset for a diagram.
      * The exchange format diagram starts at origin 0,0 with no negative coordinates allowed.
      * Archi diagram nodes can have negative coordinates, so this is the offset to apply to nodes and bendpoints.
@@ -94,18 +140,31 @@ public final class XMLExchangeUtils {
      * @return The Point offset
      */
     public static final Point getNegativeOffsetForDiagram(IDiagramModel dm) {
-        Point pt = new Point();
+        Point extremePoint = new Point();
         
         for(IDiagramModelObject dmo : dm.getChildren()) {
+            // Node bounds
             IBounds bounds = dmo.getBounds().getCopy();
-            if(bounds.getX() < pt.x) {
-                pt.x = bounds.getX();
-            }
-            if(bounds.getY() < pt.y) {
-                pt.y = bounds.getY();
+            
+            extremePoint.x = Math.min(bounds.getX(), extremePoint.x);
+            extremePoint.y = Math.min(bounds.getY(), extremePoint.y);
+            
+            // Bendpoint bounds
+            for(Iterator<EObject> iter = dmo.eAllContents(); iter.hasNext();) {
+                EObject eObject = iter.next();
+                // Connection
+                if(eObject instanceof IDiagramModelConnection) {
+                    IDiagramModelConnection connection = (IDiagramModelConnection)eObject;
+                    
+                    List<Point> points = getActualBendpointPositions(connection);
+                    for(Point pt : points) {
+                        extremePoint.x = Math.min(extremePoint.x, pt.x);
+                        extremePoint.y = Math.min(extremePoint.y, pt.y);
+                    }
+                }
             }
         }
         
-        return pt;
+        return extremePoint;
     }
 }

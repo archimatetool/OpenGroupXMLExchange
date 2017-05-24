@@ -40,7 +40,6 @@ import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
@@ -950,40 +949,17 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
             return;
         }
         
-        double bpindex = 1; // index count + 1
-    	double bpcount = connection.getBendpoints().size() + 1; // number of bendpoints + 1
-    	
-        for(IDiagramModelBendpoint bendpoint : connection.getBendpoints()) {
-        	// The weight of this Bendpoint should use to calculate its location.
-        	// The weight should be between 0.0 and 1.0. A weight of 0.0 will
-        	// cause the Bendpoint to follow the start point, while a weight
-        	// of 1.0 will cause the Bendpoint to follow the end point
-        	double bpweight = bpindex / bpcount;
-        	
+        List<Point> points = XMLExchangeUtils.getActualBendpointPositions(connection);
+        
+        for(Point pt : points) {
             Element bendpointElement = new Element(ELEMENT_BENDPOINT, ARCHIMATE3_NAMESPACE);
             connectionElement.addContent(bendpointElement);
+        
+            pt.x -= fCurrentDiagramNegativeOffset.x; // compensate for negative space
+            pt.y -= fCurrentDiagramNegativeOffset.y; // compensate for negative space
             
-            IBounds srcBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getSource()); // get bounds of source node
-            double startX = (srcBounds.getX() + (srcBounds.getWidth() / 2)) + bendpoint.getStartX();
-            startX *= (1.0 - bpweight);
-            double startY = (srcBounds.getY() + (srcBounds.getHeight() / 2)) + bendpoint.getStartY();
-            startY *= (1.0 - bpweight);
-            
-            IBounds tgtBounds = XMLExchangeUtils.getAbsoluteBounds(connection.getTarget()); // get bounds of target node
-            double endX = (tgtBounds.getX() + (tgtBounds.getWidth() / 2)) + bendpoint.getEndX();
-            endX *= bpweight;
-            double endY = (tgtBounds.getY() + (tgtBounds.getHeight() / 2)) + bendpoint.getEndY();
-            endY *= bpweight;
-            
-            int x = (int)(startX + endX);
-            x -= fCurrentDiagramNegativeOffset.x; // compensate for negative space
-            int y = (int)(startY + endY);
-            y -= fCurrentDiagramNegativeOffset.y; // compensate for negative space
-            
-            bendpointElement.setAttribute(ATTRIBUTE_X, Integer.toString(x));
-            bendpointElement.setAttribute(ATTRIBUTE_Y, Integer.toString(y));
-            
-            bpindex++;
+            bendpointElement.setAttribute(ATTRIBUTE_X, Integer.toString(pt.x));
+            bendpointElement.setAttribute(ATTRIBUTE_Y, Integer.toString(pt.y));
         }
     }
     
