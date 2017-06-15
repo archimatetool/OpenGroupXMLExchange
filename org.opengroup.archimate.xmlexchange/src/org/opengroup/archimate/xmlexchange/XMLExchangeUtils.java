@@ -38,7 +38,7 @@ public final class XMLExchangeUtils {
             return getAbsoluteBounds((IDiagramModelObject)dmc);
         }
         
-        // TODO
+        // TODO - how to calculate the bounds from this?????
         else if(dmc instanceof IDiagramModelConnection) {
             
         }
@@ -98,6 +98,11 @@ public final class XMLExchangeUtils {
      */
     public static List<Point> getActualBendpointPositions(IDiagramModelConnection connection) {
         List<Point> points = new ArrayList<Point>();
+        
+        // TODO: Doesn't work for connection->connection
+        if(connection.getSource() instanceof IDiagramModelConnection || connection.getTarget() instanceof IDiagramModelConnection) {
+            return points;
+        }
         
         double bpindex = 1; // index count + 1
         double bpcount = connection.getBendpoints().size() + 1; // number of bendpoints + 1
