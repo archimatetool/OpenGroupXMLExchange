@@ -45,7 +45,6 @@ import com.archimatetool.editor.utils.PlatformUtils;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class ExportToXMLPageMetadata extends WizardPage {
 
     private static String HELP_ID = "org.opengroup.archimate.xmlexchange.help.ExportToXMLPageMetadata"; //$NON-NLS-1$
@@ -53,39 +52,39 @@ public class ExportToXMLPageMetadata extends WizardPage {
     private static final String PREFS_LAST_VALUE = "ExportXMLExchangeLastMD_"; //$NON-NLS-1$
     
     private static String[] dcNames = {
-            "title",
-            "creator",
-            "subject",
-            "description",
-            "publisher",
-            "contributor",
-            "date",
-            "type",
-            "format",
-            "identifier",
-            "source",
-            "language",
-            "relation",
-            "coverage",
-            "rights"
+            "title", //$NON-NLS-1$
+            "creator", //$NON-NLS-1$
+            "subject", //$NON-NLS-1$
+            "description", //$NON-NLS-1$
+            "publisher", //$NON-NLS-1$
+            "contributor", //$NON-NLS-1$
+            "date", //$NON-NLS-1$
+            "type", //$NON-NLS-1$
+            "format", //$NON-NLS-1$
+            "identifier", //$NON-NLS-1$
+            "source", //$NON-NLS-1$
+            "language", //$NON-NLS-1$
+            "relation", //$NON-NLS-1$
+            "coverage", //$NON-NLS-1$
+            "rights" //$NON-NLS-1$
     };
     
     private static String[] dcTitles = {
-            "Title",
-            "Creator",
-            "Subject",
-            "Description",
-            "Publisher",
-            "Contributor",
-            "Date",
-            "Type",
-            "Format",
-            "Identifier",
-            "Source",
-            "Language",
-            "Relation",
-            "Coverage",
-            "Rights"
+            Messages.ExportToXMLPageMetadata_0,
+            Messages.ExportToXMLPageMetadata_1,
+            Messages.ExportToXMLPageMetadata_2,
+            Messages.ExportToXMLPageMetadata_3,
+            Messages.ExportToXMLPageMetadata_4,
+            Messages.ExportToXMLPageMetadata_5,
+            Messages.ExportToXMLPageMetadata_6,
+            Messages.ExportToXMLPageMetadata_7,
+            Messages.ExportToXMLPageMetadata_8,
+            Messages.ExportToXMLPageMetadata_9,
+            Messages.ExportToXMLPageMetadata_10,
+            Messages.ExportToXMLPageMetadata_11,
+            Messages.ExportToXMLPageMetadata_12,
+            Messages.ExportToXMLPageMetadata_13,
+            Messages.ExportToXMLPageMetadata_14
     };
     
     private TableViewer fTableViewer;
@@ -97,8 +96,8 @@ public class ExportToXMLPageMetadata extends WizardPage {
     public ExportToXMLPageMetadata() {
         super("ExportToXMLPageMetadata"); //$NON-NLS-1$
         
-        setTitle("Export model");
-        setDescription("Add Metadata to describe the model");
+        setTitle(Messages.ExportToXMLPageMetadata_15);
+        setDescription(Messages.ExportToXMLPageMetadata_16);
         setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
         
         fNames = new LinkedHashMap<String, String>();
@@ -145,11 +144,11 @@ public class ExportToXMLPageMetadata extends WizardPage {
 
         // Columns
         TableViewerColumn columnName = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
-        columnName.getColumn().setText("Name");
+        columnName.getColumn().setText(Messages.ExportToXMLPageMetadata_17);
         tableLayout.setColumnData(columnName.getColumn(), new ColumnWeightData(20, true));
 
         TableViewerColumn columnValue = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
-        columnValue.getColumn().setText("Value");
+        columnValue.getColumn().setText(Messages.ExportToXMLPageMetadata_18);
         tableLayout.setColumnData(columnValue.getColumn(), new ColumnWeightData(80, true));
         columnValue.setEditingSupport(new ValueEditingSupport(fTableViewer));
         
@@ -162,27 +161,27 @@ public class ExportToXMLPageMetadata extends WizardPage {
         }
         
         fClearAllButton = new Button(container, SWT.PUSH);
-        fClearAllButton.setText("Clear All");
+        fClearAllButton.setText(Messages.ExportToXMLPageMetadata_19);
         fClearAllButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 for(Entry<String, String> entry : fData.entrySet()) {
-                    entry.setValue("");
+                    entry.setValue(""); //$NON-NLS-1$
                 }
-                fTableViewer.setInput("");
+                fTableViewer.setInput(""); //$NON-NLS-1$
             }
         });
 
         // Table row bug on Yosemite https://bugs.eclipse.org/bugs/show_bug.cgi?id=446534
-        if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) {
+        if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) { //$NON-NLS-1$ //$NON-NLS-2$
             Display.getCurrent().asyncExec(new Runnable() {
                 public void run() {
-                    fTableViewer.setInput("");
+                    fTableViewer.setInput(""); //$NON-NLS-1$
                 }
             });
         }
         else {
-            fTableViewer.setInput("");
+            fTableViewer.setInput(""); //$NON-NLS-1$
         }
     }
     

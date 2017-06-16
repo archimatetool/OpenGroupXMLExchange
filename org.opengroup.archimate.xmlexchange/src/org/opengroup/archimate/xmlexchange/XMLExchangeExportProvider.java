@@ -25,7 +25,6 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class XMLExchangeExportProvider implements IModelExporter, IXMLExchangeGlobals {
     
     @Override
@@ -39,7 +38,7 @@ public class XMLExchangeExportProvider implements IModelExporter, IXMLExchangeGl
             protected void createButtonsForButtonBar(Composite parent) {
                 super.createButtonsForButtonBar(parent); // Change "Finish" to "Save"
                 Button b = getButton(IDialogConstants.FINISH_ID);
-                b.setText("Save");
+                b.setText(Messages.XMLExchangeExportProvider_0);
             }
         };
         

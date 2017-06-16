@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
@@ -63,7 +64,6 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class XMLModelImporter implements IXMLExchangeGlobals {
     
     private IArchimateModel fModel;
@@ -176,7 +176,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
 
     private void parseArchiMateElements(Element elementsElement) throws XMLModelParserException {
         if(elementsElement == null) {
-            throw new XMLModelParserException("No Elements found");
+            throw new XMLModelParserException(Messages.XMLModelImporter_0);
         }
         
         for(Element childElement : elementsElement.getChildren(ELEMENT_ELEMENT, ARCHIMATE3_NAMESPACE)) {
@@ -189,7 +189,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             IArchimateElement element = (IArchimateElement)XMLTypeMapper.createArchimateConcept(type);
             // If element is null throw exception
             if(element == null) {
-                throw new XMLModelParserException("Element for type: " + type + " not found.");
+                throw new XMLModelParserException(NLS.bind(Messages.XMLModelImporter_1, type));
             }
                     
             // Identifier first
@@ -241,7 +241,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             IArchimateRelationship relation = (IArchimateRelationship)XMLTypeMapper.createArchimateConcept(type);
             // If relation is null throw exception
             if(relation == null) {
-                throw new IOException("Relation for type: " + type + " not found.");
+                throw new IOException(NLS.bind(Messages.XMLModelImporter_2, type));
             }
             
             // Identifier first
@@ -318,12 +318,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         for(RelationInfo r : lookupTable) {
             EObject eObjectSrc = ArchimateModelUtils.getObjectByID(fModel, r.sourceID);
             if(!(eObjectSrc instanceof IArchimateConcept)) {
-                throw new IOException("Source Concept not found for id: " + r.sourceID);
+                throw new IOException(Messages.XMLModelImporter_3 + r.sourceID);
             }
 
             EObject eObjectTgt = ArchimateModelUtils.getObjectByID(fModel, r.targetID);
             if(!(eObjectTgt instanceof IArchimateConcept)) {
-                throw new IOException("Target Concept not found for id: " + r.targetID);
+                throw new IOException(Messages.XMLModelImporter_4 + r.targetID);
             }
 
             r.relation.setSource((IArchimateConcept)eObjectSrc);
@@ -444,7 +444,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 EObject eObject = ArchimateModelUtils.getObjectByID(fModel, elementRef);
                 
                 if(!(eObject instanceof IArchimateElement)) {
-                    throw new XMLModelParserException("Element not found for id: " + elementRef);
+                    throw new XMLModelParserException(Messages.XMLModelImporter_5 + elementRef);
                 }
                 
                 // Create new diagram node object
@@ -546,7 +546,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         String hString = nodeElement.getAttributeValue(ATTRIBUTE_HEIGHT);
         
         if(!hasValue(xString) || !hasValue(yString) || !hasValue(wString) || !hasValue(hString)) {
-            throw new XMLModelParserException("Co-ordinate value not found");
+            throw new XMLModelParserException(Messages.XMLModelImporter_6);
         }
         
         int x = Integer.valueOf(xString);
@@ -590,7 +590,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 // Get relationship
                 EObject eObjectRelationship = ArchimateModelUtils.getObjectByID(fModel, relationshipRef);
                 if(!(eObjectRelationship instanceof IArchimateRelationship)) {
-                    throw new XMLModelParserException("Relationship not found for id: " + relationshipRef);
+                    throw new XMLModelParserException(Messages.XMLModelImporter_7 + relationshipRef);
                 }
                 
                 // Create new ArchiMate connection with relationship
@@ -617,7 +617,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             
             EObject eObject = findObject(identifier, connections);
             if(!(eObject instanceof IDiagramModelConnection)) {
-                throw new XMLModelParserException("Connection not found for id: " + identifier);
+                throw new XMLModelParserException(Messages.XMLModelImporter_8 + identifier);
             }
             
             IDiagramModelConnection connection = (IDiagramModelConnection)eObject;
@@ -626,26 +626,26 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             String sourceRef = connectionElement.getAttributeValue(ATTRIBUTE_SOURCE);
             EObject eObjectSource = findObject(sourceRef, connections);
             if(eObjectSource == null) {
-                throw new XMLModelParserException("Source concept not found for id: " + sourceRef);
+                throw new XMLModelParserException(Messages.XMLModelImporter_9 + sourceRef);
             }
             
             // Get target
             String targetRef = connectionElement.getAttributeValue(ATTRIBUTE_TARGET);
             EObject eObjectTarget = findObject(targetRef, connections);
             if(eObjectTarget == null) {
-                throw new XMLModelParserException("Target concept not found for id: " + targetRef);
+                throw new XMLModelParserException(Messages.XMLModelImporter_10 + targetRef);
             }
             
             // If an ArchiMate connection, source and target must be also
             if(connection instanceof IDiagramModelArchimateConnection) {
                 // Must be ArchiMate type source
                 if(!(eObjectSource instanceof IDiagramModelArchimateComponent)) {
-                    throw new XMLModelParserException("Source is not an ArchiMate component for id: " + sourceRef);
+                    throw new XMLModelParserException(Messages.XMLModelImporter_11 + sourceRef);
                 }
 
                 // Must be ArchiMate type target
                 if(!(eObjectTarget instanceof IDiagramModelArchimateComponent)) {
-                    throw new XMLModelParserException("Target is not an ArchiMate component for id: " + targetRef);
+                    throw new XMLModelParserException(Messages.XMLModelImporter_12 + targetRef);
                 }
             }
             // Another connection type
@@ -703,7 +703,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             String xString = bendpointElement.getAttributeValue(ATTRIBUTE_X);
             String yString = bendpointElement.getAttributeValue(ATTRIBUTE_Y);
             if(!hasValue(xString) || !hasValue(yString)) {
-                throw new XMLModelParserException("Bendpoint co-ordinate value not found");
+                throw new XMLModelParserException(Messages.XMLModelImporter_13);
             }
             
             int x = Integer.valueOf(xString);
@@ -778,10 +778,10 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         String fontStyle = fontElement.getAttributeValue(ATTRIBUTE_FONTSTYLE);
         if(hasValue(fontStyle)) {
             int styleValue = SWT.NORMAL;
-            if(fontStyle.contains("bold")) {
+            if(fontStyle.contains("bold")) { //$NON-NLS-1$
                 styleValue |= SWT.BOLD;
             }
-            if(fontStyle.contains("italic")) {
+            if(fontStyle.contains("italic")) { //$NON-NLS-1$
                 styleValue |= SWT.ITALIC;
             }
             newFontData.setStyle(styleValue);
@@ -805,7 +805,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             String bString = rgbElement.getAttributeValue(ATTRIBUTE_B);
             
             if(!hasValue(rString) || !hasValue(gString) || !hasValue(bString)) {
-                throw new XMLModelParserException("RGB value not found");
+                throw new XMLModelParserException(Messages.XMLModelImporter_14);
             }
             
             int red = Integer.valueOf(rString);
@@ -822,7 +822,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         //Check for localised element according to the system's locale
         String code = Locale.getDefault().getLanguage();
         if(code == null) {
-            code = "en";
+            code = "en"; //$NON-NLS-1$
         }
         
         for(Element childElement : parentElement.getChildren(childElementName, ARCHIMATE3_NAMESPACE)) {

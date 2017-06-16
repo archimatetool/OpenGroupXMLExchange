@@ -15,17 +15,16 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class XMLExchangePlugin extends AbstractUIPlugin {
 
-    public static final String PLUGIN_ID = "org.opengroup.archimate.xmlexchange";
+    public static final String PLUGIN_ID = "org.opengroup.archimate.xmlexchange"; //$NON-NLS-1$
     
-    public static final String XSD_FOLDER = "xsd/";
-    public static final String ARCHIMATE3_DIAGRAM_XSD = "archimate3_Diagram.xsd";
-    public static final String ARCHIMATE3_MODEL_XSD = "archimate3_Model.xsd";
-    public static final String ARCHIMATE3_VIEW_XSD = "archimate3_View.xsd";
-    public static final String DUBLINCORE_XSD = "dc.xsd";
-    public static final String XML_XSD = "xml.xsd";
+    public static final String XSD_FOLDER = "xsd/"; //$NON-NLS-1$
+    public static final String ARCHIMATE3_DIAGRAM_XSD = "archimate3_Diagram.xsd"; //$NON-NLS-1$
+    public static final String ARCHIMATE3_MODEL_XSD = "archimate3_Model.xsd"; //$NON-NLS-1$
+    public static final String ARCHIMATE3_VIEW_XSD = "archimate3_View.xsd"; //$NON-NLS-1$
+    public static final String DUBLINCORE_XSD = "dc.xsd"; //$NON-NLS-1$
+    public static final String XML_XSD = "xml.xsd"; //$NON-NLS-1$
 
     /**
      * The shared instance

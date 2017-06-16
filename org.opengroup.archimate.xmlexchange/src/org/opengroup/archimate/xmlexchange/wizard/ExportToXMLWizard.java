@@ -23,7 +23,6 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class ExportToXMLWizard extends Wizard {
     
     private IArchimateModel fModel;
@@ -33,7 +32,7 @@ public class ExportToXMLWizard extends Wizard {
     
     public ExportToXMLWizard(IArchimateModel model) {
         fModel = model;
-        setWindowTitle("Export Model");
+        setWindowTitle(Messages.ExportToXMLWizard_0);
     }
     
     @Override
@@ -54,15 +53,15 @@ public class ExportToXMLWizard extends Wizard {
             file.getCanonicalPath();
         }
         catch(IOException ex) {
-            MessageDialog.openError(getShell(), "File error", "The file name is incorrect");
+            MessageDialog.openError(getShell(), Messages.ExportToXMLWizard_1, Messages.ExportToXMLWizard_2);
             return false;
         }
         
         // Make sure the file does not already exist
         if(file.exists()) {
             boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                    "Export Model",
-                    "'" + file + "' already exists. Are you sure you want to overwrite it?");
+                    Messages.ExportToXMLWizard_3,
+                    "'" + file + "' already exists. Are you sure you want to overwrite it?"); //$NON-NLS-1$ //$NON-NLS-2$
             if(!result) {
                 return false;
             }
@@ -87,8 +86,10 @@ public class ExportToXMLWizard extends Wizard {
                 catch(Throwable ex) {
                     ex.printStackTrace();
                     MessageDialog.openError(Display.getCurrent().getActiveShell(),
-                            "Export Model",
-                            "Error Exporting" + " " + ex.getMessage()); //$NON-NLS-1$
+                            Messages.ExportToXMLWizard_3,
+                            Messages.ExportToXMLWizard_4
+                            + " " //$NON-NLS-1$
+                            + ex.getMessage());
                 }
             }
         });

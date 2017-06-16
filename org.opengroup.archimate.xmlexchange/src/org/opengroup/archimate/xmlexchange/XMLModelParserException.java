@@ -13,7 +13,7 @@ package org.opengroup.archimate.xmlexchange;
 public class XMLModelParserException extends Exception {
 
 	public XMLModelParserException() {
-		super("Error occurred in XML Model Parsing."); //$NON-NLS-1$
+		super(Messages.XMLModelParserException_0);
 	}
 
 	public XMLModelParserException(String message)  {

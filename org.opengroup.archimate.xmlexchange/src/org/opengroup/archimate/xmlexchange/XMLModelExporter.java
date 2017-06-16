@@ -60,7 +60,6 @@ import com.archimatetool.model.IProperty;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class XMLModelExporter implements IXMLExchangeGlobals {
     
     // ArchiMate model
@@ -211,7 +210,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write the model
      */
     private void writeModel(Element rootElement) {
-        rootElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(fModel)); //$NON-NLS-1$
+        rootElement.setAttribute(ATTRIBUTE_IDENTIFIER, createID(fModel));
         
         // Gather all properties now
         fPropertyDefsList = getAllUniquePropertyKeysForModel();
@@ -260,11 +259,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         rootElement.addContent(mdElement);
         
         Element schemaElement = new Element(ELEMENT_SCHEMA, ARCHIMATE3_NAMESPACE);
-        schemaElement.setText("Dublin Core");
+        schemaElement.setText("Dublin Core"); //$NON-NLS-1$
         mdElement.addContent(schemaElement);
         
         Element schemaVersionElement = new Element(ELEMENT_SCHEMAVERSION, ARCHIMATE3_NAMESPACE);
-        schemaVersionElement.setText("1.1");
+        schemaVersionElement.setText("1.1"); //$NON-NLS-1$
         mdElement.addContent(schemaVersionElement);
         
         for(Entry<String, String> entry : fMetadata.entrySet()) {
@@ -1025,16 +1024,16 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
                 fontElement.setAttribute(ATTRIBUTE_FONTSIZE, Integer.toString(fontData.getHeight()));
                 
                 int style = fontData.getStyle();
-                String styleString = "";
+                String styleString = ""; //$NON-NLS-1$
                 
                 if((style & SWT.BOLD) == SWT.BOLD) {
-                    styleString += "bold";
+                    styleString += "bold"; //$NON-NLS-1$
                 }
                 if((style & SWT.ITALIC) == SWT.ITALIC) {
                     if(StringUtils.isSet(styleString)) {
-                        styleString += " ";
+                        styleString += " "; //$NON-NLS-1$
                     }
-                    styleString += "italic";
+                    styleString += "italic"; //$NON-NLS-1$
                 }
                 
                 if(hasSomeText(styleString)) {
@@ -1125,9 +1124,9 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Create a uniform id
      */
     private String createID(IIdentifier identifier) {
-        if(identifier.getId() != null && identifier.getId().startsWith("id-")) {
+        if(identifier.getId() != null && identifier.getId().startsWith("id-")) { //$NON-NLS-1$
             return identifier.getId();
         }
-        return "id-" + identifier.getId();
+        return "id-" + identifier.getId(); //$NON-NLS-1$
     }
 }

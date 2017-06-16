@@ -42,7 +42,6 @@ import com.archimatetool.model.IArchimateModel;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class ExportToXMLPage extends WizardPage {
 
     private static String HELP_ID = "org.opengroup.archimate.xmlexchange.help.ExportToXMLPage"; //$NON-NLS-1$
@@ -67,8 +66,8 @@ public class ExportToXMLPage extends WizardPage {
         
         fModel = model;
         
-        setTitle("Export model");
-        setDescription("Export model to Open Exchange XML file");
+        setTitle(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_0);
+        setDescription(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_1);
         setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     }
 
@@ -81,17 +80,17 @@ public class ExportToXMLPage extends WizardPage {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELP_ID);
         
         Group exportGroup = new Group(container, SWT.NULL);
-        exportGroup.setText("Export As");
+        exportGroup.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_2);
         exportGroup.setLayout(new GridLayout(3, false));
         exportGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         Label label = new Label(exportGroup, SWT.NULL);
-        label.setText("File:");
+        label.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_3);
         
         fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        String fileName = StringUtils.isSet(fModel.getName()) ? fModel.getName() + ".xml" : "exported.xml";
+        String fileName = StringUtils.isSet(fModel.getName()) ? fModel.getName() + ".xml" : "exported.xml"; //$NON-NLS-1$ //$NON-NLS-2$
         
         // Get last folder used
         String lastFolderName = XMLExchangePlugin.INSTANCE.getPreferenceStore().getString(PREFS_LAST_FILE_LOCATION);
@@ -101,7 +100,7 @@ public class ExportToXMLPage extends WizardPage {
             fFileTextField.setText(new File(lastFolder, fileName).getPath());
         }
         else {
-            fFileTextField.setText(new File(System.getProperty("user.home"), fileName).getPath());
+            fFileTextField.setText(new File(System.getProperty("user.home"), fileName).getPath()); //$NON-NLS-1$
         }
         
         // Single text control so strip CRLFs
@@ -126,12 +125,12 @@ public class ExportToXMLPage extends WizardPage {
         });
         
         Group optionsGroup = new Group(container, SWT.NULL);
-        optionsGroup.setText("Options");
+        optionsGroup.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_4);
         optionsGroup.setLayout(new GridLayout(2, false));
         optionsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         label = new Label(optionsGroup, SWT.NULL);
-        label.setText("Include Folder Organisation:");
+        label.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_5);
         fOrganiseButton = new Button(optionsGroup, SWT.CHECK);
         
         boolean doOrganisation = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_ORGANISATION);
@@ -140,7 +139,7 @@ public class ExportToXMLPage extends WizardPage {
         }
         
         label = new Label(optionsGroup, SWT.NULL);
-        label.setText("Copy XSD schema files to target location:");
+        label.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_6);
         fIncludeXSDButton = new Button(optionsGroup, SWT.CHECK);
         
         boolean doIncludeXSD = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_INCLUDE_XSD);
@@ -149,7 +148,7 @@ public class ExportToXMLPage extends WizardPage {
         }
         
         label = new Label(optionsGroup, SWT.NULL);
-        label.setText("Language:");
+        label.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_7);
         
         fLanguageCombo = new Combo(optionsGroup, SWT.READ_ONLY);
         fLanguageCombo.setItems(Locale.getISOLanguages());
@@ -161,7 +160,7 @@ public class ExportToXMLPage extends WizardPage {
         else {
             String code = Locale.getDefault().getLanguage();
             if(code == null) {
-                code = "en";
+                code = "en"; //$NON-NLS-1$
             }
             fLanguageCombo.setText(code);
         }
@@ -186,7 +185,7 @@ public class ExportToXMLPage extends WizardPage {
     private void validateFields() {
         String fileName = getFileName();
         if(!StringUtils.isSetAfterTrim(fileName)) {
-            setErrorMessage("Provide a file name");
+            setErrorMessage(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_8);
             return;
         }
         
@@ -204,7 +203,7 @@ public class ExportToXMLPage extends WizardPage {
 
     private File chooseFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-        dialog.setText("Export Model");
+        dialog.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_9);
         
         File file = new File(fFileTextField.getText());
         dialog.setFileName(file.getName());
@@ -231,7 +230,7 @@ public class ExportToXMLPage extends WizardPage {
             store.setValue(PREFS_LAST_FILE_LOCATION, file.getParentFile().getPath());
         }
         else {
-            store.setValue(PREFS_LAST_FILE_LOCATION, "");
+            store.setValue(PREFS_LAST_FILE_LOCATION, ""); //$NON-NLS-1$
         }
         
         store.setValue(PREFS_ORGANISATION, doSaveOrganisation());
