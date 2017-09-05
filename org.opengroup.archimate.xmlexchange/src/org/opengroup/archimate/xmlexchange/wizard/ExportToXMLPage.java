@@ -29,7 +29,6 @@ import org.eclipse.ui.PlatformUI;
 import org.opengroup.archimate.xmlexchange.IXMLExchangeGlobals;
 import org.opengroup.archimate.xmlexchange.XMLExchangePlugin;
 
-import com.archimatetool.editor.diagram.wizard.Messages;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -66,8 +65,8 @@ public class ExportToXMLPage extends WizardPage {
         
         fModel = model;
         
-        setTitle(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_0);
-        setDescription(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_1);
+        setTitle(Messages.ExportToXMLPage_0);
+        setDescription(Messages.ExportToXMLPage_1);
         setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     }
 
@@ -80,12 +79,12 @@ public class ExportToXMLPage extends WizardPage {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELP_ID);
         
         Group exportGroup = new Group(container, SWT.NULL);
-        exportGroup.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_2);
+        exportGroup.setText(Messages.ExportToXMLPage_2);
         exportGroup.setLayout(new GridLayout(3, false));
         exportGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         Label label = new Label(exportGroup, SWT.NULL);
-        label.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_3);
+        label.setText(Messages.ExportToXMLPage_3);
         
         fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -113,7 +112,7 @@ public class ExportToXMLPage extends WizardPage {
         });
         
         Button fileButton = new Button(exportGroup, SWT.PUSH);
-        fileButton.setText(Messages.ExportAsImagePage_4);
+        fileButton.setText(Messages.ExportToXMLPage_10);
         fileButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -125,12 +124,12 @@ public class ExportToXMLPage extends WizardPage {
         });
         
         Group optionsGroup = new Group(container, SWT.NULL);
-        optionsGroup.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_4);
+        optionsGroup.setText(Messages.ExportToXMLPage_4);
         optionsGroup.setLayout(new GridLayout(2, false));
         optionsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         label = new Label(optionsGroup, SWT.NULL);
-        label.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_5);
+        label.setText(Messages.ExportToXMLPage_5);
         fOrganiseButton = new Button(optionsGroup, SWT.CHECK);
         
         boolean doOrganisation = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_ORGANISATION);
@@ -139,7 +138,7 @@ public class ExportToXMLPage extends WizardPage {
         }
         
         label = new Label(optionsGroup, SWT.NULL);
-        label.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_6);
+        label.setText(Messages.ExportToXMLPage_6);
         fIncludeXSDButton = new Button(optionsGroup, SWT.CHECK);
         
         boolean doIncludeXSD = XMLExchangePlugin.INSTANCE.getPreferenceStore().getBoolean(PREFS_INCLUDE_XSD);
@@ -148,7 +147,7 @@ public class ExportToXMLPage extends WizardPage {
         }
         
         label = new Label(optionsGroup, SWT.NULL);
-        label.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_7);
+        label.setText(Messages.ExportToXMLPage_7);
         
         fLanguageCombo = new Combo(optionsGroup, SWT.READ_ONLY);
         fLanguageCombo.setItems(Locale.getISOLanguages());
@@ -185,7 +184,7 @@ public class ExportToXMLPage extends WizardPage {
     private void validateFields() {
         String fileName = getFileName();
         if(!StringUtils.isSetAfterTrim(fileName)) {
-            setErrorMessage(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_8);
+            setErrorMessage(Messages.ExportToXMLPage_8);
             return;
         }
         
@@ -203,7 +202,7 @@ public class ExportToXMLPage extends WizardPage {
 
     private File chooseFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-        dialog.setText(org.opengroup.archimate.xmlexchange.wizard.Messages.ExportToXMLPage_9);
+        dialog.setText(Messages.ExportToXMLPage_9);
         
         File file = new File(fFileTextField.getText());
         dialog.setFileName(file.getName());
