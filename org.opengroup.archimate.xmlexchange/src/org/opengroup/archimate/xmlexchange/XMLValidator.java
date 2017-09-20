@@ -7,6 +7,7 @@ package org.opengroup.archimate.xmlexchange;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -45,14 +46,20 @@ public final class XMLValidator {
         Validator validator = schema.newValidator();
         
         
+        // Fixes #274 https://github.com/archimatetool/archi/issues/274
+        FileInputStream in = new FileInputStream(xmlInstance);
+        
         try {
-            validator.validate(new StreamSource(xmlInstance));
+            validator.validate(new StreamSource(in));
         }
         catch(SAXException ex) {
             // Ignore error where an XSD declaration is one that we do not have locally (for example for additional metadata)
             if(!ex.getMessage().contains("The matching wildcard is strict, but no declaration can be found")) { //$NON-NLS-1$
                 throw ex;
             }
+        }
+        finally {
+            in.close();
         }
     }
 
