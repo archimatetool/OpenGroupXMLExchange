@@ -650,8 +650,12 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             }
             // Another connection type
             else {
-                // Only connect notes and groups
+                // Only connect between notes and groups
                 if(eObjectSource instanceof IDiagramModelArchimateComponent && eObjectTarget instanceof IDiagramModelArchimateComponent) {
+                    continue;
+                }
+                // Don't connect to other connections
+                if(eObjectSource instanceof IDiagramModelConnection || eObjectTarget instanceof IDiagramModelConnection) {
                     continue;
                 }
             }
