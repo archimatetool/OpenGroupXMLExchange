@@ -25,7 +25,6 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
-import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
@@ -892,13 +891,13 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     }
     
     /**
-     * Check whether this is a nested connection
+     * Check whether this is a nested connection - assume all nested connections should be hidden
      */
     boolean isNestedConnection(IDiagramModelArchimateConnection connection) {
         if(connection.getSource() instanceof IDiagramModelArchimateObject && connection.getTarget() instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject src = (IDiagramModelArchimateObject)connection.getSource();
             IDiagramModelArchimateObject tgt = (IDiagramModelArchimateObject)connection.getTarget();
-            return src.getChildren().contains(tgt) && DiagramModelUtils.isNestedConnectionTypeRelationship(connection.getArchimateRelationship());
+            return src.getChildren().contains(tgt) || tgt.getChildren().contains(src);
         }
         return false;
     }

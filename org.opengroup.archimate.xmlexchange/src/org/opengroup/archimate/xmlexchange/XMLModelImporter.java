@@ -26,6 +26,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
+import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
@@ -39,8 +40,10 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IConnectable;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -668,6 +671,50 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 
             // Style
             addConnectionStyle(connection, connectionElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
+        }
+        
+        // Add implicit nested connections
+        addNestedConnections();
+    }
+    
+    /**
+     * Add implicit nested connections
+     * 1. Iterate through all diagram ArchiMate nodes and look for nested nodes
+     * 2. If there is a relationship between the ArchiMate elements of the nodes and no existing connection, add one
+     */
+    private void addNestedConnections() {
+        for(IDiagramModel dm : fModel.getDiagramModels()) { // All diagrams
+            for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) { // Contents of a diagram
+                EObject eObject = iter.next();
+                
+                if(eObject instanceof IDiagramModelArchimateObject) { // ArchiMate node
+                    IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)eObject;
+                    
+                    for(IDiagramModelObject dmo : parent.getChildren()) {
+                        if(dmo instanceof IDiagramModelArchimateObject) { // ArchiMate child node
+                            IDiagramModelArchimateObject child = (IDiagramModelArchimateObject)dmo;
+                            IArchimateElement parentElement = parent.getArchimateElement();
+                            IArchimateElement childElement = child.getArchimateElement();
+                            
+                            // Parent -> Child
+                            for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
+                                if(relation.getTarget() == childElement && !DiagramModelUtils.hasDiagramModelArchimateConnection(parent, child, relation)) {
+                                    IDiagramModelArchimateConnection connection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
+                                    connection.connect(parent, child);
+                                }
+                            }
+                            
+                            // Child -> Parent
+                            for(IArchimateRelationship relation : childElement.getSourceRelationships()) {
+                                if(relation.getTarget() == parentElement && !DiagramModelUtils.hasDiagramModelArchimateConnection(child, parent, relation)) {
+                                    IDiagramModelArchimateConnection connection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
+                                    connection.connect(child, parent);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
         
