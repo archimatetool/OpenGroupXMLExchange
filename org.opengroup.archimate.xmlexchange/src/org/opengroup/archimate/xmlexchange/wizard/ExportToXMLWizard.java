@@ -13,6 +13,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.opengroup.archimate.xmlexchange.XMLModelExporter;
+import org.opengroup.archimate.xmlexchange.XMLValidator;
 
 import com.archimatetool.model.IArchimateModel;
 
@@ -82,6 +83,10 @@ public class ExportToXMLWizard extends Wizard {
 
                     fPage.storePreferences();
                     fPageMetadata.storePreferences();
+                    
+                    // Validate file
+                    XMLValidator validator = new XMLValidator();
+                    validator.validateXML(file);
                 }
                 catch(Throwable ex) {
                     ex.printStackTrace();
