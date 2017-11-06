@@ -216,10 +216,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         fPropertyDefsList = getAllUniquePropertyKeysForModel();
         
         // Name
-        writeTextToElement(fModel.getName(), rootElement, ELEMENT_NAME);
+        writeTextToElement(fModel.getName(), rootElement, ELEMENT_NAME, true);
         
-        // Documentation (Purpose)
-        writeTextToElement(fModel.getPurpose(), rootElement, ELEMENT_DOCUMENTATION);
+        // Documentation (Purpose) - optional
+        writeTextToElement(fModel.getPurpose(), rootElement, ELEMENT_DOCUMENTATION, false);
 
         // Model Properties
         writeProperties(fModel, rootElement);
@@ -334,10 +334,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         elementElement.setAttribute(ATTRIBUTE_TYPE, XMLTypeMapper.getArchimateConceptName(element), XSI_NAMESPACE);
         
         // Name
-        writeTextToElement(element.getName(), elementElement, ELEMENT_NAME);
+        writeTextToElement(element.getName(), elementElement, ELEMENT_NAME, true);
         
-        // Documentation
-        writeTextToElement(element.getDocumentation(), elementElement, ELEMENT_DOCUMENTATION);
+        // Documentation - optional
+        writeTextToElement(element.getDocumentation(), elementElement, ELEMENT_DOCUMENTATION, false);
         
         // Properties
         writeProperties(element, elementElement);
@@ -449,11 +449,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
         
 
-        // Name
-        writeTextToElement(relationship.getName(), relationshipElement, ELEMENT_NAME);
+        // Name - optional
+        writeTextToElement(relationship.getName(), relationshipElement, ELEMENT_NAME, false);
         
-        // Documentation
-        writeTextToElement(relationship.getDocumentation(), relationshipElement, ELEMENT_DOCUMENTATION);
+        // Documentation - optional
+        writeTextToElement(relationship.getDocumentation(), relationshipElement, ELEMENT_DOCUMENTATION, false);
         
         // Properties
         writeProperties(relationship, relationshipElement);
@@ -489,10 +489,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         parentElement.addContent(itemElement);
         
         // Name
-        writeTextToElement(folder.getName(), itemElement, ELEMENT_LABEL);
+        writeTextToElement(folder.getName(), itemElement, ELEMENT_LABEL, false);
         
         // Documentation
-        writeTextToElement(folder.getDocumentation(), itemElement, ELEMENT_DOCUMENTATION);
+        writeTextToElement(folder.getDocumentation(), itemElement, ELEMENT_DOCUMENTATION, false);
 
         for(IFolder subFolder : folder.getFolders()) {
             writeFolder(subFolder, itemElement);
@@ -656,10 +656,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         }
 
         // Name
-        writeTextToElement(dm.getName(), viewElement, ELEMENT_NAME);
+        writeTextToElement(dm.getName(), viewElement, ELEMENT_NAME, true);
         
         // Documentation
-        writeTextToElement(dm.getDocumentation(), viewElement, ELEMENT_DOCUMENTATION);
+        writeTextToElement(dm.getDocumentation(), viewElement, ELEMENT_DOCUMENTATION, false);
 
         // Properties
         writeProperties(dm, viewElement);
@@ -753,10 +753,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         nodeElement.setAttribute(ATTRIBUTE_TYPE, ATTRIBUTE_CONTAINER_TYPE, XSI_NAMESPACE);
         
         // Label
-        writeTextToElement(group.getName(), nodeElement, ELEMENT_LABEL);
+        writeTextToElement(group.getName(), nodeElement, ELEMENT_LABEL, false);
         
         // Documentation
-        writeTextToElement(group.getDocumentation(), nodeElement, ELEMENT_DOCUMENTATION);
+        writeTextToElement(group.getDocumentation(), nodeElement, ELEMENT_DOCUMENTATION, false);
 
         // Properties
         writeProperties(group, nodeElement);
@@ -789,7 +789,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeAbsoluteBounds(note, nodeElement);
         
         // Text
-        writeTextToElement(note.getContent(), nodeElement, ELEMENT_LABEL);
+        writeTextToElement(note.getContent(), nodeElement, ELEMENT_LABEL, false);
         
         // Style
         writeNodeStyle(note, nodeElement);
@@ -814,7 +814,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         writeAbsoluteBounds(ref, nodeElement);
         
         // Text
-        writeTextToElement(ref.getName(), nodeElement, ELEMENT_LABEL);
+        writeTextToElement(ref.getName(), nodeElement, ELEMENT_LABEL, false);
         
         // Style
         writeNodeStyle(ref, nodeElement);
@@ -1086,10 +1086,18 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         element.setAttribute(ATTRIBUTE_HEIGHT, Integer.toString(bounds.getHeight()));
     }
 
-    Element writeTextToElement(String text, Element parentElement, String childElementName) {
+    /**
+     * Write some text to a given JDOM Element.
+     * If mandatory write at least an empty tag
+     */
+    Element writeTextToElement(String text, Element parentElement, String childElementName, boolean mandatory) {
+        if(text == null) {
+            text = ""; //$NON-NLS-1$
+        }
+        
         Element element = null;
         
-        if(hasSomeText(text)) {
+        if(mandatory || hasSomeText(text)) {
             element = new Element(childElementName, ARCHIMATE3_NAMESPACE);
             parentElement.addContent(element);
             writeElementTextWithLanguageCode(element, text);
