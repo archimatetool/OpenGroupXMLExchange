@@ -31,6 +31,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
+import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -51,13 +52,12 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFontAttribute;
-import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ITextAlignment;
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -74,6 +74,13 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     // Properties
     private Map<String, String> fPropertyDefinitionsList;
     
+    // Concept lookup
+    private Map<String, IArchimateConcept> fConceptsLookup;
+    
+    // Connection/Node lookup
+    private Map<String, IConnectable> fConnectionsNodesLookup;
+    
+    
     public IArchimateModel createArchiMateModel(File instanceFile) throws IOException, JDOMException, XMLModelParserException {
         // Create a new Archimate Model and set its defaults
         fModel = IArchimateFactory.eINSTANCE.createArchimateModel();
@@ -89,6 +96,10 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         
         // Parse Root Element
         parseRootElement(rootElement);
+        
+        // New lookup tables
+        fConceptsLookup = new HashMap<>();
+        fConnectionsNodesLookup = new HashMap<>();
         
         // Parse ArchiMate Elements
         parseArchiMateElements(rootElement.getChild(ELEMENT_ELEMENTS, ARCHIMATE3_NAMESPACE));
@@ -216,6 +227,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             
             // Properties
             addProperties(element, childElement);
+            
+            // Add to lookup
+            fConceptsLookup.put(element.getId(), element);
         }
     }
     
@@ -232,7 +246,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             String targetID;
         }
         
-        List<RelationInfo> lookupTable = new ArrayList<RelationInfo>();
+        List<RelationInfo> relationInfoList = new ArrayList<RelationInfo>();
+        IFolder relationshipFolder = fModel.getFolder(FolderType.RELATIONS);
         
         for(Element childElement : relationsElement.getChildren(ELEMENT_RELATIONSHIP, ARCHIMATE3_NAMESPACE)) {
             String type = childElement.getAttributeValue(ATTRIBUTE_TYPE, XSI_NAMESPACE);
@@ -254,7 +269,7 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             }
 
             // Add to model
-            fModel.getDefaultFolderForObject(relation).getElements().add(relation);
+            relationshipFolder.getElements().add(relation);
             
             // Name
             String name = getChildElementText(childElement, ELEMENT_NAME, true);
@@ -309,28 +324,31 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 }
             }
             
-            // Add to lookup table for 2nd pass
-            RelationInfo r = new RelationInfo();
-            r.relation = relation;
-            r.sourceID = sourceID;
-            r.targetID = targetID;
-            lookupTable.add(r);
+            // Add to lookup table
+            fConceptsLookup.put(relation.getId(), relation);
+            
+            // Add to relations list for 2nd pass
+            RelationInfo rInfo = new RelationInfo();
+            rInfo.relation = relation;
+            rInfo.sourceID = sourceID;
+            rInfo.targetID = targetID;
+            relationInfoList.add(rInfo);
         }
         
-        // 2nd pass, add source and targets
-        for(RelationInfo r : lookupTable) {
-            EObject eObjectSrc = ArchimateModelUtils.getObjectByID(fModel, r.sourceID);
-            if(!(eObjectSrc instanceof IArchimateConcept)) {
-                throw new IOException(Messages.XMLModelImporter_3 + r.sourceID);
+        // 2nd pass, add source and target concepts
+        for(RelationInfo rInfo : relationInfoList) {
+            IArchimateConcept source = fConceptsLookup.get(rInfo.sourceID);
+            if(source == null) {
+                throw new IOException(Messages.XMLModelImporter_3 + rInfo.sourceID);
             }
 
-            EObject eObjectTgt = ArchimateModelUtils.getObjectByID(fModel, r.targetID);
-            if(!(eObjectTgt instanceof IArchimateConcept)) {
-                throw new IOException(Messages.XMLModelImporter_4 + r.targetID);
+            IArchimateConcept target = fConceptsLookup.get(rInfo.targetID);
+            if(target == null) {
+                throw new IOException(Messages.XMLModelImporter_4 + rInfo.targetID);
             }
 
-            r.relation.setSource((IArchimateConcept)eObjectSrc);
-            r.relation.setTarget((IArchimateConcept)eObjectTgt);
+            rInfo.relation.setSource(source);
+            rInfo.relation.setTarget(target);
         }
     }
     
@@ -354,8 +372,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         String idref = itemElement.getAttributeValue(ATTRIBUTE_IDENTIFIERREF);
         
         if(idref != null) {
-            EObject eObject = ArchimateModelUtils.getObjectByID(fModel, idref);
-            if(eObject instanceof IArchimateConcept) {
+            IArchimateConcept concept = fConceptsLookup.get(idref);
+            if(concept != null) {
                 
             }
         }
@@ -444,14 +462,14 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             // This has an element ref so it's an ArchiMate element node
             String elementRef = nodeElement.getAttributeValue(ATTRIBUTE_ELEMENTREF);
             if(hasValue(elementRef) ) {
-                EObject eObject = ArchimateModelUtils.getObjectByID(fModel, elementRef);
+                IArchimateConcept concept = fConceptsLookup.get(elementRef);
                 
-                if(!(eObject instanceof IArchimateElement)) {
+                if(!(concept instanceof IArchimateElement)) {
                     throw new XMLModelParserException(Messages.XMLModelImporter_5 + elementRef);
                 }
                 
                 // Create new diagram node object
-                dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject((IArchimateElement)eObject);
+                dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject((IArchimateElement)concept);
             }
             
             // No element ref so this is another type of node, but what is it?
@@ -529,6 +547,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 
                 // Style
                 addNodeStyle(dmo, nodeElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
+                
+                // Add to lookup
+                fConnectionsNodesLookup.put(dmo.getId(), dmo);
 
                 // Child nodes
                 if(dmo instanceof IDiagramModelContainer) {
@@ -581,9 +602,14 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
     // ======================================= Connections ====================================
     
     private void addConnections(Element viewElement) throws XMLModelParserException {
-        List<IDiagramModelConnection> connections = new ArrayList<IDiagramModelConnection>();
-
-        // 1st pass - Create connections
+        class ConnectionInfo {
+            IDiagramModelConnection connection;
+            Element connectionElement;
+        }
+        
+        List<ConnectionInfo> connectionInfoList = new ArrayList<>();
+        
+        // 1st pass - Create all connections
         for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, ARCHIMATE3_NAMESPACE)) {
             IDiagramModelConnection connection = null;
         
@@ -591,13 +617,13 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
             String relationshipRef = connectionElement.getAttributeValue(ATTRIBUTE_RELATIONSHIPREF);
             if(hasValue(relationshipRef)) {
                 // Get relationship
-                EObject eObjectRelationship = ArchimateModelUtils.getObjectByID(fModel, relationshipRef);
-                if(!(eObjectRelationship instanceof IArchimateRelationship)) {
+                IArchimateConcept concept = fConceptsLookup.get(relationshipRef);
+                if(!(concept instanceof IArchimateRelationship)) {
                     throw new XMLModelParserException(Messages.XMLModelImporter_7 + relationshipRef);
                 }
                 
                 // Create new ArchiMate connection with relationship
-                connection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection((IArchimateRelationship)eObjectRelationship);
+                connection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection((IArchimateRelationship)concept);
             }
             // Create new ordinary connection
             else {
@@ -609,68 +635,66 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 // Add Identifier before adding to model
                 String identifier = connectionElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
                 connection.setId(identifier);
-                connections.add(connection);
+                
+                // Add to connection list for 2nd pass
+                ConnectionInfo cInfo = new ConnectionInfo();
+                cInfo.connection = connection;
+                cInfo.connectionElement = connectionElement;
+                connectionInfoList.add(cInfo);
+                
+                // Add to lookup
+                fConnectionsNodesLookup.put(connection.getId(), connection);
             }
         }
         
         // 2nd pass
-        for(Element connectionElement : viewElement.getChildren(ELEMENT_CONNECTION, ARCHIMATE3_NAMESPACE)) {
-            // Get Connection
-            String identifier = connectionElement.getAttributeValue(ATTRIBUTE_IDENTIFIER);
-            
-            EObject eObject = findObject(identifier, connections);
-            if(!(eObject instanceof IDiagramModelConnection)) {
-                throw new XMLModelParserException(Messages.XMLModelImporter_8 + identifier);
-            }
-            
-            IDiagramModelConnection connection = (IDiagramModelConnection)eObject;
-            
-            // Get source
-            String sourceRef = connectionElement.getAttributeValue(ATTRIBUTE_SOURCE);
-            EObject eObjectSource = findObject(sourceRef, connections);
-            if(eObjectSource == null) {
+        for(ConnectionInfo cInfo : connectionInfoList) {
+            // Get connection source node/connection
+            String sourceRef = cInfo.connectionElement.getAttributeValue(ATTRIBUTE_SOURCE);
+            IConnectable connectableSource = fConnectionsNodesLookup.get(sourceRef);
+            if(connectableSource == null) {
                 throw new XMLModelParserException(Messages.XMLModelImporter_9 + sourceRef);
             }
             
-            // Get target
-            String targetRef = connectionElement.getAttributeValue(ATTRIBUTE_TARGET);
-            EObject eObjectTarget = findObject(targetRef, connections);
-            if(eObjectTarget == null) {
+            // Get connection target node/connection
+            String targetRef = cInfo.connectionElement.getAttributeValue(ATTRIBUTE_TARGET);
+            IConnectable connectableTarget = fConnectionsNodesLookup.get(targetRef);
+            if(connectableTarget == null) {
                 throw new XMLModelParserException(Messages.XMLModelImporter_10 + targetRef);
             }
             
             // If an ArchiMate connection, source and target must be also
-            if(connection instanceof IDiagramModelArchimateConnection) {
+            if(cInfo.connection instanceof IDiagramModelArchimateConnection) {
                 // Must be ArchiMate type source
-                if(!(eObjectSource instanceof IDiagramModelArchimateComponent)) {
+                if(!(connectableSource instanceof IDiagramModelArchimateComponent)) {
                     throw new XMLModelParserException(Messages.XMLModelImporter_11 + sourceRef);
                 }
 
                 // Must be ArchiMate type target
-                if(!(eObjectTarget instanceof IDiagramModelArchimateComponent)) {
+                if(!(connectableTarget instanceof IDiagramModelArchimateComponent)) {
                     throw new XMLModelParserException(Messages.XMLModelImporter_12 + targetRef);
                 }
             }
             // Another connection type
             else {
                 // Only connect between notes and groups
-                if(eObjectSource instanceof IDiagramModelArchimateComponent && eObjectTarget instanceof IDiagramModelArchimateComponent) {
+                if(connectableSource instanceof IDiagramModelArchimateComponent && connectableTarget instanceof IDiagramModelArchimateComponent) {
                     continue;
                 }
                 // Don't connect to other connections
-                if(eObjectSource instanceof IDiagramModelConnection || eObjectTarget instanceof IDiagramModelConnection) {
+                if(connectableSource instanceof IDiagramModelConnection || connectableTarget instanceof IDiagramModelConnection) {
                     continue;
                 }
             }
             
             // Connect
-            connection.connect((IConnectable)eObjectSource, (IConnectable)eObjectTarget);
+            cInfo.connection.connect(connectableSource, connectableTarget);
                 
             // Bendpoints
-            addBendpoints(connection, connectionElement);
+            addBendpoints(cInfo.connection, cInfo.connectionElement);
                 
             // Style
-            addConnectionStyle(connection, connectionElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
+            addConnectionStyle(cInfo.connection, cInfo.connectionElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
         }
         
         // Add implicit nested connections
@@ -718,29 +742,6 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
     }
         
-    /*
-     * Find an object either in the model or in the lookup list
-     */
-    private EObject findObject(String id, List<? extends IIdentifier> list) {
-        if(id == null) {
-            return null;
-        }
-        
-        // Look in model
-        EObject eObject = ArchimateModelUtils.getObjectByID(fModel, id);
-        
-        // Look in list
-        if(eObject == null) {
-            for(IIdentifier i : list) {
-                if(id.equals(i.getId())) {
-                    return i;
-                }
-            }
-        }
-        
-        return eObject;
-    }
-    
     /**
      * Add bendpoints
      */
