@@ -58,4 +58,11 @@ OTHER DEALINGS IN THE SOFTWARE.
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.opengroup.archimate.xmlexchange.commandline"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
