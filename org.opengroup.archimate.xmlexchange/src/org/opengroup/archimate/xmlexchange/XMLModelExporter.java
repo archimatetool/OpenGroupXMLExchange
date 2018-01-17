@@ -26,6 +26,7 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.model.FolderType;
@@ -1014,45 +1015,47 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     Element writeFont(IFontAttribute fontObject, Element styleElement) {
         Element fontElement = new Element(ELEMENT_FONT, ARCHIMATE3_NAMESPACE);
         
-        String fontString = fontObject.getFont();
-        if(fontString != null) {
-            try {
-                FontData fontData = new FontData(fontString);
-                
-                fontElement.setAttribute(ATTRIBUTE_FONTNAME, fontData.getName());
-                fontElement.setAttribute(ATTRIBUTE_FONTSIZE, Integer.toString(fontData.getHeight()));
-                
-                int style = fontData.getStyle();
-                String styleString = ""; //$NON-NLS-1$
-                
-                if((style & SWT.BOLD) == SWT.BOLD) {
-                    styleString += "bold"; //$NON-NLS-1$
-                }
-                if((style & SWT.ITALIC) == SWT.ITALIC) {
-                    if(StringUtils.isSet(styleString)) {
-                        styleString += " "; //$NON-NLS-1$
-                    }
-                    styleString += "italic"; //$NON-NLS-1$
-                }
-                
-                if(hasSomeText(styleString)) {
-                    fontElement.setAttribute(ATTRIBUTE_FONTSTYLE, styleString);
-                }
+        try {
+            FontData fontData = null;
+            
+            String fontString = fontObject.getFont();
+            if(fontString != null) {
+                fontData = new FontData(fontString);
             }
-            catch(Exception ex) {
-                //ex.printStackTrace();
+            else {
+                fontData = FontFactory.getDefaultUserViewFontData();
             }
+            
+            fontElement.setAttribute(ATTRIBUTE_FONTNAME, fontData.getName());
+            fontElement.setAttribute(ATTRIBUTE_FONTSIZE, Integer.toString(fontData.getHeight()));
+
+            int style = fontData.getStyle();
+            String styleString = ""; //$NON-NLS-1$
+
+            if((style & SWT.BOLD) == SWT.BOLD) {
+                styleString += "bold"; //$NON-NLS-1$
+            }
+            if((style & SWT.ITALIC) == SWT.ITALIC) {
+                if(StringUtils.isSet(styleString)) {
+                    styleString += " "; //$NON-NLS-1$
+                }
+                styleString += "italic"; //$NON-NLS-1$
+            }
+
+            if(hasSomeText(styleString)) {
+                fontElement.setAttribute(ATTRIBUTE_FONTSTYLE, styleString);
+            }
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
         }
         
+        // Font color
         String fontColorString = fontObject.getFontColor();
-        if(fontColorString != null) {
-            RGB rgb = ColorFactory.convertStringToRGB(fontColorString);
-            if(rgb != null) {
-                Element fontColorElement = new Element(ELEMENT_FONTCOLOR, ARCHIMATE3_NAMESPACE);
-                fontElement.addContent(fontColorElement);
-                writeRGBAttributes(rgb, fontColorElement);
-            }
-        }
+        RGB rgb = ColorFactory.convertStringToRGB(fontColorString);
+        Element fontColorElement = new Element(ELEMENT_FONTCOLOR, ARCHIMATE3_NAMESPACE);
+        fontElement.addContent(fontColorElement);
+        writeRGBAttributes(rgb, fontColorElement);
         
         if(hasElementContent(fontElement)) {
             styleElement.addContent(fontElement);
@@ -1065,6 +1068,10 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
      * Write RGB attribute on an Element 
      */
     void writeRGBAttributes(RGB rgb, Element colorElement) {
+        if(rgb == null) {
+            rgb = new RGB(0, 0, 0);
+        }
+        
         colorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
         colorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
         colorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
