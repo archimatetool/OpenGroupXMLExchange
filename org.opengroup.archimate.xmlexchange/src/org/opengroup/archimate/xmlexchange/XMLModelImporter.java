@@ -592,6 +592,9 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         // Fill Color
         dmo.setFillColor(getRGBColorString(styleElement.getChild(ELEMENT_FILLCOLOR, ARCHIMATE3_NAMESPACE)));
         
+        // Fill Alpha
+        dmo.setAlpha(getRGBAlphaValue(styleElement.getChild(ELEMENT_FILLCOLOR, ARCHIMATE3_NAMESPACE)));
+
         // Line Color
         dmo.setLineColor(getRGBColorString(styleElement.getChild(ELEMENT_LINECOLOR, ARCHIMATE3_NAMESPACE)));
 
@@ -868,6 +871,21 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
         }
         
         return colorStr;
+    }
+    
+    /**
+     * @return The Alpha value for an element, converted to 0-255
+     */
+    int getRGBAlphaValue(Element rgbElement) {
+        if(rgbElement != null) {
+            String alphaString = rgbElement.getAttributeValue(ATTRIBUTE_A);
+            if(hasValue(alphaString)) {
+                int alpha = Integer.valueOf(alphaString);
+                return Math.round(((float)alpha * 255) / 100);
+            }
+        }
+        
+        return 255;
     }
     
     String getChildElementText(Element parentElement, String childElementName, boolean normalise) {

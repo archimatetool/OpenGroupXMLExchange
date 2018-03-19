@@ -863,7 +863,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(rgb != null) {
             fillColorElement = new Element(ELEMENT_FILLCOLOR, ARCHIMATE3_NAMESPACE);
             parentElement.addContent(fillColorElement);
-            writeRGBAttributes(rgb, fillColorElement);
+            writeRGBAttributes(rgb, dmo.getAlpha(), fillColorElement);
         }
         
         return fillColorElement;
@@ -1003,7 +1003,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         if(rgb != null) {
             lineColorElement = new Element(ELEMENT_LINECOLOR, ARCHIMATE3_NAMESPACE);
             parentElement.addContent(lineColorElement);
-            writeRGBAttributes(rgb, lineColorElement);
+            writeRGBAttributes(rgb, -1, lineColorElement);
         }
         
         return lineColorElement;
@@ -1055,7 +1055,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         RGB rgb = ColorFactory.convertStringToRGB(fontColorString);
         Element fontColorElement = new Element(ELEMENT_FONTCOLOR, ARCHIMATE3_NAMESPACE);
         fontElement.addContent(fontColorElement);
-        writeRGBAttributes(rgb, fontColorElement);
+        writeRGBAttributes(rgb, -1, fontColorElement);
         
         if(hasElementContent(fontElement)) {
             styleElement.addContent(fontElement);
@@ -1067,7 +1067,7 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
     /**
      * Write RGB attribute on an Element 
      */
-    void writeRGBAttributes(RGB rgb, Element colorElement) {
+    void writeRGBAttributes(RGB rgb, int alpha, Element colorElement) {
         if(rgb == null) {
             rgb = new RGB(0, 0, 0);
         }
@@ -1075,6 +1075,11 @@ public class XMLModelExporter implements IXMLExchangeGlobals {
         colorElement.setAttribute(ATTRIBUTE_R, Integer.toString(rgb.red));
         colorElement.setAttribute(ATTRIBUTE_G, Integer.toString(rgb.green));
         colorElement.setAttribute(ATTRIBUTE_B, Integer.toString(rgb.blue));
+        
+        if(alpha != -1) {
+            int newValue = Math.round(((float)alpha / 255) * 100);
+            colorElement.setAttribute(ATTRIBUTE_A, Integer.toString(newValue));
+        }
     }
 
     /**

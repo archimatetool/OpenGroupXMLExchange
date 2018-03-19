@@ -95,6 +95,7 @@ public interface IXMLExchangeGlobals {
     String ATTRIBUTE_R = "r";
     String ATTRIBUTE_G = "g";
     String ATTRIBUTE_B = "b";
+    String ATTRIBUTE_A = "a";
     String ATTRIBUTE_FONTNAME = "name";
     String ATTRIBUTE_FONTSIZE = "size";
     String ATTRIBUTE_FONTSTYLE = "style";
