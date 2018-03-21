@@ -9,3 +9,4 @@ Require-Bundle: com.archimatetool.commandline,
  org.opengroup.archimate.xmlexchange
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.opengroup.archimate.xmlexchange.commandline
