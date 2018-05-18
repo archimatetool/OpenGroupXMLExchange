@@ -12,7 +12,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.widgets.Display;
 import org.opengroup.archimate.xmlexchange.XMLModelExporter;
 import org.opengroup.archimate.xmlexchange.XMLValidator;
 
@@ -74,9 +73,6 @@ public class ExportXMLProvider extends AbstractCommandLineProvider {
         
         logMessage(NLS.bind(Messages.ExportXMLProvider_3, model.getName(), outputFile.getPath()));
 
-        // Need this
-        ensureDefaultDisplay();
-        
         exporter.exportModel(model, outputFile);
         
         logMessage(Messages.ExportXMLProvider_4);
@@ -126,15 +122,5 @@ public class ExportXMLProvider extends AbstractCommandLineProvider {
     
     private boolean hasCorrectOptions(CommandLine commandLine) {
         return commandLine.hasOption(OPTION_EXPORT_XML);
-    }
-    
-    /**
-     * Some classes like ColorFactory use the Display class to do their thing
-     * This ensures that the default display is created
-     */
-    private void ensureDefaultDisplay() {
-        if(Display.getCurrent() == null) {
-            Display.getDefault();
-        }
     }
 }

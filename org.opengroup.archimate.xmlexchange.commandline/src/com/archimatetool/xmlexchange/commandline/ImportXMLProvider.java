@@ -12,7 +12,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.widgets.Display;
 import org.opengroup.archimate.xmlexchange.XMLModelImporter;
 import org.opengroup.archimate.xmlexchange.XMLValidator;
 
@@ -69,9 +68,6 @@ public class ImportXMLProvider extends AbstractCommandLineProvider {
         
         logMessage(NLS.bind(Messages.ImportXMLProvider_5, importFile.getPath()));
         
-        // Needed
-        ensureDefaultDisplay();
-        
         XMLModelImporter importer = new XMLModelImporter();
         IArchimateModel model = importer.createArchiMateModel(importFile);
 
@@ -110,15 +106,4 @@ public class ImportXMLProvider extends AbstractCommandLineProvider {
     private boolean hasCorrectOptions(CommandLine commandLine) {
         return commandLine.hasOption(OPTION_IMPORT_XML);
     }
-
-    /**
-     * Some classes like ColorFactory use the Display class to do their thing
-     * This ensures that the default display is created
-     */
-    private void ensureDefaultDisplay() {
-        if(Display.getCurrent() == null) {
-            Display.getDefault();
-        }
-    }
-
 }
