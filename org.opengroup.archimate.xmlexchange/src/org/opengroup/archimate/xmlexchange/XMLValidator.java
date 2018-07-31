@@ -45,6 +45,9 @@ public final class XMLValidator {
 
         Validator validator = schema.newValidator();
         
+        // Don't allow DTD loading in case of XSS exploits
+        validator.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); //$NON-NLS-1$
+        validator.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); //$NON-NLS-1$
         
         // Fixes #274 https://github.com/archimatetool/archi/issues/274
         FileInputStream in = new FileInputStream(xmlInstance);
