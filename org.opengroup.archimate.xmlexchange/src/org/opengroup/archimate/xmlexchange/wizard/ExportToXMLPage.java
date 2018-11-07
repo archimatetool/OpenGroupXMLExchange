@@ -106,6 +106,7 @@ public class ExportToXMLPage extends WizardPage {
         UIUtils.conformSingleTextControl(fFileTextField);
         
         fFileTextField.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validateFields();
             }

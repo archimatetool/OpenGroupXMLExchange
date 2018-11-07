@@ -85,6 +85,7 @@ public class ImportXMLProvider extends AbstractCommandLineProvider {
         return PREFIX;
     }
     
+    @Override
     public int getPriority() {
         return PRIORITY_IMPORT;
     }

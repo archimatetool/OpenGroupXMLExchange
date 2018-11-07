@@ -67,6 +67,7 @@ public final class XMLValidator {
     }
 
     static class ResourceResolver implements LSResourceResolver {
+        @Override
         public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
             // Resolve <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
             // in the main XSD file so that we don't have to go online to get it (takes ages)

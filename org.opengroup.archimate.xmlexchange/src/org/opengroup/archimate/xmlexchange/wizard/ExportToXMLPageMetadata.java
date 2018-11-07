@@ -131,12 +131,15 @@ public class ExportToXMLPageMetadata extends WizardPage {
 
         // Content Provider
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
 
+            @Override
             public void dispose() {
             }
 
+            @Override
             public Object[] getElements(Object inputElement) {
                 return fNames.keySet().toArray();
             }
@@ -175,6 +178,7 @@ public class ExportToXMLPageMetadata extends WizardPage {
         // Table row bug on Yosemite https://bugs.eclipse.org/bugs/show_bug.cgi?id=446534
         if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) { //$NON-NLS-1$ //$NON-NLS-2$
             Display.getCurrent().asyncExec(new Runnable() {
+                @Override
                 public void run() {
                     fTableViewer.setInput(""); //$NON-NLS-1$
                 }
@@ -206,6 +210,7 @@ public class ExportToXMLPageMetadata extends WizardPage {
      * Label Provider
      */
     private class LabelCellProvider extends LabelProvider implements ITableLabelProvider {
+        @Override
         public Image getColumnImage(Object element, int columnIndex) {
             return null;
         }
