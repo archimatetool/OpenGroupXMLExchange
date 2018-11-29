@@ -11,12 +11,14 @@ import java.io.IOException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.osgi.util.NLS;
 import org.opengroup.archimate.xmlexchange.XMLModelImporter;
 import org.opengroup.archimate.xmlexchange.XMLValidator;
 
 import com.archimatetool.commandline.AbstractCommandLineProvider;
 import com.archimatetool.commandline.CommandLineState;
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 
@@ -74,6 +76,14 @@ public class ImportXMLProvider extends AbstractCommandLineProvider {
         if(model == null) {
             throw new IOException(Messages.ImportXMLProvider_6);
         }
+        
+        // Add an Archive Manager
+        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
+        model.setAdapter(IArchiveManager.class, archiveManager);
+        
+        // Add a Command Stack
+        CommandStack cmdStack = new CommandStack();
+        model.setAdapter(CommandStack.class, cmdStack);
         
         CommandLineState.setModel(model);
 
