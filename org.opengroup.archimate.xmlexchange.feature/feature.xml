@@ -2,7 +2,7 @@
 <feature
       id="org.opengroup.archimate.xmlexchange.feature"
       label="ArchiMate Open Exchange XML Feature"
-      version="2.1.0.qualifier"
+      version="2.1.1.qualifier"
       provider-name="The Open Group">
 
    <description>
