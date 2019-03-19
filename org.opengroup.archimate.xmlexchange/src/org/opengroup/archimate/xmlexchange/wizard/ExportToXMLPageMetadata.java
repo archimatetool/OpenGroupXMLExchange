@@ -13,6 +13,9 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.ColumnViewerEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -20,6 +23,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
@@ -126,6 +130,20 @@ public class ExportToXMLPageMetadata extends WizardPage {
         fTableViewer.getTable().setLinesVisible(true);
         fTableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         
+        // Edit cell on double-click and Tab key traversal
+        TableViewerEditor.create(fTableViewer, new ColumnViewerEditorActivationStrategy(fTableViewer) {
+            @Override
+            protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
+                return super.isEditorActivationEvent(event) ||
+                      (event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION);
+            }
+            
+        }, ColumnViewerEditor.TABBING_HORIZONTAL | 
+                ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR | 
+                ColumnViewerEditor.TABBING_VERTICAL |
+                ColumnViewerEditor.KEEP_EDITOR_ON_DOUBLE_CLICK |
+                ColumnViewerEditor.KEYBOARD_ACTIVATION);
+
         // Help ID on table
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTableViewer.getTable(), HELP_ID);
 
