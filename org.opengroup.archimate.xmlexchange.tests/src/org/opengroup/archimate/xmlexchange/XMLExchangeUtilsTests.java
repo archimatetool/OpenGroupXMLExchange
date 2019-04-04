@@ -60,32 +60,33 @@ public class XMLExchangeUtilsTests {
     
     
     @Test
-    public void testConvertAbsoluteToRelativeBounds() {
+    public void testGetRelativeBounds() {
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         
+        // Add main parent diagram model object
         IDiagramModelGroup dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dmo1.setBounds(10, 10, 200, 200);
         dm.getChildren().add(dmo1);
         
-        IBounds bounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(10, 15, 500, 500), dmo1);
-        assertEquals(10, bounds.getX());
-        assertEquals(15, bounds.getY());
-        dmo1.setBounds(bounds);
-        
+        // Add child
         IDiagramModelGroup dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         dmo1.getChildren().add(dmo2);
 
-        bounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(20, 30, 500, 500), dmo2);
-        assertEquals(10, bounds.getX());
-        assertEquals(15, bounds.getY());
-        dmo2.setBounds(bounds);
+        // Get relative bounds
+        IBounds absoluteBounds = IArchimateFactory.eINSTANCE.createBounds(50, 60, 100, 100);
+        IBounds relativebounds = XMLExchangeUtils.getRelativeBounds(absoluteBounds, dmo1);
+        assertEquals(40, relativebounds.getX());
+        assertEquals(50, relativebounds.getY());
+        dmo2.setBounds(relativebounds);
         
         IDiagramModelGroup dmo3 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         dmo2.getChildren().add(dmo3);
 
-        bounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(IArchimateFactory.eINSTANCE.createBounds(30, 45, 500, 500), dmo3);
-        assertEquals(10, bounds.getX());
-        assertEquals(15, bounds.getY());
-        dmo3.setBounds(bounds);
+        absoluteBounds = IArchimateFactory.eINSTANCE.createBounds(90, 75, 500, 500);
+        relativebounds = XMLExchangeUtils.getRelativeBounds(absoluteBounds, dmo2);
+        assertEquals(40, relativebounds.getX());
+        assertEquals(15, relativebounds.getY());
+        dmo3.setBounds(relativebounds);
     }
     
     @Test

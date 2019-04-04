@@ -69,24 +69,23 @@ public final class XMLExchangeUtils {
     }
 
     /**
-     * Convert the given absolute bounds to the relative bounds of a diagram model object
-     * @param absoluteBounds The absolute bounds as imported from the XML file
-     * @param dmo The DiagramModelObject that should be already contained in its parent
+     * Convert the given absolute bounds to the relative bounds in relation to a parent IDiagramModelObject
+     * @param absoluteBounds The absolute bounds
+     * @param dmo The DiagramModelObject that is the parent into which we want to get the relative bounds for
      * @return the relative bounds of a diagram model object
      */
-    public static final IBounds convertAbsoluteToRelativeBounds(IBounds absoluteBounds, IDiagramModelObject dmo) {
+    public static final IBounds getRelativeBounds(IBounds absoluteBounds, IDiagramModelObject parent) {
         IBounds bounds = absoluteBounds.getCopy();
         
-        EObject container = dmo.eContainer();
-        while(container instanceof IDiagramModelObject) {
-            IDiagramModelObject parent = (IDiagramModelObject)container;
-            IBounds parentBounds = parent.getBounds().getCopy();
+        do {
+            IBounds parentBounds = parent.getBounds();
             
             bounds.setX(bounds.getX() - parentBounds.getX());
             bounds.setY(bounds.getY() - parentBounds.getY());
             
-            container = container.eContainer();
+            parent = (parent.eContainer() instanceof IDiagramModelObject) ? (IDiagramModelObject)parent.eContainer() : null;
         }
+        while(parent != null);
 
         return bounds;
     }

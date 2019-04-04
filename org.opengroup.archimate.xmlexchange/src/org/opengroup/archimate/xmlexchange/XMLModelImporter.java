@@ -541,11 +541,14 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 parentContainer.getChildren().add(dmo);
                 
                 // Get the absolute bounds as declared in the XML file
-                IBounds absoluteBounds = getNodeBounds(nodeElement);
+                IBounds bounds = getNodeBounds(nodeElement);
                 
-                // Now convert the given absolute bounds into relative bounds
-                IBounds relativeBounds = XMLExchangeUtils.convertAbsoluteToRelativeBounds(absoluteBounds, dmo);
-                dmo.setBounds(relativeBounds);
+                // Convert the given absolute bounds into relative bounds if this is in a child object
+                if(parentContainer instanceof IDiagramModelObject) {
+                    bounds = XMLExchangeUtils.getRelativeBounds(bounds, (IDiagramModelObject)parentContainer);
+                }
+                
+                dmo.setBounds(bounds);
                 
                 // Style
                 addNodeStyle(dmo, nodeElement.getChild(ELEMENT_STYLE, ARCHIMATE3_NAMESPACE));
