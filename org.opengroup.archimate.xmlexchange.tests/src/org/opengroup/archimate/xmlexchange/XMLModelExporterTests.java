@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.util.ArchimateResourceFactory;
+import com.archimatetool.tests.TestUtils;
 
 
 /**
@@ -33,6 +34,8 @@ public class XMLModelExporterTests {
 
     @Test
     public void testExportModel() throws IOException {
+        TestUtils.ensureDefaultDisplay(); // Need to do this if running only these tests
+        
         Resource resource = ArchimateResourceFactory.createNewResource(TestSupport.archiFile1);
         resource.load(null);
         
