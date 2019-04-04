@@ -26,6 +26,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
+import com.archimatetool.editor.diagram.ICreationFactory;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
@@ -38,6 +39,7 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IConnectable;
@@ -57,7 +59,6 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.ITextAlignment;
 
 
 
@@ -485,7 +486,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 boolean isViewRef = isLabel && nodeElement.getChild(ELEMENT_VIEWREF, ARCHIMATE3_NAMESPACE) != null;
                 
                 if(isGroup || hasChildren) {
-                    IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+                    ICreationFactory factory = new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup());
+                    IDiagramModelGroup group = (IDiagramModelGroup)factory.getNewObject();
                     dmo = group;
 
                     // Label
@@ -517,8 +519,8 @@ public class XMLModelImporter implements IXMLExchangeGlobals {
                 }
                 // A Note is our only other option
                 else {
-                    IDiagramModelNote note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
-                    note.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
+                    ICreationFactory factory = new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote());
+                    IDiagramModelNote note = (IDiagramModelNote)factory.getNewObject();
                     
                     dmo = note;
                     
